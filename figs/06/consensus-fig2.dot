@@ -1,0 +1,6 @@
+digraph {
+  C0 -> D0 [label=" e"]
+  C0 -> C1 [label=" e'"]
+  C1 -> D1 [label=" e"]
+  D0 -> D1 [label=" e'",style=dashed]
+} 

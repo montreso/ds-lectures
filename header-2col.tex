@@ -1,0 +1,59 @@
+\ifhandouts
+\documentclass[handout]{beamer}
+\usetheme[secheader]{Boadilla}
+\usecolortheme{beaver}
+\usefonttheme{serif}
+\else
+\ifslidevideo
+\documentclass{beamer}
+\usetheme[secheader]{Boadilla}
+\usecolortheme{beaver}
+\usefonttheme{serif}
+\usepackage{pgfpages}
+\setbeamertemplate{note page}[plain] 
+\AtBeginSection[]{
+\begin{frame}<beamer>[shrink]
+\frametitle{Contents}
+\begin{multicols*}{2}
+\raggedcolumns
+\tableofcontents[currentsection]
+\end{multicols*}
+\end{frame}
+}
+\else
+\documentclass{beamer}
+\usetheme[secheader]{Boadilla}
+\usecolortheme{beaver}
+\usefonttheme{serif}
+\usepackage{pgfpages}
+\setbeameroption{show notes on second screen=right}
+\AtBeginSection[]{
+\begin{frame}<beamer>[shrink]
+\frametitle{Contents}
+\begin{multicols*}{2}
+\raggedcolumns
+\tableofcontents[currentsection]
+\end{multicols*}
+\end{frame}
+}
+\fi
+
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{alltt}
+\usepackage{color}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage[ruled,vlined,nofillcomment]{algorithm2e}
+\usepackage{xspace}
+\usepackage{../ds}
+\usepackage[normalem]{ulem}
+\usepackage{filemod}
+\usepackage{bibentry}
+\usepackage{multicol}
+
+\author{Alberto Montresor}
+\institute[UniTN]{University of Trento, Italy}
+
+

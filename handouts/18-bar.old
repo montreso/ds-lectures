@@ -1,0 +1,4 @@
+\newif \ifhandouts \handoutstrue
+\input ../header
+\date{\filemodprintdate{../17-bar.tex}}
+\input ../18-bar
