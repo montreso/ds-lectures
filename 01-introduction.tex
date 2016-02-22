@@ -134,7 +134,7 @@ What happens?
 \begin{theorem}
 \BI
 \item The first $k-1$ times Daddy asks, they children says “No”
-\item The $k$-th time, they $k$ children say “Yes”.
+\item The $k$-th time, the $k$ children say “Yes”.
 \EI
 \end{theorem}
 
@@ -214,17 +214,46 @@ But:
 
 \end{frame}
 
+\begin{frame}{A common knowledge puzzle}
+
+\textbf{Albert} and \textbf{Bernard} just become friends with \textbf{Cheryl}, and they want to know when her birthday is. \textbf{Cheryl} gives them a list of 10 dates:
+
+\BI
+\item May 15,16,19
+\item June 17,18
+\item July 14,16
+\item August 14,15,17
+\EI
+
+\textbf{Cheryl} then tells \textbf{Albert} and \textbf{Bernard} separately the month and the day of her birthday respectively.
+
+\BI
+\item \textbf{Albert}: I don't know when \textbf{Cheryl}'s birthday is, but I know that \textbf{Bernard} does not know too.
+\item \textbf{Bernard}: At first I didn't know when \textbf{Cheryl}'s birthday is, but I know now.
+\item \textbf{Albert}: Then I also know when \textbf{Cheryl}'s birthday is
+\EI
+	
+\end{frame}
+
+
+
 \subsection{Byzantine generals}
 
 \begin{frame}{Byzantine generals}
-Problem description~\cite{pearls-of-theory}:
+\begin{block}{Scenario~\cite{pearls-of-theory}}
 \BI
 \item $n$ Byzantine generals encircling a city
-\item They must decide whether to attack or retreat -- all together!
+\item They must decide whether to attack or retreat!
 \item Messengers are \emph{reliable} and \emph{synchronous}
-\item Generals may be traitorous
-\item Nobody knows which generals are traitorous
+\item Generals may be traitors
+\item Nobody knows which generals are traitors
 \EI	
+\end{block}
+
+\begin{block}{Problem specification}
+The generals require an algorithm to reach an agreement such that (i) all loyal generals decide on the same plan of action and (ii) a small number of traitorous generals cannot cause the loyal generals to adopt different plans.
+\end{block}
+
 \end{frame}
 
 \begin{frame}{A potential solution}
@@ -379,16 +408,29 @@ A general tension in Computer Science:
 \BI
 \item Pandemic: killed 20M people in a relatively short time, more than World War I
 \item Virus goal: spread itself as quickly as possible
-\item Unreliable environment: viruses may be killed, transmission may fail
+\item Unreliable environment:
+\BI
+\item viruses may be killed
+\item transmission may fail
+\EI
 \item Transmission network is a complex graph
 \EI
 \end{block}
 
+\end{frame}
+
+\begin{frame}{Beyond technology}
+
 \begin{block}{Flocks of birds}
 \BI
-\item Flying in a flock is good: probability of being killed by a predator
-  is reduced
-\item Flying in a flock is bad: probability of finding food is reduced
+\item Flying in a flock is good: 
+	\BI
+	\item probability of being killed by a predator is reduced
+	\EI
+\item Flying in a flock is bad: 
+	\BI
+	\item probability of finding (enough) food is reduced
+	\EI
 \item Birds self-organize themselves in a flock
 \item No central authority
 \EI
@@ -421,6 +463,43 @@ scenarios.”}
 \end{block}
 
 \end{frame}
+
+\subsection{Syllabus}
+
+\begin{frame}[shrink]{Topics}
+
+\begin{columns}
+\begin{column}{0.44\textwidth}
+\BI
+\item Introduction
+\item Models
+\item Time, clocks, events
+\item Reliable broadcast
+\item Epidemic protocols
+\item Impossibility of consensus
+\item Consensus and failure detectors
+\item Complex networks
+\item Replication
+\item P2P
+\EI
+\end{column}
+\begin{column}{0.56\textwidth}
+\BI
+\item Epidemics: Beyond dissemination
+\item Atomic Commitment
+\item Rollback and Recovery
+\item Group Communication
+\item Paxos
+\item Practical Byzantine Fault Tolerance
+\item Blockchains
+\item Byzantine, altruistic, rational model
+\item Distributed frameworks
+\EI
+\end{column}
+\end{columns}
+
+\end{frame}
+
 
 \addtocontents{toc}{\newpage}
 
@@ -671,7 +750,9 @@ Distributed systems use a mix of these techniques
 \item Problem specification
 \BI
 \item Formal description of the problem
+\EI
 \item Algorithms, algorithms, algorithms
+\BI
 \item Pseudo-code descriptions of algorithms
 \EI
 \bigskip
@@ -701,18 +782,14 @@ Distributed systems use a mix of these techniques
 \end{frame}
 
 
-\begin{frame}{Interesting links}
+\begin{frame}{Reality Check: Interesting links}
 
-{\footnotesize
 \BI
-\item \href{http://en.wikipedia.org/wiki/Two_Generals'_Problem}{\underline{Two Generals problem}}
-\item \href{http://en.wikipedia.org/wiki/Byzantine_Generals'_Problem}{\underline{Byzantine Generals problem}}
-\item \href{http://en.wikipedia.org/wiki/Bitcoin}{\underline{Bitcoin}}
 \item \href{http://status.aws.amazon.com/s3-20080720.html}{\underline{The S3 incident}}
 \item \href{http://cacm.acm.org/magazines/2011/7/109895-solving-the-unsolvable/fulltext}{\underline{Solving the unsolvable}}
 \item \href{http://queue.acm.org/detail.cfm?id=1142044}{\underline{The rise and fall of Corba}}
+\item \href{https://www.somethingsimilar.com/2013/01/14/notes-on-distributed-systems-for-young-bloods/}{\underline{Notes on Distributed Systems for Young Bloods}}
 \EI
-}
 
 \end{frame}
 

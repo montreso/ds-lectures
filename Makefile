@@ -1,5 +1,7 @@
 .PHONY: slides handouts all
 
+all: slides-video handouts
+
 slides-video:
 	(cd slidesvideo ; make)
 	
@@ -9,7 +11,6 @@ slides:
 handouts:
 	(cd handouts ; make)
 
-all: slides slides-video handouts
 
 cleanall:
 	(cd slidesvideo ; make clean)

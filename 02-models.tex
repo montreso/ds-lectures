@@ -43,7 +43,7 @@ Architectures:
 
 \end{frame}
 
-\begin{frame}{Client-server: problem examples}
+\begin{frame}[shrink]{Client-server: problem examples}
 \begin{block}{Reliable message delivery}
 TCP/IP: Guarantee the delivery of message in FIFO order
 \end{block}
@@ -53,11 +53,19 @@ DHCP: Lend limited resources for a predefined period of time
 \end{block}
 
 \begin{block}{Remote procedure call}
-RPC, RMI, Web Services: allow invocation of procedures/methods/functions
-on remote objects
+Allow invocation of procedures/methods/functions on remote objects
+\BI
+\item RPC ('60)
+\item CORBA ('90)
+\item Java RMI, .Net WCF 
+\item JSON-RPC, XML-RPC
+\item Google Protocol Buffers, Apache Thrift, Apache Avro, Twitter Finagle
+\EI
 \end{block}
 
 \end{frame}
+
+
 
 \subsection{Multi-tier}
 
@@ -592,6 +600,7 @@ $q$ will receive $m$.
   \BI
     \item Atomic clocks
     \item GPS
+	\item See: Google TrueTime API:
   \EI
 \EI
 
