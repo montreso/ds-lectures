@@ -9,7 +9,7 @@
 
 \section{Modeling Distributed Executions}
 
-\begin{frame}{Distributed Execution}
+\begin{frame}[shrink=5]{Distributed Execution}
 
 \begin{definition}[Distributed algorithm]
 A \alert{distributed algorithm} is a collection of distributed automata,
@@ -1639,8 +1639,9 @@ Since $\Sigma^a \leadsto \Sigma^s \leadsto \Sigma^f$, if $\Phi$ is stable, then:
 \end{frame}
 
 
-\begin{frame}[shrink=18]{Server code}
+\begin{frame}[shrink=16]{Server code}
 
+\vspace{-12pt}
 \begin{Procedure}
 \caption{Process\ $p_i$}
   $\Queue\ \Pending \gets \NEW\ \Queue()$\;
@@ -1687,10 +1688,11 @@ Since $\Sigma^a \leadsto \Sigma^s \leadsto \Sigma^f$, if $\Phi$ is stable, then:
 
 \end{frame}
 
-\begin{frame}[shrink=18]{Server code, modified for active monitoring (1)}
+\begin{frame}[shrink=16]{Server code, modified for active monitoring (1)}
 
 %% TODO: Sistemare l'uwhile (ma perchè non esiste?)
 
+\vspace{-12pt}
 \begin{Procedure}
 \caption{Process\ $p_i$}
   $\Queue\ \Pending \gets \NEW\ \Queue()$\;
@@ -1719,8 +1721,9 @@ Since $\Sigma^a \leadsto \Sigma^s \leadsto \Sigma^f$, if $\Phi$ is stable, then:
 
 \end{frame}
 
-\begin{frame}[shrink=18]{Server code, modified for active monitoring (2)}
+\begin{frame}[shrink=16]{Server code, modified for active monitoring (2)}
 
+\vspace{-12pt}
 \begin{Procedure}
 \caption{Process\ $p_i$}
 \UNVISIBLE{}{
@@ -1751,8 +1754,9 @@ Since $\Sigma^a \leadsto \Sigma^s \leadsto \Sigma^f$, if $\Phi$ is stable, then:
 
 \end{frame}
 
-\begin{frame}{Monitor code, for active monitoring}
+\begin{frame}[shrink=16]{Monitor code, for active monitoring}
 	
+\vspace{-12pt}
 \begin{Procedure}
 \caption{Process\ $p_0$}
   $\BOOLEAN[\,][\,]\ \Wfg \gets \NEW\ \BOOLEAN[1 \ldots n][1 \ldots n]$\;
@@ -1794,8 +1798,9 @@ Since $\Sigma^a \leadsto \Sigma^s \leadsto \Sigma^f$, if $\Phi$ is stable, then:
 \end{frame}
 
 
-\begin{frame}[shrink=18]{Server code, modified for passive monitoring}
+\begin{frame}[shrink=16]{Server code, modified for passive monitoring (1)}
 
+\vspace{-12pt}
 \begin{Procedure}
 \caption{Process\ $p_i$}
   $\Queue\ \Pending \gets \NEW\ \Queue()$\;
@@ -1817,6 +1822,18 @@ Since $\Sigma^a \leadsto \Sigma^s \leadsto \Sigma^f$, if $\Phi$ is stable, then:
           }
         }
       } 
+    }
+  }
+\end{Procedure}
+
+\end{frame}
+
+\begin{frame}[shrink=16]{Server code, modified for passive monitoring (2)}
+
+\vspace{-12pt}
+\begin{Procedure}
+\caption{Process\ $p_i$}
+\UNVISIBLE{}{
       \While{\NOT $\Working$ \AND $\Pending.\Size() > 0$}{
         $\langle m, p_j \rangle \gets \Pending.\Dequeue()$\;
         $\langle m', p_k \rangle \gets \NextState(m,p_j)$\;
@@ -1827,14 +1844,15 @@ Since $\Sigma^a \leadsto \Sigma^s \leadsto \Sigma^f$, if $\Phi$ is stable, then:
             \SEND $\langle \RESPONDED, i, k \rangle$ \TO $p_0$\;}
         }
      }
-    }
-  }
+}
 \end{Procedure}
 
 \end{frame}
 
-\begin{frame}[shrink=18]{Monitor code, for passive monitoring}
 
+\begin{frame}[shrink=16]{Monitor code, for passive monitoring}
+
+\vspace{-12pt}
 \begin{Procedure}
 \caption{Process\ $p_0$}
   $\BOOLEAN[\,][\,]\ \Wfg \gets \NEW\ \BOOLEAN[1 \ldots n][1 \ldots n]$\;
