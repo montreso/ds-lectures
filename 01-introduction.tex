@@ -1,3 +1,4 @@
+\input templates/header
 \title[DS - Introduction]{\textbf{Distributed Algorithms}\\Introduction}
 
 \begin{document}
@@ -42,6 +43,9 @@ Under this scenario, there is no solution for the Two Generals Problem
 By contradiction on the number of messages exchanged.
 \end{proof}
 
+
+
+\end{frame}
 \note{
 
 \BI
@@ -58,9 +62,6 @@ at all!
 \item The resulting protocol uses less messages than the minimum, which is a contradiction
 \EI
 }
-
-
-\end{frame}
 
 \begin{frame}{Reality Check}	
 	
@@ -142,16 +143,17 @@ What happens?
 By induction on $k$
 \end{proof}
 
+
+\end{frame}
 \note{
-\BI
-\item  Let $k=1$.
+Let $k=1$.
 \BI
 \item The first time daddy asks, the child with mud on his forehead say
   yes. 
 \item Because all the other have no mud, and someone has mud on his
   forehead, it must be him.
 \EI
-\item Let $k>1$. 
+Let $k>1$
 \BI
 \item Every child with mud see $k-1$ children with mud on
   the forehead. 
@@ -161,10 +163,7 @@ By induction on $k$
   actually $k$ children with mud, and they all say yes at the $k$-th
   time daddy asks.
 \EI
-\EI
 }
-
-\end{frame}
 
 \begin{frame}{Muddy children}
 \begin{block}{Variation 1}
@@ -776,7 +775,7 @@ Distributed systems use a mix of these techniques
 
 {\footnotesize
 \bibliographystyle{abbrv}
-\bibliography{../references}  
+\bibliography{	references}  
 }
 
 \end{frame}

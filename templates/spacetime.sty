@@ -1,0 +1,718 @@
+%!TEX root = ./paxos-tutorial.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Package for drawing Space-Time Diagrams with a horizontal
+% time-axis, and processes occupying the vertical space-axis.
+%
+% Such diagrams are also called Message Sequence Charts (MSC),
+% typically when drawn with a vertical time-axis.
+%
+% (C) 2013-2014 Hein Meling
+%
+% TODO For each process line, keep track of the x position of the 
+% last element on that process. Use this to compute the position
+% of the next element to take place on that process. Also compute
+% the width of the text element and other elements to ensure that
+% they don't overlap with others on the same process.
+%
+% API changes since pre-release version:
+%  \advancemsg -> \advancetime with optional X value
+%  \advancemsgblock - REMOVED
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{ifthen}
+\usepackage{tikz}
+\usepackage{pgfplotstable}
+\usepackage{xstring}
+\usetikzlibrary{fit}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{shapes.symbols}
+
+% 'std' is short for Space-Time Diagram
+\def\stdset#1{
+	\pgfkeys{/std/.cd,#1}
+	\def\xcenter{0.5*\w}
+	\def\xlm{\w-2*\xoffset}
+}
+
+% Defines the width for one message exchange (communication step)
+\pgfkeys{/std/msg color/.code=\def\msgcolor{#1}}
+% Defines the width for one message exchange (communication step)
+\pgfkeys{/std/msg block width/.code=\def\w{#1}}
+% Defines the offset between the message line (start/end points)
+% and the separator lines (deliniating the previous/next message exchange).
+\pgfkeys{/std/msg line offset/.code=\def\xoffset{#1}}
+% Defines the font type to use for the message type text
+\pgfkeys{/std/msg type font/.code=\def\msgfont{#1}}
+% The extra space between the upper most timeline and the message name
+\pgfkeys{/std/msg label offset/.code=\def\txtoffset{#1}}
+% Defines the extra length needed for the arrow ends of the timelines
+\pgfkeys{/std/timeline extra/.code=\def\tlextra{#1}}
+% Boolean to determine if separator lines should be displayed
+\pgfkeys{/std/separator lines/.code=\def\seplines{#1}}
+% Defines the extra separator line above the upper most timeline
+\pgfkeys{/std/separator extra above/.code=\def\sepabove{#1}}
+% Defines the extra separator line below the lowest timeline
+\pgfkeys{/std/separator extra below/.code=\def\sepbelow{#1}}
+% Defines the font type to use for the exec box label text
+\pgfkeys{/std/exec box label font/.code=\def\eboxfont{#1}}
+% Defines the width of the exec box
+\pgfkeys{/std/exec box width/.code=\def\eboxw{#1cm}}
+% Defines the height of the exec box
+\pgfkeys{/std/exec box height/.code=\def\eboxh{#1}}
+% Defines the color of the exec box
+\pgfkeys{/std/exec box color/.code=\def\eboxcolor{#1}}
+% Defines the font type to use for the leader change label text
+\pgfkeys{/std/leader label font/.code=\def\lfont{#1}}
+% Defines the color of the leader line and its label text
+\pgfkeys{/std/leader color/.code=\def\lcolor{#1}}
+% Defines the color of the partition line and its label text
+\pgfkeys{/std/partition line color/.code=\def\pcolor{#1}}
+% Defines the start offset of the partition line
+\pgfkeys{/std/partition line offset/.code=\def\poffset{#1}}
+% Defines the font type to use for the exec box label text
+\pgfkeys{/std/partition line label font/.code=\def\plinefont{#1}}
+
+\stdset{%
+	msg color=black,
+	msg block width=2,
+	msg line offset=0.2,
+	msg type font=\small,
+	msg label offset=0.2,
+	timeline extra=0.4,
+	separator lines=false,
+	separator extra above=0.3,
+	separator extra below=0,
+	exec box label font=\tiny\sf,
+	exec box width=0.3,
+	exec box height=0.2,
+	exec box color=gray!80,
+	leader label font=\tiny\sf,
+	leader color=black,
+	partition line color=gray,
+	partition line offset=2,
+	partition line label font=\tiny\sf
+}
+
+%TODO: Make 'line width' a parameter for these; make it a parameter from \stdset above, like \w and \eboxw
+
+\tikzset{separator lines/.style={xstep=\w,ystep=50,color=gray,dashed}}
+\tikzset{time lines/.style={thick,#1}}
+\tikzset{leader lines/.style={|->,very thick,color=\lcolor,#1}}
+\tikzset{mark line/.style={|-,very thick,color=\lcolor,#1}}
+\tikzset{partition lines/.style={-,decorate,decoration=snake,thin,color=\pcolor,#1}}
+\tikzset{leader dash/.style={thin,dashed,color=gray!80,#1}}
+\tikzset{msg lines/.style={->,#1}}
+\tikzset{msg loss lines/.style={-|,#1}}
+\tikzset{exec box/.style={draw,fill=\eboxcolor,rectangle,inner sep=0,minimum width=\eboxw}}
+\tikzset{interval line/.style={dashed,|-|,#1}}
+\tikzset{crash symbol/.style={starburst,starburst points=9,starburst point height=0.3cm,line width=1pt,fill=gray!70}}
+
+ %     decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
+
+\newcommand{\initstd}{
+	\newcount\x
+	\newcount\procnum
+	\global\x 0\relax
+	\procnum 0\relax
+	\pgfplotsarraynewempty\procids
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Define and add a new process. Once all processes have been
+% defined, calls to \msg and friends must be called, and finally
+% the \drawtimelines must be called to finish the diagram.
+%
+% #1 = reference id of process
+% #2 = process name that will be attached to the timeline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\process}[2]{
+	\global\advance\procnum 1\relax
+	\pgfkeys{#1/.initial/.expanded=\the\procnum}
+	\pgfkeys{#1/name/.initial=#2}
+	\pgfplotsarraypushback#1\to\procids
+}
+
+\newcommand{\leader}[2]{
+	\process{#1}{#2}
+	\pgfkeys{/std/leader/current/.initial=nil}
+	\newleader{#1}
+}
+
+\newcommand{\partitionline}[2]{
+	\process{#1}{#2}
+	\pgfkeys{#1/partition/at/.initial/.expanded=\the\x+\poffset}
+}
+
+\newcommand{\merge}[2][0]{
+	\pgfkeys{#2/partition/end/.initial/.expanded=\the\x+#1}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Record the current x position for the given process and mark
+% it as failed from here on. This will be used when drawing the
+% timeline.
+%
+% #1 = X-offset [Optional param]
+% #2 = id of process that fail at the current x position
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\fail}[2][0]{
+	\pgfkeys{#2/xend/.initial/.expanded=\the\x+#1}
+}
+
+\newcommand{\join}[2][0]{
+	\pgfkeys{#2/xjoin/.initial/.expanded=\the\x+#1}
+}
+
+\newcommand{\falsedetection}[2][0]{
+	\pgfkeys{#2/false detection/.initial/.expanded=\the\x+#1}
+}
+
+%@HEIN from Hein: I think this is not working
+% \newcommand{\falsedetection}[3][0]{
+% 	\pgfkeysifdefined{#2/}
+% 	\pgfkeysifdefined{#2/interval/start}{
+% 		\def\ivalstart{\pgfkeysvalueof{#2/interval/start}}
+% 	}{
+% 		\def\ivalstart{0}
+% 	}
+% 
+% 	
+% 	\pgfplotsarraynewempty\procids
+% 
+% 	\pgfplotsarraypushback#1\to\procids
+% 	\pgfkeys{#2/false detection/.initial/.expanded=\the\x+#1}
+% 	\pgfkeys{#2/false detection/.initial/.expanded=\the\x+#1}
+% }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mark the suspect and take over point for leader.
+%
+% #1 = X-offset [Optional param]
+% #2 = id of process that become leader at current x position
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\newleader}[2][0]{
+	\pgfkeys{#2/leader/at/.initial/.expanded=\the\x+#1}
+	\pgfkeys{/std/leader/current/.get=\currentleader}
+	\pgfkeys{#2/leader/previous/.initial/.expanded=\currentleader}
+	\pgfkeys{/std/leader/current=#2}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Draw a mark on the timeline.
+%
+% #1 = X-offset [Optional param]
+% #2 = id of process that become leader at current x position
+% #3 = Mark label; may empty
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\drawmark}[3][0]{
+	\def\proc{\pgfkeysvalueof{#2}}
+	\draw[mark line,\lcolor] (\the\x+#1,\proc) 
+		node[anchor=south] {\color{\lcolor}\lfont{#3}} -- 
+		(\the\x+#1+1,\proc);
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Draw a dash line between two processes.
+%
+% #1 = X-offset [Optional param]
+% #2 = src process of dash line
+% #3 = dst process of dash line
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\drawdash}[3][0]{
+	\def\src{\pgfkeysvalueof{#2}}
+	\def\dst{\pgfkeysvalueof{#3}}
+	\draw[leader dash] (\the\x+#1,\src) -- (\the\x+#1+1,\dst);
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Parameters and defaults for interval lines.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pgfkeys{/std/interval/pos/.is choice,
+	/std/interval/pos/.cd,
+		above/.code={\def\ivalpos{above}\def\rty{\ivalypos+\ivaloffset}},
+		below/.code={\def\ivalpos{below}\def\rty{\ivalypos-\ivaloffset}}
+}
+\pgfkeys{/std/interval/offset/.code={\def\ivaloffset{#1}}}
+
+\pgfkeys{/std/interval/default/.style={
+	/std/interval/pos=below,
+	/std/interval/offset=0.6
+}}
+\pgfkeys{/std/interval/default}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mark the start of an interval line for the given process.
+%
+% #1 = process
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\markintervalstart}[2][0]{
+	\pgfkeys{#2/interval/start/.initial/.expanded=\currentx+#1}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Draw an interval line previously marked for the given process.
+% If no start is recorded, the interval line will begin at x=0.
+%
+% #1 = [Optional params: see above for details]
+% #2 = process
+% #3 = start label [may be empty]
+% #4 = end label   [may be empty]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\drawinterval}[4][]{{
+	\pgfkeys{/std/interval/.cd,#1}
+	\pgfkeysifdefined{#2/interval/start}{
+		\def\ivalstart{\pgfkeysvalueof{#2/interval/start}}
+	}{
+		\def\ivalstart{0}
+	}
+	\def\ivalypos{\pgfkeysvalueof{#2}}
+	\draw[interval line] 
+		(\ivalstart,\rty) node[\ivalpos] {\eboxfont{#3}} -- 
+		(\currentx,\rty) node[\ivalpos] {\eboxfont{#4}};
+}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Draw timelines defined by the \process macro and draw the
+% separator lines. These are drawn on the background layer.
+%
+% NOTE: This has to be called last, because it relies on the
+% parameter \x having advanced to the end to draw the timelines
+% and setting the width of the separator lines.
+%
+% TODO: This command needs to be refactored. It is too complicated!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\drawtimelines}{
+	\newcount\pn
+	\pn 0\relax
+  \begin{scope}[on background layer]
+		\ifthenelse{\equal{\seplines}{false}}{}{
+			\draw[separator lines] (0,1-\sepbelow) grid (\x,\procnum+\sepabove);
+		}
+
+		\pgfplotsarrayforeach\procids\as\pid{
+			\global\advance\pn 1\relax
+			\def\pname{\pgfkeysvalueof{\pid/name}}
+
+			\pgfkeysifdefined{\pid/leader/at}{
+				% We have a leader change for this process; we need to figure out the
+				% crash point of the previous leader to draw the dashed line.
+				\pgfkeys{\pid/leader/at/.get=\xlbegin}
+				\pgfkeysifdefined{\pid/leader/previous}{
+					\pgfkeys{\pid/leader/previous/.get=\prevleader}
+					\ifthenelse{\equal{\prevleader}{nil}}{}{
+						\pgfkeys{\prevleader/.get=\prevypos}
+						\pgfkeysifdefined{\prevleader/xend}{
+							\pgfkeys{\prevleader/xend/.get=\prevxpos}
+						}{
+							\pgfkeysifdefined{\prevleader/false detection}{
+								\pgfkeys{\prevleader/false detection/.get=\prevxpos}
+							}{
+								% FIXME: THIS IS A HACK 
+								% (to avoid drawing leader dash line when false detection is used from the /partition process. See majority-partition.tex)
+								\def\prevleader{nil}
+								% \pgfkeys{/partition/false detection/.get=\prevxpos}
+								% \pgfkeys{/partition/.get=\prevypos}
+							}
+						}
+					}
+				}{}
+				% This macro draws the timelines and leader changes and 
+				% a dashed line from the previous leader to the new leader.
+				\def\drawline{
+					\draw[time lines] (0,\pn) node[anchor=east] {\pname} -- (\xlbegin,\pn);
+					\draw[leader lines,\lcolor] (\xlbegin,\pn) 
+						node[anchor=north] {\color{\lcolor}\lfont{Leader}} -- 
+						(\xend,\pn);
+					\ifthenelse{\equal{\prevleader}{nil}}{}{
+						\draw[leader dash] (\prevxpos,\prevypos) -- (\xlbegin,\pn);
+					}
+				}
+			}{
+				\pgfkeysifdefined{\pid/partition/at}{
+					% This is a partition line
+					\pgfkeys{\pid/partition/at/.get=\xplbegin}
+					\pgfkeys{\pid/partition/end/.get=\xplend}
+					\def\drawline{
+						\draw[partition lines] (\xplbegin,\pn) node[anchor=east] {\plinefont{\pname}} -- (\xplend,\pn);
+					}
+				}{
+					% This is a plain and simple timeline
+					\def\drawline{
+						\draw[time lines,->] (0,\pn) node[anchor=east] {\pname} -- (\xend,\pn);
+					}
+				}
+			}
+			\pgfkeysifdefined{\pid/xjoin}{
+				% xjoin is defined for this process; means it crashed and rejoined.
+				%FIXME: This \xcrash doesn't seem to get set (gives compile error)
+				% \def\xcrash{\pgfkeysvalueof{\pid/xend}}
+				\def\xcrash{\xend}
+				\def\xjoin{\pgfkeysvalueof{\pid/xjoin}}
+				\def\xend{\x+\tlextra}
+				\draw[time lines,->] (0,\pn) node[anchor=east] {\pname} -- (\xcrash,\pn);
+				\node[crash symbol,draw] at (\xcrash,\pn) {};
+				\node[circle,line width=1pt,fill=gray!70,draw] at (\xjoin,\pn) {};
+				\draw[time lines,->] (\xjoin,\pn) node[anchor=east] {} -- (\xend,\pn);
+      }{
+				\pgfkeysifdefined{\pid/xend}{
+					% xend is defined for this process; means it crashed earlier.
+					\def\xend{\pgfkeysvalueof{\pid/xend}}
+					\drawline
+					\node[crash symbol,draw] at (\xend,\pn) {};
+				}{
+					% \pgfkeysifdefined{\pid/false detection}{
+					% 	\def\xend{\x+\tlextra}
+					% 	\drawline
+					% }{
+						% no xend or false detection is defined; draw a full timeline
+						\def\xend{\x+\tlextra}
+						\drawline
+					% }
+				}
+			}
+		}
+  \end{scope}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Draw execution box and command name beneath it.
+%
+% #1 = src process
+% #2 = dst process
+% #3 = command name
+% [false        = don't draw box] TODO REMOVE THIS FEATURE!
+% [empty string = draw box without command name]
+% #4 = x-position relative to \x  
+% TODO MAKE OPTIONAL WHEN X COORD IS KEPT PER PROCESS LINE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\execbox}[4]{
+	\ifthenelse{\equal{#3}{false}}{}{
+		\def\src{\pgfkeysvalueof{#1}}
+		\def\dst{\pgfkeysvalueof{#2}}
+		\ifnum\dst < \src
+			\def\low{\dst}
+			\def\upp{\src}
+		\else
+			\def\low{\src}
+			\def\upp{\dst}
+		\fi
+		\begin{scope}[node distance=0]
+			\node (top) at (\x+#4,\upp) {};
+			\node (bot) at (\x+#4,\low) {};
+			\node[exec box,fit=(top) (bot)] (ebox) {};
+			\node[below=of ebox] {\eboxfont{#3}};
+		\end{scope}
+	}
+}
+
+\pgfkeys{
+	/std/txt/label pos/.is choice,
+	/std/txt/label pos/.cd,
+		above/.code = \def\anchorx{south},
+		below/.code = \def\anchorx{north}
+}
+% Defines the font type to use for the exec box label text
+\pgfkeys{/std/txt/label font/.code=\def\txtfont{#1}}
+% Defines the font type to use for the exec box label text
+\pgfkeys{/std/txt/label offset/.code=\def\txtoffset{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Insert text label above or below a given process line.
+%
+% #1 = [Optional params]
+% #2 = process
+% #3 = text label
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\txt}[3][]{{ % group {...} changes to /std/msg to only this macro
+	\pgfkeys{/std/txt/.cd,#1}
+	\def\proc{\pgfkeysvalueof{#2}}
+	\coordinate (proc) at (\x+\txtoffset,\proc);
+	\node[anchor=\anchorx] at (proc) {\txtfont{#3}};
+}}
+
+\pgfkeys{/std/txt/default/.style={
+	/std/txt/label pos=below,
+	/std/txt/label font=\tiny\sf,
+	/std/txt/label offset=0
+}}
+\pgfkeys{/std/txt/default}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Draw big black box.
+%
+% #1 = [Optional params]
+% #2 = src process
+% #3 = dst process
+% #4 = text of box
+% #5 = x-position relative to \x  
+% #6 = width of the box
+% TODO MAKE OPTIONAL WHEN X COORD IS KEPT PER PROCESS LINE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\blackbox}[6][]{
+	\pgfkeys{/std/box/.cd,#1}
+	\def\src{\pgfkeysvalueof{#2}}
+	\def\dst{\pgfkeysvalueof{#3}}
+	\ifnum\dst < \src
+		\def\low{\dst}
+		\def\upp{\src}
+	\else
+		\def\low{\src}
+		\def\upp{\dst}
+	\fi
+	\begin{scope}[node distance=0]
+		\node (top) at (\x+#5+#6,\upp+\boxoffsetabove) {};
+		\node (bot) at (\x+#5,\low-\boxoffsetbelow) {};
+		\node[draw,fill=\fillbox,rectangle,fit=(bot) (top)] (bbox) {\boxfont{#4}};
+	\end{scope}
+}
+
+% Defines the font type to use for the exec box label text
+\pgfkeys{/std/box/font/.code=\def\boxfont{#1}}
+% Defines the offset of the box above the upper process line
+\pgfkeys{/std/box/above/.code=\def\boxoffsetabove{#1}}
+% Defines the offset of the box below the lower process line
+\pgfkeys{/std/box/below/.code=\def\boxoffsetbelow{#1}}
+% Defines the fill color of the box (defaults to nothing)
+\pgfkeys{/std/box/fill/.code=\def\fillbox{#1}}
+
+\pgfkeys{/std/box/default/.style={
+	/std/box/font=\normalsize,
+	/std/box/above=0.2,
+	/std/box/below=0.3,
+	/std/box/fill=none,
+}}
+\pgfkeys{/std/box/default}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                 FLEXIBLE MESSAGE FUNCTIONS                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Defines the placement of the message label
+\pgfkeys{
+	/std/msg/label pos/.is choice,
+	/std/msg/label pos/.cd,
+		above src/.code = \def\anchor{south}\def\point{(src)},
+		below src/.code = \def\anchor{north}\def\point{(src)},
+		above dst/.code = \def\anchor{south}\def\point{(dst)},
+		below dst/.code = \def\anchor{north}\def\point{(dst)},
+		upper/.code = \def\anchor{south}\def\point{\upperx},
+		lower/.code = \def\anchor{north}\def\point{\lowerx}
+}
+% Boolean to determine if angle brackets should be used for msg labels 
+\pgfkeys{/std/msg/label brackets/.code=\def\labelbracket{#1}}
+% Defines the offset between the destination line and the point
+% at which the message is lost (for message loss drawings).
+\pgfkeys{/std/msg/loss offset/.code=\def\lossoffset{#1cm}}
+% Defines the default message line width (xdiff from src to dst);
+% changing the width essentially changes the angle of the line.
+\pgfkeys{/std/msg/width/.code=\def\msgwidth{#1*\ydelta}}
+% Boolean to determine if msg should be drawn as lost
+\pgfkeys{/std/msg/loss/.code=\def\loss{#1}}
+% Defines the width for one message exchange (communication step)
+\pgfkeys{/std/msg/controls/.code 2 args={\def\first{#1}\def\second{#2}}}
+% Defines the separation distance between the msg arrow and the exec box
+\pgfkeys{/std/msg/exec box sep/.code=\def\eboxsep{#1}}
+
+\pgfkeys{/std/msg/default/.style={
+	/std/msg/label pos=upper,
+	/std/msg/label brackets=true,
+	/std/msg/width=0.3,
+	/std/msg/loss offset=0.3,
+	/std/msg/loss=false,
+	/std/msg/controls={0:0}{},
+	/std/msg/exec box sep=0.3
+}}
+\pgfkeys{/std/msg/default}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Flexible message. It can be configured to place the msg label
+% in several places such as: below/above src/dst. The actual
+% arrow can be controlled with control points to bend around
+% obstructions. This can be handy for delaying messages.
+% This macro does not advance the x coordinate; this has to be
+% done manually with \advancetime or \advancetime[2].
+%
+% #1 = [Optional params]
+% #2 = src process
+% #3 = dst process
+% #4 = msg id
+% #5 = time offset (x-offset)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\msgx}[5][]{{ % group {...} changes to /std/msg to only this macro
+	\pgfkeys{/std/msg/.cd,#1}
+	\def\src{\pgfkeysvalueof{#2}}
+	\def\dst{\pgfkeysvalueof{#3}}
+	% If width is defined for this msg; don't compute the width.
+	\IfSubStr{#1}{width}{
+		\def\ydelta{1}
+	}{
+		\pgfmathparse{abs(\dst-\src)}
+		\def\ydelta{\pgfmathresult}
+	}
+	\ifnum\dst < \src
+		\def\upperx{(src)}\def\lowerx{(dst)}
+	\else
+		\def\upperx{(dst)}\def\lowerx{(src)}
+	\fi
+	% Set controls for bezier line bending
+	\IfEq{\second}{}{	% \second is empty.
+		\def\ctrl{+(\first)}
+	}{
+		\def\ctrl{++(\first) and ++(\second)}
+	}
+	\global\def\currentx{\the\x+#5}
+	\coordinate (src) at (\x+#5,\src);
+	\coordinate (dst) at (\x+#5+\msgwidth,\dst);
+
+	% We first define \msglabel with/without msg label brackets 
+	% depending on the first test. Then below, we may redefine 
+	% \msglabel to be empty if the argument #4 was actually empty.
+	% This is done in this way because \noexpandarg is necessary for
+	% the last test, while expansion is desired for the first part.
+	\IfEq{\labelbracket}{false}{
+		\def\msglabel{$#4$}
+	}{
+		\def\msglabel{$\langle #4\rangle$}
+	}
+	\saveexpandmode\noexpandarg
+	\IfEq{#4}{}{
+		\def\msglabel{}
+	}{}
+	\restoreexpandmode
+
+	% \draw[msg lines] (src) -- (dst);
+	\IfSubStr{\loss}{true}{
+		\draw[msg loss lines,shorten >=\lossoffset] 
+			(src) .. controls \ctrl .. (dst);
+	}{
+		\draw[msg lines] (src) .. controls \ctrl .. (dst);
+	}
+	% Draw the msg label at the appropriate position
+	\node[anchor=\anchor] at \point {\msglabel};
+}}
+
+\newcommand{\msgxloss}[5][]{
+	\msgx[#1,loss=true]{#2}{#3}{#4}{#5}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                      HELPER FUNCTIONS                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\msgtxt#1{
+	\coordinate (txtpos) at (\x+\xcenter,\procnum+\txtoffset);
+	\node[color=\msgcolor] at (txtpos) {\msgfont{\ensuremath{\langle\textsc{#1}\rangle}}};
+}
+
+\def\drawmsg#1{
+	\draw[msg lines,color=\msgcolor,#1] (\x+\xoffset,\src) -- ++(\xlm,\y);
+}
+
+\newcommand{\advancetime}[1][1]{
+	\global\advance\x by #1
+	\global\def\currentx{\the\x}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                   BLOCK MESSAGE FUNCTIONS                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Draw a message line from src to dst process.
+%
+% #1 = [Optional params]
+% #2 = src process
+% #3 = dst process
+% #4 = msg text (e.g. msg type/param)
+% #5 = exec box text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\msg}[5][]{
+	\stdset{#1}
+	\def\src{\pgfkeysvalueof{#2}}
+	\def\dst{\pgfkeysvalueof{#3}}
+	\def\y{\dst-\src}
+	\drawmsg{}
+	\msgtxt{#4}
+	\execbox{#3}{#3}{#5}{\w}
+	\advancetime[2]
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Draw a partial and dashed message line from src to dst 
+% process. It is compatible with the above \msg macro, but will
+% ignore the last parameter (the exec box text).
+%
+% TODO: Make this use \msg macro itself or 
+% find a better solution to calculate the clip area.
+%
+% #1 = [Optional params]
+% #2 = src process
+% #3 = dst process
+% #4 = msg text (e.g. msg type/param)
+% #5 = exec box text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\msgloss}[5][]{
+	\stdset{#1}
+	\def\src{\pgfkeysvalueof{#2}}
+	\def\dst{\pgfkeysvalueof{#3}}
+	\def\y{\dst-\src}
+	\def\dy{0.5*\lossoffset}
+	\def\dx{1*\lossoffset}
+	\begin{scope}
+		\coordinate (clip) at (\xlm-\dx,\y-\dy);
+		\clip (\x+\xoffset,\src) rectangle ++(clip) coordinate (fail);
+		\drawmsg{dashed}
+	\end{scope}
+	\msgtxt{#4}
+	\advancetime[2]
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Draw a message line from src to the set of dst processes.
+%
+% #1 = [Optional params]
+% #2 = src process
+% #3 = dst processes
+% #4 = msg text (e.g. msg type/param)
+% #5 = exec box text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\mcast}[5][]{
+	\stdset{#1}
+	\def\src{\pgfkeysvalueof{#2}}
+	\foreach \o in #3 {
+		\def\dst{\pgfkeysvalueof{\o}}
+		\def\y{\dst-\src}
+		\drawmsg{}
+		\execbox{\o}{\o}{#5}{\w}
+	}
+	\msgtxt{#4}
+	\advancetime[2]
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Draw a message line from all processes to all other processes.
+%
+% #1 = [Optional params]
+% #2 = src and dst processes
+% #3 = msg text (e.g. msg type/param)
+% #4 = exec box text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\alltoall}[4][]{
+	\stdset{#1}
+	\foreach \i in #2 {
+		\def\dst{\pgfkeysvalueof{\i}}
+		\execbox{\i}{\i}{#4}{\w}
+		\foreach \j in #2 {
+			\def\src{\pgfkeysvalueof{\j}}
+			\ifthenelse{\src = \dst}{}{
+				\def\y{\dst-\src}
+				\drawmsg{}
+			}
+		}
+	}
+	\msgtxt{#4}
+	\advancetime[2]
+}
+

@@ -1,3 +1,4 @@
+\input templates/header
 \title[DS - Rollback-Recovery]{\textbf{Distributed Algorithms}\\Rollback-Recovery}
 
 \begin{document}
@@ -7,7 +8,7 @@
 \titlepage
 
 \invisible{
-\nobibliography*{../references}
+\nobibliography*{references}
 }
 
 \end{frame}
@@ -324,7 +325,6 @@ either down or the message arrived after the rollback of the receiving process
 \item Example: $m_5$ will be replayed, so it can arrive twice at $P_3$
 \EI
 \end{block}
-
 \end{overprint}
 
 \begin{overprint}
@@ -360,16 +360,9 @@ either down or the message arrived after the rollback of the receiving process
 \begin{figure}
 	\includegraphics[width=0.7\textwidth,page=7]{figs/16/messages}
 \end{figure}
-
 \end{overprint}
-
-
 \end{frame}
 
-\begin{frame}{}
-\end{frame}
-\begin{frame}{}
-\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -386,7 +379,7 @@ either down or the message arrived after the rollback of the receiving process
 
 \invisible{{\tiny
 \bibliographystyle{abbrv}
-\bibliography{../references} 
+\bibliography{references} 
 }}
 
 \end{frame}

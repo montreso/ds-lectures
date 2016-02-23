@@ -1,3 +1,4 @@
+\input templates/header
 \title[DS - Time,clocks,events]{\textbf{Distributed Algorithms}\\Time, clocks and the ordering of events}
 
 \begin{document}
@@ -78,12 +79,15 @@ The \alert{partial history} up to event $e^k_i$ is denoted $h^k_i$ and
 
 \begin{definition}[Happen-before]
 We say that an event $e$ \alert{happens-before} an event $e'$, and write \alert{$e \rightarrow e'$}, if one of the following three cases is true:
+\smallskip
 \BE
 \item $\exists p_i \in \Pi: e = e_i^r, \quad e'=e_i^s, \quad r<s$ \\
-  (if $e$ and $e'$ are executed by the same process, $e$ before $e'$)
+  ($e$ and $e'$ are executed by the same process, $e$ before $e'$)
+\smallskip
 \item $e = \send(m) \wedge e' = \receive(m)$ \\
-  (if $e$ is the send event of a message $m$ and $e'$ is the corresponding
+  ($e$ is the send event of a message $m$ and $e'$ is the corresponding
    receive event)
+\smallskip
 \item $\exists e'': e \rightarrow e'' \rightarrow e')$ \\
   (in other words, $\rightarrow$ is transitive)
 \EE
@@ -123,6 +127,7 @@ for each pair of consecutive events $e^i$ and $e^{i+1}$:
 \end{frame}
 
 \begin{frame}{Homework}
+
 
 Prove or disprove that the $||$ relation is transitive.
 
@@ -677,7 +682,7 @@ The \alert{vector clock} associated to event $e$ is a $n$-dimensional vector $\V
 \begin{frame}{Vector clocks: implementation}
 \BI
 \item Each process $p_i$ maintains a vector clock $\VC_i$, initially all zeroes;
-\item When event $e_i$ is executed, $\VC_i$ assumes the value of $\VC(e_i)$;
+\item When event $e_i$ is executed, its vector clock is updated and assumes the value of $\VC(e_i)$;
 \item If $e_i = \send(m)$, the timestamp of $m$ is $TS(m) = \VC(e_i)$;
 \EI
 
@@ -693,7 +698,7 @@ When event $e_i$ is executed by process $p_i$, $\VC_i$ is updated as follows:
 \[
   \begin{array}{ll}
     \VC_i[j] = \max \{ VC_i[j], TS(m)[j] \}  & \forall j \neq i \\
-    \VC_i[i] = VC_[i] + 1
+    \VC_i[i] = VC_i[i] + 1
   \end{array} 
 \]
 \EI
@@ -1958,7 +1963,7 @@ computation, than there is a bug, even if it is not observed during an actual ru
 
 {\footnotesize
 \bibliographystyle{abbrv}
-\bibliography{../references}  
+\bibliography{references}  
 }
 
 \end{frame}

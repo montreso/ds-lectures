@@ -1,19 +1,20 @@
-.PHONY: slides handouts all
+.PHONY: slides handouts notes all
 
-all: slides-video handouts
+all: slides handouts notes
 
-slides-video:
-	(cd slidesvideo ; make)
+notes:
+	latexmk -bibtex -pdflatex="pdflatex --shell-escape --synctex=1 %O '\newif \ifnotes \newif \ifslides \newif \ifhandouts \slidesfalse \handoutsfalse \notestrue\input{%S}'" -outdir=./notes -pdf
 	
 slides:
-	(cd slides ; make)
+	latexmk -pdflatex="pdflatex --shell-escape --synctex=1 %O '\newif \ifnotes \newif \ifslides \newif \ifhandouts \notesfalse \handoutsfalse \slidestrue\input{%S}'" -outdir=slides -pdf
 	
 handouts:
-	(cd handouts ; make)
+	latexmk -pdflatex="pdflatex --shell-escape --synctex=1 %O '\newif \ifnotes \newif \ifslides \newif \ifhandouts \slidesfalse \notesfalse \handoutstrue\input{%S}'" -outdir=./handouts -pdf
+
 
 
 cleanall:
-	(cd slidesvideo ; make clean)
-	(cd slides ; make clean)
-	(cd handouts ; make clean)
+	latexmk -CA -outdir=handouts
+	latexmk -CA -outdir=slides
+	latexmk -CA -outdir=notes
 	
