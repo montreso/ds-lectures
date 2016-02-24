@@ -98,7 +98,7 @@ We say that an event $e$ \alert{happens-before} an event $e'$, and write \alert{
 \begin{frame}{Space-Time Diagram of a Distributed Computation}
 
 \begin{figure} 
-\includegraphics[width=10cm]{figs/02/figure-1}
+\includegraphics[width=11cm]{figs/03/crop-diagram1}
 \end{figure}	
 
 \end{frame}
@@ -194,7 +194,7 @@ $(\sigma_1^{c_1}, \sigma_2^{c_2}, \ldots, \sigma_n^{c_n})$.
 \begin{frame}{Cuts}
 
 \begin{figure} 
-\includegraphics[width=10cm]{figs/02/figure-2}
+\includegraphics[width=11cm]{figs/03/crop-diagram2}
 \end{figure}
 \end{frame}
 
@@ -237,7 +237,7 @@ In other words:
 
 \BI
 \item In the previous figures, $C$ is consistent and $C'$ is not.
-\item In the space-time diagram, a cut $C$ is consistent if all
+\item In the space-time crop-diagram, a cut $C$ is consistent if all
   the arrows start on the left of the cut and finish on the right
   of the cut.
 \item Consistent cuts represent the concept of scalar time in distributed
@@ -309,7 +309,7 @@ A global state obtained through remote observations could be
 \begin{frame}{Space-Time Diagram of a Distributed Computation}
 
 \begin{figure} 
-\includegraphics[width=10cm]{figs/02/figure-1}
+\includegraphics[width=11cm]{figs/03/crop-diagram3}
 \end{figure}
 
 \end{frame}
@@ -358,12 +358,12 @@ $e \rightarrow e'$ implies that $e$ appears before $e'$ in $R$.
 \begin{frame}{Runs and consistent runs}
 
 \BI
-\item $e_1^1\,e_2^1\,e_3^1\,e_1^2\,e_2^2\,e_3^2\,e_3^1\,e_3^2\,e_3^3\,e_4^1\,e_4^3\,e_5^1\,e_5^3\,\,e_6^1\,e_6^3$ \ ?
-\item $e_1^1\,e_2^1\,e_3^1\,e_1^2\,e_3^2\,e_3^3\,e_3^1\,e_4^1\,e_3^2\,e_4^3\,e_2^2\,e_5^1\,e_5^3\,\,e_6^1\,e_6^3$ \ ?
+\item $e^1_1\,e^2_1\,e^3_1\,e^4_1\,e^5_1\,e^6_1\,e^1_2\,e^2_2\,e^3_2\,e^1_3\,e^2_3\,e^3_3\,e^4_3\,e^5_3\,e^6_3$ \ ?
+\item $e^1_1\,e^1_2\,e^1_3\,e^2_1\,e^2_3\,e^3_3\,e^3_1\,e^4_1\,e^4_3\,e^2_2\,e^3_2\,e^5_1\,e^5_3\,e^6_1\,e^6_3$ \ ?
 \EI
 
 \begin{figure}
-\includegraphics[width=9cm]{figs/02/figure-1}
+\includegraphics[width=10cm]{figs/03/crop-diagram3}
 \end{figure}
 
 \end{frame}
@@ -525,7 +525,7 @@ as follows:
 \begin{frame}{Scalar logical clocks}
 
 \begin{figure} 
-\includegraphics[width=10cm]{figs/02/figure-4}
+\includegraphics[width=11cm]{figs/03/crop-diagram4}
 \end{figure}
 
 \end{frame}
@@ -567,7 +567,7 @@ Scalar logical clocks \emph{do not satisfy} Strong clock consistency, i.e.
 \end{theorem}
 
 \begin{figure} 
-\includegraphics[width=8cm]{figs/02/figure-4}
+\includegraphics[width=9cm]{figs/03/crop-diagram4}
 \end{figure}
 
 \note{
@@ -657,7 +657,7 @@ Causal histories \emph{satisfy} Strong clock consistency
 Causal histories tend to grow too much; they cannot be used as ``timestamps'' for messages.
 
 \begin{figure} 
-\includegraphics[width=9cm]{figs/02/figure-6}
+\includegraphics[width=10cm]{figs/03/crop-diagram6}
 \end{figure}
 \end{frame}
 
@@ -707,7 +707,7 @@ When event $e_i$ is executed by process $p_i$, $\VC_i$ is updated as follows:
 
 \begin{frame}{Example}
 \begin{figure} 
-\includegraphics[width=10cm]{figs/02/figure-7}
+\includegraphics[width=11cm]{figs/03/crop-diagram5}
 \end{figure}
 \end{frame}
 
@@ -759,7 +759,7 @@ $e_i$.\\
 \]
 
 \begin{figure} 
-\includegraphics[width=9cm]{figs/02/figure-7}
+\includegraphics[width=10cm]{figs/03/crop-diagram5}
 \end{figure}
 
 \note{
@@ -797,7 +797,7 @@ a $\receive$ event without including a $\send$ event.\\
 \]
 
 \begin{figure} 
-\includegraphics[width=9cm]{figs/02/figure-7}
+\includegraphics[width=10cm]{figs/03/crop-diagram5}
 \end{figure}
 
 \note{
