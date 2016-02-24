@@ -1,17 +1,31 @@
 \documentclass[12pt]{article}
-\usepackage{asd-en}
-%\usepackage{ds}
+%\usepackage{asd-en}
+%\usepackage{templates/ds}
 \usepackage{filemod}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage[usenames]{color}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{url}
+\usepackage{times}
 
 
+\newcommand{\BI}{\begin{itemize}}
+\newcommand{\EI}{\end{itemize}}
+\newcommand{\BE}{\begin{enumerate}}
+\newcommand{\EE}{\end{enumerate}}
 \newcommand{\IN}{\mathit{IN}}
 \newcommand{\OUT}{\mathit{OUT}}
 \newcommand{\receive}{\mathit{receive}}
 \newcommand{\send}{\mathit{send}}
 \newcommand{\propose}{\mathit{propose}}
 \newcommand{\decide}{\mathit{decide}}
+
+\newenvironment{theorem}[1]{\textbf{Theorem (#1)}: }{\medskip}
+\newenvironment{lemma}[1]{\textbf{Theorem (#1)}: }{\medskip}
 
 \begin{document} 
 
