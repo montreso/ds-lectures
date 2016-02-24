@@ -212,7 +212,7 @@ Consider cuts $C'$ and $C$ in the previous figure.
 \begin{frame}{Consistent cut}
 
 \begin{definition}[Consistent cut]
-A cut $C$ is \alert{consistent} is for all events $e$ and $e'$,
+A cut $C$ is \alert{consistent}, if for all events $e$ and $e'$,
 \[
   (e \in C) \wedge (e' \rightarrow e) \Rightarrow e' \in C
 \]
@@ -265,7 +265,7 @@ some predicate $\Phi$.
 \bigskip
 \structure{Motivation}
 \BIL
-\item Many important distributed problems require to react when when the global
+\item Many important distributed problems require to react when the global
   state of the system satisfies a given condition.
   \BI
   \item \alert{Monitoring}: Notify an administrator in
@@ -297,7 +297,7 @@ A global state obtained through remote observations could be
 \item \alert{obsolete}: represent an old state of the system. \\
   \emph{Solution}: build the global state more frequently
 \item \alert{inconsistent}: capture a global state that could never
-  have been occurred in reality\\
+  have occurred in reality\\
   \emph{Solution}: build only consistent global states
 \item \alert{incomplete}: not ``capture'' every moment of the system\\
   \emph{Solution}: build all possible consistent global states
@@ -444,7 +444,7 @@ An observation is \alert{consistent} if it corresponds to a consistent run.
   \EI
 \item
   If physical clocks are not precisely synchronized, the
-  causality/concurrence relations between events may not be accurately captured
+  causality/concurrency relations between events may not be accurately captured
 \EIL
 
 \end{frame}
@@ -468,8 +468,8 @@ we use logical clocks.
 \begin{frame}{Logical clocks}
 
 \begin{definition}[Logical clock]
-A logical clock $LC$ is a function that maps an event $e$ from a distributed 
-system execution to an element of a time domain $T$:
+A logical clock $LC$ is a function that maps an event $e$ from the history $H$ 
+of a distributed system execution to an element of a time domain $T$:
 \[
   LC: H \rightarrow T
 \]
