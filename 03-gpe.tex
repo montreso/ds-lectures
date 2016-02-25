@@ -162,7 +162,7 @@ We say that an event $e$ \alert{happens-before} an event $e'$, and write \alert{
 \begin{frame}{Space-Time Diagram of a Distributed Computation}
 
 \begin{figure} 
-\includegraphics[width=11cm]{figs/03/crop-diagram1}
+\includegraphics[width=11cm]{figs/03/diagram1}
 \end{figure}	
 
 \end{frame}
@@ -258,7 +258,7 @@ $(\sigma_1^{c_1}, \sigma_2^{c_2}, \ldots, \sigma_n^{c_n})$.
 \begin{frame}{Cuts}
 
 \begin{figure} 
-\includegraphics[width=11cm]{figs/03/crop-diagram2}
+\includegraphics[width=11cm]{figs/03/diagram2}
 \end{figure}
 \end{frame}
 
@@ -301,7 +301,7 @@ In other words:
 
 \BI
 \item In the previous figures, $C$ is consistent and $C'$ is not.
-\item In the space-time crop-diagram, a cut $C$ is consistent if all
+\item In the space-time diagram, a cut $C$ is consistent if all
   the arrows start on the left of the cut and finish on the right
   of the cut.
 \item Consistent cuts represent the concept of scalar time in distributed
@@ -373,7 +373,7 @@ A global state obtained through remote observations could be
 \begin{frame}{Space-Time Diagram of a Distributed Computation}
 
 \begin{figure} 
-\includegraphics[width=11cm]{figs/03/crop-diagram3}
+\includegraphics[width=11cm]{figs/03/diagram3}
 \end{figure}
 
 \end{frame}
@@ -427,7 +427,7 @@ $e \rightarrow e'$ implies that $e$ appears before $e'$ in $R$.
 \EI
 
 \begin{figure}
-\includegraphics[width=10cm]{figs/03/crop-diagram3}
+\includegraphics[width=10cm]{figs/03/diagram3}
 \end{figure}
 
 \end{frame}
@@ -589,7 +589,7 @@ as follows:
 \begin{frame}{Scalar logical clocks}
 
 \begin{figure} 
-\includegraphics[width=11cm]{figs/03/crop-diagram4}
+\includegraphics[width=11cm]{figs/03/diagram4}
 \end{figure}
 
 \end{frame}
@@ -631,7 +631,7 @@ Scalar logical clocks \emph{do not satisfy} Strong clock consistency, i.e.
 \end{theorem}
 
 \begin{figure} 
-\includegraphics[width=9cm]{figs/03/crop-diagram4}
+\includegraphics[width=9cm]{figs/03/diagram4}
 \end{figure}
 
 \note{
@@ -721,7 +721,7 @@ Causal histories \emph{satisfy} Strong clock consistency
 Causal histories tend to grow too much; they cannot be used as ``timestamps'' for messages.
 
 \begin{figure} 
-\includegraphics[width=10cm]{figs/03/crop-diagram6}
+\includegraphics[width=10cm]{figs/03/diagram6}
 \end{figure}
 \end{frame}
 
@@ -771,7 +771,7 @@ When event $e_i$ is executed by process $p_i$, $\VC_i$ is updated as follows:
 
 \begin{frame}{Example}
 \begin{figure} 
-\includegraphics[width=11cm]{figs/03/crop-diagram5}
+\includegraphics[width=11cm]{figs/03/diagram5}
 \end{figure}
 \end{frame}
 
@@ -823,7 +823,7 @@ $e_i$.\\
 \]
 
 \begin{figure} 
-\includegraphics[width=10cm]{figs/03/crop-diagram5}
+\includegraphics[width=10cm]{figs/03/diagram5}
 \end{figure}
 
 \note{
@@ -861,7 +861,7 @@ a $\receive$ event without including a $\send$ event.\\
 \]
 
 \begin{figure} 
-\includegraphics[width=10cm]{figs/03/crop-diagram5}
+\includegraphics[width=10cm]{figs/03/diagram5}
 \end{figure}
 
 \note{
