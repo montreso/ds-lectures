@@ -4,12 +4,14 @@
 {\begin{exampleblock}{Relevant bibliography}\footnotesize}
 {\end{exampleblock}}
 
-
 \newcommand{\BF}[1]{\begin{frame}{#1}}
 \newcommand{\EF}{\end{frame}}
 
 \newcommand{\BI}{\begin{itemize}}
 \newcommand{\EI}{\end{itemize}}
+
+\newcommand{\BE}{\begin{enumerate}}
+\newcommand{\EE}{\end{enumerate}}
 
 \newcommand{\BIL}{\begin{itemize}
   \setlength{\itemsep}{8pt}
@@ -18,27 +20,17 @@
 }
 \newcommand{\EIL}{\end{itemize}}
 
-\newenvironment{teorema}[1]{\textbf{Theorem (#1)}: }{\medskip}
-\newenvironment{prova}{\textbf{Proof}: }{\medskip}
-
-\AtBeginNote
-{
-%\insertnextslideintonotes{0.4}
-\footnotesize
-}
-
-
-\newcommand{\bigitem}{\bigskip\item}
-
-\newcommand{\BE}{\begin{enumerate}}
-\newcommand{\EE}{\end{enumerate}}
-
 \newcommand{\BEL}{\begin{enumerate}
   \setlength{\itemsep}{8pt}
   \setlength{\parskip}{0pt}
   \setlength{\parsep}{0pt}
 }
 \newcommand{\EEL}{\end{enumerate}}
+
+\newcommand{\bigitem}{\bigskip\item}
+
+\newenvironment{teorema}[1]{\textbf{Theorem (#1)}: }{\medskip}
+\newenvironment{prova}{\textbf{Proof}: }{\medskip}
 
 
 \newcommand{\highlight}[1]{\textit{#1}}

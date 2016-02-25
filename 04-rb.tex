@@ -5,13 +5,8 @@
 
 \begin{document}
 
-\begin{frame}
-\titlepage
-\end{frame}
-
-\begin{frame}[shrink]{Contents}
-\tableofcontents
-\end{frame}
+\FrameTitle
+\FrameContent
 
 \section{Introduction}
 
@@ -710,7 +705,7 @@ FIFO Order
 
 \subsection{Algorithms and proofs}
 
-\begin{frame}[shrink]{FIFO Order -- Algorithm}
+\begin{frame}[shrink=12]{FIFO Order -- Algorithm}
 
 \begin{Procedure}
 \caption{FIFO Order Transformation executed by process $p$}
@@ -797,7 +792,7 @@ For claim 2, it will eventually F-deliver $m$. Absurd.
 \EIL
 \end{frame}
 
-\begin{frame}[shrink]{Causal Order - Algorithm 1}
+\begin{frame}[shrink=5]{Causal Order - Algorithm 1}
 
 \begin{Procedure}
 \caption{Causal Order Transformation executed by process $p$}
@@ -1077,17 +1072,8 @@ Next step: can we solve Consensus?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Bibliography}
-
 \nocite{hadzilacos94modular}
 
-\begin{frame}{Reading material}
-
-{\footnotesize
-\bibliographystyle{abbrv}
-\bibliography{references}  
-}
-
-\end{frame}
+\ReadingMaterial
 
 \end{document}

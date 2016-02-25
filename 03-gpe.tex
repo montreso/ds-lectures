@@ -1,11 +1,75 @@
 \input templates/header
 \title[DS - Time,clocks,events]{\textbf{Distributed Algorithms}\\Time, clocks and the ordering of events}
 
-\begin{document}
+\AtBeginSection[]{
+	{
+	\setbeamertemplate{headline}
+	{
+	  \leavevmode%
+	  \hbox{%
+	  \begin{beamercolorbox}[wd=1.0\paperwidth,ht=2.25ex,dp=2.25ex,center]{author in head/foot}%
+	    \usebeamerfont{author in head/foot}~
+	  \end{beamercolorbox}}%
+	  \vskip0pt%
+	}
+	\setbeamertemplate{footline}
+	{
+	  \leavevmode%
+	  \hbox{%
+	  \begin{beamercolorbox}[wd=1.0\paperwidth,ht=2.25ex,dp=2.25ex,center]{author in head/foot}%
+	    \usebeamerfont{author in head/foot}~
+	  \end{beamercolorbox}}%
+	  \vskip0pt%
+	}
+	\begin{frame}[shrink=5,noframenumbering]{Contents}
+    \begin{columns}[t]
+        \begin{column}{.45\textwidth}
+			\smallskip
+            \tableofcontents[currentsection,sections={1-3}]
+        \end{column}
+        \begin{column}{.45\textwidth}
+            \tableofcontents[currentsection,sections={4-7}]
+        \end{column}
+    \end{columns}
+	\end{frame}
+	}
+}
 
-\begin{frame}
-\titlepage
-\end{frame}
+\begin{document}
+	
+\FrameTitle
+
+{
+	\setbeamertemplate{headline}
+	{
+	  \leavevmode%
+	  \hbox{%
+	  \begin{beamercolorbox}[wd=1.0\paperwidth,ht=2.25ex,dp=2.25ex,center]{author in head/foot}%
+	    \usebeamerfont{author in head/foot}~
+	  \end{beamercolorbox}}%
+	  \vskip0pt%
+	}
+	\setbeamertemplate{footline}
+	{
+	  \leavevmode%
+	  \hbox{%
+	  \begin{beamercolorbox}[wd=1.0\paperwidth,ht=2.25ex,dp=2.25ex,center]{author in head/foot}%
+	    \usebeamerfont{author in head/foot}~
+	  \end{beamercolorbox}}%
+	  \vskip0pt%
+	}
+	\begin{frame}[shrink=5,noframenumbering]{Contents}
+    \begin{columns}[t]
+        \begin{column}{.45\textwidth}
+			\smallskip
+            \tableofcontents[sections={1-3}]
+        \end{column}
+        \begin{column}{.45\textwidth}
+            \tableofcontents[sections={4-7}]
+        \end{column}
+    \end{columns}
+	\end{frame}
+}
 
 \section{Modeling Distributed Executions}
 
@@ -84,7 +148,7 @@ We say that an event $e$ \alert{happens-before} an event $e'$, and write \alert{
 \item $\exists p_i \in \Pi: e = e_i^r, \quad e'=e_i^s, \quad r<s$ \\
   ($e$ and $e'$ are executed by the same process, $e$ before $e'$)
 \smallskip
-\item $e = \send(m) \wedge e' = \receive(m)$ \\
+\item $e = \send(m,*) \wedge e' = \receive(m)$ \\
   ($e$ is the send event of a message $m$ and $e'$ is the corresponding
    receive event)
 \smallskip
@@ -111,7 +175,7 @@ $e^1 e^2 e^3 \ldots e^n$, where $e^1 = e$ and $e^n = e'$, such that
 for each pair of consecutive events $e^i$ and $e^{i+1}$:
 \BE
 \item $e^i$ and $e^{i+1}$ are executed on the same process, in this order
-\item $e^i = \send(m)$ and $e^{i+1} = \receive(m)$
+\item $e^i = \send(m,*)$ and $e^{i+1} = \receive(m)$
 \EE
 
 \bigskip
@@ -683,7 +747,7 @@ The \alert{vector clock} associated to event $e$ is a $n$-dimensional vector $\V
 \BI
 \item Each process $p_i$ maintains a vector clock $\VC_i$, initially all zeroes;
 \item When event $e_i$ is executed, its vector clock is updated and assumes the value of $\VC(e_i)$;
-\item If $e_i = \send(m)$, the timestamp of $m$ is $TS(m) = \VC(e_i)$;
+\item If $e_i = \send(m,*)$, the timestamp of $m$ is $TS(m) = \VC(e_i)$;
 \EI
 
 \bigskip
@@ -824,19 +888,44 @@ pairwise inconsistent pair of events.
 
 
 
-\addtocontents{toc}{\newpage}
+%\addtocontents{toc}{\}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Passive monitoring}
+{
+	\setbeamertemplate{headline}
+	{
+	  \leavevmode%
+	  \hbox{%
+	  \begin{beamercolorbox}[wd=1.0\paperwidth,ht=2.25ex,dp=2.25ex,center]{author in head/foot}%
+	    \usebeamerfont{author in head/foot}~
+	  \end{beamercolorbox}}%
+	  \vskip0pt%
+	}
+	\setbeamertemplate{footline}
+	{
+	  \leavevmode%
+	  \hbox{%
+	  \begin{beamercolorbox}[wd=1.0\paperwidth,ht=2.25ex,dp=2.25ex,center]{author in head/foot}%
+	    \usebeamerfont{author in head/foot}~
+	  \end{beamercolorbox}}%
+	  \vskip0pt%
+	}
+	\begin{frame}[shrink=5,noframenumbering]{Contents}
+    \begin{columns}[t]
+        \begin{column}{.45\textwidth}
+			\smallskip
+            \tableofcontents[sections={1-3}]
+        \end{column}
+        \begin{column}{.45\textwidth}
+            \tableofcontents[sections={4-7}]
+        \end{column}
+    \end{columns}
+	\end{frame}
+}
 
-% \begin{frame}{Monitoring Distributed Computations}
-% Two approaches:
-%   \BI
-%   \item Passive monitoring (receive notifications)
-%   \item Proactive monitoring (ask to take a ``snapshot'')
-%   \EI
-% \end{frame}
+
+\section{Passive monitoring}
 
 \begin{frame}{A Passive Approach to GPE}
 
@@ -864,8 +953,8 @@ Can you explain why this happen?
 \begin{frame}{Observations which are not runs}
 
 \begin{block}{Problem} 
-Observations may not correspond to a run because each \alert{notification} sent
-by the process to the monitor may be delayed arbitrarily and thus 
+Observations may not correspond to a run because the notifications sent
+by a single process to the monitor may be delayed arbitrarily and thus 
 arrive in any possible order
 \end{block}
 
@@ -873,17 +962,17 @@ arrive in any possible order
 \bigskip
 \begin{block}{Solution}
 To adopt communication channels between the processes and the monitor that 
-guarantee that messages are never re-ordered
+guarantee that notifications are never re-ordered
 \end{block}
 
 \end{frame}
 
-\begin{frame}{Message ordering}
+\begin{frame}{Notification ordering}
 \begin{definition}[FIFO  Order]
-Two messages sent by $p_i$ to $p_j$ must be delivered in the
+Two notifications sent by $p_i$ to $p_0$ must be delivered in the
 same order in which they were sent:
 \[
-\forall m,m': \send_i(m) \rightarrow \send_i(m') \Rightarrow \deliver_j(m) \rightarrow \deliver_j(m')
+\forall m,m': \send_i(m,p_0) \rightarrow \send_i(m',p_0) \Rightarrow \deliver_0(m) \rightarrow \deliver_0(m')
 \]
 \end{definition}
 
@@ -894,14 +983,14 @@ Uh? What is ``deliver''?
 
 \begin{frame}{Delivery Rules}
 
-\structure{How to order messages?}
+\structure{How to order notifications?}
 \BI
-\item To be ordered, each message $m$ carries a \alert{timestamp} $\TS(m)$ 
+\item To be ordered, each notification $m$ carries a \alert{timestamp} $\TS(m)$ 
   containing ``ordering'' information
-\item The act of providing the process with a message in the desired order
+\item The act of providing the monitor with a notification in the desired order
   is called \alert{delivery}; the event $\deliver(m)$ is thus distinct from
   $\receive(m)$.
-\item The rule describing which messages can be delivered among those 
+\item The rule describing which notifications can be delivered among those 
   received is called \alert{delivery rule}
 \EI
 
@@ -913,13 +1002,13 @@ Uh? What is ``deliver''?
 \BI
 \item Each process maintains a \alert{local sequence number} incremented at
   each notification sent
-\item The timestamp of a notification message corresponds to the local sequence number
+\item The timestamp of a notification corresponds to the local sequence number
   of the sender at the time of sending
 \EI
 
 \begin{definition}[FIFO Delivery Rule]~\\
   If the last notification delivered by $p_0$ from $p_j$ has timestamp
-  $s$, $p_0$ may deliver ``any'' message $m$ received from $p_j$ with $\TS(m)=s+1$.
+  $s$, $p_0$ may deliver ``any'' notification $m$ received from $p_j$ with $\TS(m)=s+1$.
 \end{definition}
 
 \end{frame}
@@ -943,13 +1032,13 @@ in an order that respects the happen-before relation.
 
 \end{frame}
 
-\begin{frame}{Message ordering}
+\begin{frame}{Notification ordering}
 
 \begin{definition}[Causal Order]
-Two messages sent by $p_i$ and $p_j$ to $p_k$ must be delivered following
+Two notifications sent by $p_i$ and $p_j$ to $p_0$ must be delivered following
 the happen-before relation:
 \[
-\forall m,m': \send_i(m) \rightarrow \send_j(m') \Rightarrow \deliver_k(m) \rightarrow \deliver_k(m')
+\forall m,m': \send_i(m,p_0) \rightarrow \send_j(m',p_0) \Rightarrow \deliver_0(m) \rightarrow \deliver_0(m')
 \]
 \end{definition}
 
@@ -964,10 +1053,15 @@ the happen-before relation:
 
 \begin{frame}{Example}
 
+
+\begin{figure} 
+\includegraphics[width=11cm]{figs/03/diagram7}
+\end{figure}
+
 \note{
 \BIL
 \item Given that each communication channels is associated with just one message,
-this distributed system satisfies the FIFO order.
+this distributed system satisfies  FIFO order.
 
 \item However, it does not satisfy Causal order: the deliver of message $m'$ should 
 be delivered after message $m$, because the send event of $m$ is potentially
@@ -979,10 +1073,6 @@ $p_1$?” $p_3$ gets offended because it has not been invited.
 \EIL
 
 }
-
-\begin{figure} 
-\includegraphics[width=11cm]{figs/02/figure-5}
-\end{figure}
 
 \end{frame}
 
@@ -1007,9 +1097,8 @@ Next, we will show three methods to implement a causal delivery rule
 \BI
 \item Suppose, by contradiction, that the monitor obtains an observation which is not consistent. 
 \item This means that an event $e'$ appears before $e$ in the observation, but $e \rightarrow e'$. 
-\item By the strong clock condition, because $e \rightarrow e'$, this means that $\VC(e) < \VC(e')$. 
-\item By definition of Causal Order, this means that $e'$ cannot appear \\
-before $e$, a contradiction.
+\item This means that the notification of $e'$ has been delivered before the notification of $e$
+\item But this is impossible, because $\send(m_e,p_0) \rightarrow \send(m_{e'},p_0)$ and by the Casual Delivery rule $\deliver(m_e) \rightarrow \deliver(m_{e'})$, a contradiction.
 \EI
 }
 
@@ -1025,23 +1114,24 @@ before $e$, a contradiction.
 \BI
 \item All processes have access to a real-time clock $\RC$
 \item Let $\RC(e)$ be the real-time at which $e$ is executed
-\item All messages are delivered within a time $\delta$
-\item The timestamp of message $m$ sent by an event $e = \send(m)$
+\item All notifications are delivered within a time $\delta$
+\item The timestamp of notification $m$ corresponding to an event $e$
   is $\TS(m) = \RC(e)$.
 \EI
 \begin{definition}[DR1: Real-time delivery rule]
-At any time, delivery all received notification messages $m$ 
+At any time, deliver all received notifications
 in increasing timestamp order.
 \end{definition}
 \begin{overprint}
 \onslide<1|handout:1>
 \begin{theorem}
+\noindent
 Observation $O$ constructed by $p_0$ using DR1 is guaranteed to be
 consistent (?)
 \end{theorem}
 \onslide<2|handout:2>
 \begin{theorem}
-\sout{
+\sout{\noindent
 Observation $O$ constructed by $p_0$ using DR1 is guaranteed to be
 consistent
 }
@@ -1053,16 +1143,15 @@ consistent
 
 \begin{frame}{Stability of messages}
 
-\begin{definition}[Stability] A notification message $m$ received by $p_0$ is \alert{stable at $p_0$} if no message
+\begin{definition}[Stability] A notification  $m$ received by $p_0$ is \alert{stable at $p_0$} if no notification
 $m'$ with $\TS(m') < \TS(m)$ can be received in the future by $p_0$
 \end{definition}
 
 
-\begin{definition}[DR1: Real-time delivery rule]
-At time $t$, delivery all received notification messages $m$ \emph{such that
-$\TS(m) \leq t-\delta$} in increasing timestamp order.
+\begin{definition}[DR1: Delivery rule for $\RC$]
+Deliver all received notifications that are stable at $p_0$, in increasing timestamp order
 \end{definition}
-\medskip
+\smallskip
 \begin{theorem}
 Observation $O$ constructed by $p_0$ using DR1 is guaranteed to be
 consistent
@@ -1103,12 +1192,12 @@ maximum delay of messages that enables it.
 \BI
 \item All processes have access to a logical clock $\LC$; \\
   let $\LC(e)$ be the logical clock at which $e$ is executed
-\item The timestamp of message $m$ sent through an event $e = \send(m)$
+\item The timestamp of notification $m$ corresponding to an event $e$
   is $\TS(m) = \mathit{LC}(e)$
 \EI
 
 \begin{definition}[DR2: Deliver Rule for $\LC$]
-Deliver all received messages that are stable at $p_0$ in increasing timestamp order
+Deliver all received notifications that are stable at $p_0$ in increasing timestamp order.
 \end{definition}
 
 \end{frame}
@@ -1130,18 +1219,18 @@ two events $e \rightarrow e'$ are never ordered incorrectly
 \begin{frame}{Passive monitoring with logical clocks}
 
 \begin{block}{Liveness: Stability} We need a way to reproduce the concept
-	of $\delta$ in an asynchronous system, otherwise no notification message
+	of $\delta$ in an asynchronous system, otherwise no notification 
 	will be ever delivered.
 \end{block}
 
 \begin{block}{Solution}
 \BIL
 \item Each process communicates with $p_0$ using FIFO delivery
-\item When $p_0$ receives a message from $p_i$ describing an event $e$ 
+\item When $p_0$ receives a notification from $p_i$ describing an event $e$ 
 with timestamp $\TS(e)$, it is sure that it will never receive a message
 from $p_i$ describing an event $e'$ with $TS(e') \leq TS(e)$
-\item Stability of message $m$ at $p_0$ can be guaranteed when $p_0$ has
-received at least one message from all other processes with a timestamp
+\item Stability of notification $m$ at $p_0$ can be guaranteed when $p_0$ has
+received at least one notification from all other processes with a timestamp
 greater or equal than $\TS(m)$
 \EIL
 \end{block}
@@ -1151,7 +1240,7 @@ greater or equal than $\TS(m)$
 \begin{frame}{Problems of Logical Clocks}
 \BI
 \item They add unnecessary delays to observations
-\item They require a constant flux of messages/events from all processes
+\item They require a constant flux of notifications from all processes
 \EI
 
 \begin{figure}
@@ -1189,17 +1278,17 @@ greater or equal than $\TS(m)$
 \structure{Variables maintained at $p_0$}
 
 \BI
-\item $\cal M$: the set of notification messages received but not yet delivered by $p_0$
-\item an array $D$, initialized to 0's, such that $D[k]$ contains $TS(m)[k]$ where $m$
-  is the last notification message delivered by $p_0$ from process $p_k$.
+\item $M$: the set of notifications received but not yet delivered by $p_0$
+\item $D$: an array, initialized to 0's, such that $D[k]$ contains $TS(m)[k]$ where $m$
+  is the last notification delivered by $p_0$ from process $p_k$.
 \EI
 
 \bigskip
-\structure{When a notification message is deliverable by $p_0$?}
+\structure{When a notification is deliverable by $p_0$?}
 
-A notification message $m \in \cal M$ from process $p_j$ is deliverable as soon as $p_0$
-can verify that there is no other notification message $m'$ (neither in $\cal M$ nor in the 
-channels) such that $\send(m') \rightarrow \send(m)$.
+A notification  $m \in M$ from process $p_j$ is deliverable as soon as $p_0$
+can verify that there is no other notification  $m'$ (neither in $M$ nor in the 
+channels) such that $\send(m',p_0) \rightarrow \send(m,p_0)$.
 
 \end{frame}
 
@@ -1207,15 +1296,15 @@ channels) such that $\send(m') \rightarrow \send(m)$.
 \begin{frame}{Implementing Causal Delivery with Vector Clocks}
 
 \BI
-\item $m \in \cal M$: a notification message sent by $p_j$ to $p_0$
-\item $m'$: the last notification message delivered from process $p_k$, $k \neq j$
+\item $m \in M$: a notification sent by $p_j$ to $p_0$
+\item $m'$: the last notification  delivered from process $p_k$, $k \neq j$
 \EI
 
 \bigskip
 \begin{definition}[Weak Gap Detection]
 If $\TS(m')[k] < \TS(m)[k]$ for some $k \neq j$, then there exists event $\send_k(m'')$ such that
 \[
-  \send_k(m') \rightarrow \send_k(m'') \rightarrow \send_j(m)
+  \send_k(m',p_0) \rightarrow \send_k(m'',p_0) \rightarrow \send_j(m,p_0)
 \]
 \end{definition}
 
@@ -1249,7 +1338,7 @@ If $\TS(m')[k] < \TS(m)[k]$ for some $k \neq j$, then there exists event $\send_
 \item $\forall k \neq j$, let $m'$ be the last message from $p_k$ delivered by $p_0$ ($D[k] = \TS(m')[k]$); 
 we must be sure that no message $m''$ from $p_k$ exists such that:
 $
-\send_k(m') \rightarrow \send_k(m'') \rightarrow \send_j(m)
+\send_k(m',p_0) \rightarrow \send_k(m'',p_0) \rightarrow \send_j(m,p_0)
 $
 \begin{overprint}
 \onslide<1-2|handout:0>
@@ -1977,14 +2066,8 @@ computation, than there is a bug, even if it is not observed during an actual ru
 
 \nocite{ozalp93consistent}
 
-\begin{frame}{Reading material}
 
-{\footnotesize
-\bibliographystyle{abbrv}
-\bibliography{references}  
-}
-
-\end{frame}
+\ReadingMaterial
 
 
 \end{document}
