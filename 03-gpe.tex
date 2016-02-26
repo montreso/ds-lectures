@@ -933,7 +933,7 @@ pairwise inconsistent pair of events.
 \BI
 \item At each (relevant) event, each process sends a \alert{notification} to the 
   monitor describing it local state
-\item The monitor collects \alert{notifications} to reconstruct an observation of the global state.
+\item The monitor collects the sequence of \alert{notifications}, i.e. an observation of the distributed run.
 \EI
 
 \bigskip
@@ -1026,7 +1026,7 @@ but there is no guarantee that they are \emph{consistent runs}.
 \pause
 \bigskip
 \begin{block}{Solution}
-To adopt communication channels that guarantee that notification arrives
+To adopt communication channels that guarantee that notifications are delivered
 in an order that respects the happen-before relation.
 \end{block}
 
@@ -1083,14 +1083,19 @@ If $p_0$ uses a delivery rule satisfying Causal Order, then all of its
 observations will be consistent.
 \end{theorem}
 
-\bigskip
+\smallskip
 \begin{proof}
 Definition of Causal Order $\equiv$ definition of a consistent observation
 \end{proof}
 
 \bigskip
-Next, we will show three methods to implement a causal delivery rule
-
+\begin{block}{Three implementations of the causal delivery rule:}
+\BI
+\item Real-time clocks
+\item Logical (scalar) clocks
+\item Vector clocks
+\EI
+\end{block}
 
 
 \note{
@@ -1223,6 +1228,7 @@ two events $e \rightarrow e'$ are never ordered incorrectly
 	will be ever delivered.
 \end{block}
 
+\pause
 \begin{block}{Solution}
 \BIL
 \item Each process communicates with $p_0$ using FIFO delivery
@@ -1323,7 +1329,7 @@ If $\TS(m')[k] < \TS(m)[k]$ for some $k \neq j$, then there exists event $\send_
 
 \begin{frame}{Implementing Causal Delivery with Vector Clocks}
 
-\structure{Two conditions to be verified}:
+\structure{Two conditions to be verified to check if $m$ can be delivered}:
 
 \BIL
 
@@ -1353,8 +1359,13 @@ It follows from Weak Gap Detection
 \end{frame}
 
 \begin{frame}{Example}
+
+\begin{center}
+$\Big( D[j] == \TS(m)[j] -1 \Big) \wedge \Big( \forall k \neq j: D[k] \geq \TS(m)[k] \Big)$
+\end{center}
+
 \begin{figure} 
-\includegraphics[width=9cm]{figs/03/diagram8}
+\includegraphics[width=10cm]{figs/03/diagram8}
 \end{figure}
 \end{frame}
 
@@ -1390,7 +1401,7 @@ To build a consistent global state.
 \EI
 \end{frame}
 
-\begin{frame}{Chandy and Lamport Snapshot Algorithm}
+\begin{frame}{Chandy-Lamport Snapshot Algorithm}
 
 \BI
 \item This particular protocol enables to reason about ``channel states''
@@ -1416,7 +1427,7 @@ To build a consistent global state.
 
 \bigskip
 \begin{block}{Recorded information}
-Each process will record its local state $\sigma_i$ and the content of its
+Each process $p_i$ will record its local state $\sigma_i$ and the content of its
 \alert{incoming} channels $x_{j,i}$.
 \end{block}
 
@@ -1632,7 +1643,7 @@ a contradiction.
 
 \begin{block}{Problem}
 \BI
-\item Let $\Sigma$ be a global state built by one of the methods presented
+\item Let $\Sigma$ be a global state built by one of the presented methods
 \item It represents a state of the past, potentially with no bearing to the present
 \item Does it make sense to evaluate predicate $\Phi$ on it?
 \EI
@@ -2006,7 +2017,7 @@ computation, than there is a bug, even if it is not observed during an actual ru
 
 \structure{Example}: {\bf Possibly}($(y-x)=2$), {\bf Definitely}($x=y$)
 \begin{figure} 
-\includegraphics[width=10cm]{figs/03/figure-16.png}
+\includegraphics[width=11cm]{figs/03/figure-16}
 \end{figure}
 \end{frame}
 
