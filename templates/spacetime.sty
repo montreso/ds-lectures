@@ -198,19 +198,39 @@
 	\pgfkeys{/std/leader/current=#2}
 }
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Defines the placement of the drawmark label
+\pgfkeys{
+	/std/mark/label pos/.is choice,
+	/std/mark/label pos/.cd,
+		above/.code = \def\anchorz{south},
+		below/.code = \def\anchorz{north}
+}
+\pgfkeys{/std/mark/default/.style={
+	/std/mark/label pos=above
+}}
+\pgfkeys{/std/mark/default}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Draw a mark on the timeline.
 %
-% #1 = X-offset [Optional param]
-% #2 = id of process that become leader at current x position
-% #3 = Mark label; may empty
+% #1 = [Optional param]; see above
+% #2 = id of process for which to draw a mark
+% #3 = mark label; may empty
+% #4 = time offset (x-offset) 
+% TODO Add this #4 argument to the drawmark uses in paxos tutorial (only five cases).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\drawmark}[3][0]{
+\newcommand{\drawmark}[4][]{{ % group {...} changes to /std/mark to only this macro
+	\pgfkeys{/std/mark/.cd,#1}
 	\def\proc{\pgfkeysvalueof{#2}}
-	\draw[mark line,\lcolor] (\the\x+#1,\proc) 
-		node[anchor=south] {\color{\lcolor}\lfont{#3}} -- 
-		(\the\x+#1+1,\proc);
-}
+	\draw[mark line,\lcolor] (\the\x+#4,\proc)
+		node[anchor=\anchorz] {\color{\lcolor}\lfont{#3}} --
+		(\the\x+#4+0.1,\proc);
+}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Draw a dash line between two processes.
@@ -425,7 +445,7 @@
 % #2 = process
 % #3 = text label
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\txt}[3][]{{ % group {...} changes to /std/msg to only this macro
+\newcommand{\txt}[3][]{{ % group {...} changes to /std/txt to only this macro
 	\pgfkeys{/std/txt/.cd,#1}
 	\def\proc{\pgfkeysvalueof{#2}}
 	\coordinate (proc) at (\x+\txtoffset,\proc);
