@@ -1,0 +1,96 @@
+\documentclass{article}
+\usepackage{../../templates/spacetime}
+\title{Paxos Explained from Scratch}
+\author{Hein Meling}
+
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{backgrounds,fit}
+\usetikzlibrary{decorations.pathreplacing,shapes.misc}
+
+\tikzset{
+    show curve controls/.style={
+        decoration={
+            show path construction,
+            curveto code={
+                \draw [blue, dashed]
+                    (\tikzinputsegmentfirst) -- (\tikzinputsegmentsupporta)
+                    node [at end, cross out, draw, solid, red, inner sep=2pt]{};
+                \draw [blue, dashed]
+                    (\tikzinputsegmentsupportb) -- (\tikzinputsegmentlast)
+                    node [at start, cross out, draw, solid, red, inner sep=2pt]{};
+            }
+        }, decorate
+    }
+}
+
+\newcommand{\thefontsize}{\footnotesize}
+\newcommand{\thescale}{1.5}
+\stdset{%
+        msg color=black,
+		msg/width=0.5,
+		msg/label brackets=false,
+		mark/label pos=below
+}
+
+\tikzset{mark line/.style={|-,color=\lcolor,#1}}
+
+\begin{document}
+
+
+\begin{figure}
+\centering
+\thefontsize
+\begin{tikzpicture}[>=stealth,x=1cm,y=1.1cm,scale=\thescale]
+
+\initstd
+\process{/p3}{$p_3$}
+\process{/p2}{$p_2$}
+\process{/p1}{$p_1$}
+
+\drawmark[label pos=above]{/p1}{$e_1^1$}{0.5}
+\msgx{/p1}{/p3}{}{0.5}
+
+\drawmark[label pos=below]{/p2}{$e_2^1$}{0.7}
+\msgx{/p2}{/p1}{}{0.7}
+
+\drawmark{/p3}{$e_3^1$}{0.5}
+\advancetime
+\drawmark{/p3}{$e_3^2$}{0.5}
+
+\advancetime
+\drawmark[label pos=below]{/p3}{$e_3^3$}{0}
+\msgx[width=0.5]{/p3}{/p1}{}{0}
+\drawmark[label pos=above]{/p1}{$e_1^3$}{0.5}
+
+\advancetime
+\drawmark[label pos=below]{/p3}{$e_3^4$}{-0.3}
+\msgx[width=0.8]{/p3}{/p2}{}{-0.3}
+\drawmark[label pos=below]{/p2}{$e_2^2$}{0.5}
+
+\drawmark[label pos=above]{/p1}{$e_1^4$}{0.3}
+\msgx[width=0.7]{/p1}{/p2}{}{0.3}
+\drawmark[label pos=below]{/p2}{$e_2^3$}{1}
+
+\drawmark[label pos=below]{/p3}{$e_3^5$}{0.7}
+
+\advancetime
+\drawmark[label pos=above]{/p1}{$e_1^5$}{0}
+\msgx[width=0.7]{/p1}{/p3}{}{0}
+\drawmark[label pos=below]{/p3}{$e_3^6$}{0.7}
+
+\drawmark[label pos=above]{/p1}{$e_1^6$}{0.8}
+
+% Cuts:
+\draw [cyan, xshift=3cm] plot [smooth, tension=1] coordinates 
+{(0,3.5) (.7,2) (1.5,1.6) (2,0.5)};
+% \draw [show curve controls,cyan, xshift=3cm] plot [smooth, tension=1] coordinates
+% {(0,3.5) (.7,2) (1.5,1.5) (2,0.5)};
+
+
+\advancetime
+\drawtimelines
+
+\end{tikzpicture}
+\end{figure}
+
+\end{document}
