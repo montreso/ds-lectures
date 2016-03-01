@@ -49,37 +49,30 @@
 
 \drawmark[label pos=above]{/p1}{$e_1^1$}{0.5}
 \msgx{/p1}{/p3}{}{0.5}
-
 \drawmark[label pos=below]{/p2}{$e_2^1$}{0.7}
 \msgx{/p2}{/p1}{}{0.7}
 
 \drawmark{/p3}{$e_3^1$}{0.5}
-\advancetime
-\drawmark{/p3}{$e_3^2$}{0.5}
-\drawmark[label pos=above]{/p1}{$e_1^2$}{0.2}
+\drawmark{/p3}{$e_3^2$}{1.5}
+\drawmark[label pos=above]{/p1}{$e_1^2$}{1.2}
 
-\advancetime
-\drawmark[label pos=below]{/p3}{$e_3^3$}{0}
-\msgx[width=0.5]{/p3}{/p1}{}{0}
-\drawmark[label pos=above]{/p1}{$e_1^3$}{0.5}
+\drawmark[label pos=below]{/p3}{$e_3^3$}{2.0}
+\msgx[width=0.5]{/p3}{/p1}{}{2.0}
+\drawmark[label pos=above]{/p1}{$e_1^3$}{2.5}
 
-\advancetime
-\drawmark[label pos=below]{/p3}{$e_3^4$}{-0.3}
-\msgx[width=0.8]{/p3}{/p2}{}{-0.3}
-\drawmark[label pos=below]{/p2}{$e_2^2$}{0.5}
+\drawmark[label pos=below]{/p3}{$e_3^4$}{2.7}
+\msgx[width=0.8]{/p3}{/p2}{}{2.7}
+\drawmark[label pos=below]{/p2}{$e_2^2$}{3.5}
 
-\drawmark[label pos=above]{/p1}{$e_1^4$}{0.3}
-\msgx[width=0.7]{/p1}{/p2}{}{0.3}
-\drawmark[label pos=below]{/p2}{$e_2^3$}{1}
+\drawmark[label pos=above]{/p1}{$e_1^4$}{3.3}
+\msgx[width=0.7]{/p1}{/p2}{}{3.3}
+\drawmark[label pos=below]{/p2}{$e_2^3$}{4}
+\drawmark[label pos=below]{/p3}{$e_3^5$}{3.7}
 
-\drawmark[label pos=below]{/p3}{$e_3^5$}{0.7}
-
-\advancetime
-\drawmark[label pos=above]{/p1}{$e_1^5$}{0}
-\msgx[width=0.7]{/p1}{/p3}{}{0}
-\drawmark[label pos=below]{/p3}{$e_3^6$}{0.7}
-
-\drawmark[label pos=above]{/p1}{$e_1^6$}{0.8}
+\drawmark[label pos=above]{/p1}{$e_1^5$}{4}
+\msgx[width=0.7]{/p1}{/p3}{}{4}
+\drawmark[label pos=below]{/p3}{$e_3^6$}{4.7}
+\drawmark[label pos=above]{/p1}{$e_1^6$}{4.8}
 
 % Cuts:
 \draw [cyan, xshift=3cm] plot [smooth, tension=1] coordinates 
@@ -87,8 +80,7 @@
 % \draw [show curve controls,cyan, xshift=3cm] plot [smooth, tension=1] coordinates
 % {(0,3.5) (.7,2) (1.5,1.5) (2,0.5)};
 
-
-\advancetime
+\advancetime[5]
 \drawtimelines
 
 \end{tikzpicture}
