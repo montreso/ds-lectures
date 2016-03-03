@@ -854,8 +854,8 @@ For claim 2, it will eventually F-deliver $m$. Absurd.
 }
 \UPON{$\fdeliver(\langle m, \TS \rangle)$}{
   $\Undelivered \gets \Undelivered \cup \{ \langle m, \TS \rangle \rangle$\;
-  \While{$\exists \langle m', \TS' \rangle \in \Undelivered : \mbox{$\VC[\Sender(m')] = \TS[\Sender(m')]-1$} \wedge 
-    \mbox{\qquad\qquad $\forall s \neq \Sender(m'): \VC[s] \geq TS[s]$}$}{
+  \While{$\exists \langle m', \TS' \rangle \in \Undelivered : \mbox{$\VC[\Sender(m')] = \TS'[\Sender(m')]-1$} \wedge 
+    \mbox{\qquad\qquad $\forall s \neq \Sender(m'): \VC[s] \geq TS'[s]$}$}{
     $\cdeliver(m')$\;
     update $\VC$\;
     $\Undelivered \gets \Undelivered - \{ m \}$\;
