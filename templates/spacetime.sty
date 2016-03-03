@@ -35,7 +35,7 @@
 	\def\xlm{\w-2*\xoffset}
 }
 
-% Defines the width for one message exchange (communication step)
+% Defines the color for all messages (global)
 \pgfkeys{/std/msg color/.code=\def\msgcolor{#1}}
 % Defines the width for one message exchange (communication step)
 \pgfkeys{/std/msg block width/.code=\def\w{#1}}
@@ -203,6 +203,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Defines the color for the mark
+\pgfkeys{/std/mark/color/.code=\def\markcolor{#1}}
 % Defines the placement of the drawmark label
 \pgfkeys{
 	/std/mark/label pos/.is choice,
@@ -211,6 +213,7 @@
 		below/.code = \def\anchorz{north}
 }
 \pgfkeys{/std/mark/default/.style={
+	/std/mark/color=black,
 	/std/mark/label pos=above
 }}
 \pgfkeys{/std/mark/default}
@@ -227,8 +230,8 @@
 \newcommand{\drawmark}[4][]{{ % group {...} changes to /std/mark to only this macro
 	\pgfkeys{/std/mark/.cd,#1}
 	\def\proc{\pgfkeysvalueof{#2}}
-	\draw[mark line,\lcolor] (\the\x+#4,\proc)
-		node[anchor=\anchorz] {\color{\lcolor}\lfont{#3}} --
+	\draw[mark line,\markcolor] (\the\x+#4,\proc)
+		node[anchor=\anchorz] {\color{\markcolor}\lfont{#3}} --
 		(\the\x+#4+0.1,\proc);
 }}
 
@@ -509,6 +512,8 @@
 %                 FLEXIBLE MESSAGE FUNCTIONS                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Defines the color of the msg arrow 
+\pgfkeys{/std/msg/color/.code=\def\mcol{#1}}
 % Defines the placement of the message label
 \pgfkeys{
 	/std/msg/label pos/.is choice,
@@ -536,6 +541,7 @@
 \pgfkeys{/std/msg/exec box sep/.code=\def\eboxsep{#1}}
 
 \pgfkeys{/std/msg/default/.style={
+	/std/msg/color=black,
 	/std/msg/label pos=upper,
 	/std/msg/label brackets=true,
 	/std/msg/width=0.3,
@@ -604,10 +610,10 @@
 
 	% \draw[msg lines] (src) -- (dst);
 	\IfSubStr{\loss}{true}{
-		\draw[msg loss lines,shorten >=\lossoffset] 
+		\draw[\mcol,msg loss lines,shorten >=\lossoffset] 
 			(src) .. controls \ctrl .. (dst);
 	}{
-		\draw[msg lines] (src) .. controls \ctrl .. (dst);
+		\draw[\mcol,msg lines] (src) .. controls \ctrl .. (dst);
 	}
 	% Draw the msg label at the appropriate position
 	\node[anchor=\anchor] at \point {\msglabel};
