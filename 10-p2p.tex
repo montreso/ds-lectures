@@ -6,18 +6,31 @@
 \newcommand{\ID}{\mathit{ID}}
 
 %-------------------------------------------------------------------------
-\begin{frame}
-\titlepage
+{
+\setbeamertemplate{footline}{} 
+\setbeamertemplate{headline}{} 
+\begin{frame}[noframenumbering]
+	\titlepage
+	\begin{center}
+		\href{http://creativecommons.org/licenses/by-sa/4.0/}{This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.}
+		
+		\smallskip
+		\includegraphics[width=1cm]{figs/cc.png}
 
-{\tiny
-Acknowledgments: J. Chase, K. Ross, D. Rubenstein, P. Maymounkov, D. Mazieres, Damiano Carra,Bram Cohen, Arnaud Legout, Venkatesh Samprati, Karthik Tamilmani, Nikitas Liogkas, Iqbal Mohomed, Dick Epema
-}
+	\bigskip
+		{\tiny
+			Acknowledgments: J. Chase, K. Ross, D. Rubenstein, P. Maymounkov, D. Mazieres, D. Carra,  B. Cohen \\
+			\hspace{1.6cm} A. Legout, V. Samprati, K. Tamilmani, N. Liogkas, I. Mohomed, D. Epema
+		}
+	\end{center}
 
-\invisible{
-\nobibliography*{references}
-}
+	\invisible{
+		\nobibliography*{references}
+	}
 
 \end{frame}
+}
+
 
 
 
@@ -421,7 +434,7 @@ Each node has two sets of neighbors:
 	\BI
 	\item Only talk to neighbors, so history small, current
 	\EI
-\item In iterative lookups, source directs entire lookup
+\item In iterative lookups, source leads the  entire lookup process
 	\BI
 	\item Must potentially have good timeout for any node
 	\EI
@@ -695,8 +708,8 @@ by concatenating the successor list received from $A$ with $A$ itself
 \BIL
 \item \alert{Reduce latency}
 	\BI
-	\item Chose finger that reduces expected time to reach destination
-	\item Chose the closest node from range $[n+2_{i-1},n+2^i)$ as successor
+	\item Choose finger that reduces expected time to reach destination
+	\item Choose the closest node from range $[n+2^{i-1},n+2^i)$ as successor
 	\EI
 \item \alert{Accommodate heterogeneous systems}
 	\BI
@@ -985,7 +998,7 @@ by concatenating the successor list received from $A$ with $A$ itself
 \end{figure}
 
 \BI
-\item For any node the tree is divided into a series of maximal subtrees that do not contain the node
+\item From the point of view of each node, the tree is divided into a series of maximal subtrees that do not contain the node
 \item Example: the red node with prefix \texttt{0011}
 \item A node must know at least one node in each of these subtrees
 \EI
@@ -2178,6 +2191,11 @@ $k$ such that the upload capacity is reached:
 	\includegraphics[width=1.0\textwidth]{figs/10/tribler1}
 \end{figure}
 
+\invisible{
+\bibliographystyle{abbrv}
+\bibliography{references}
+}
+
 
 \end{frame}
 
@@ -2186,19 +2204,17 @@ $k$ such that the upload capacity is reached:
 \section{Bibliography}
 
 %-------------------------------------------------------------------------
-\begin{frame}{Reading material}
 
-{\footnotesize
-\BIL
+
+\begin{PlainFrame}{Reading material}
+
+\BI
 \item \bibentry{p2psurvey}
-\EIL
-}
+\EI
+\end{PlainFrame}
 
-\invisible{{\tiny
-\bibliographystyle{abbrv}
-\bibliography{references} 
-}}
 
-\end{frame}
+
+
 
 \end{document}

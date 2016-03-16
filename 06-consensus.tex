@@ -49,7 +49,7 @@
   No algorithms can solve Consensus in an asynchronous distributed
   system in which a single process may crash
   
-\item Chandra, Toeug~\cite{ct96,cht96} \\
+\item Chandra, Toeug~\cite{ct96} \\
   {\em "Unreliable Failure Detectors for Reliable Distributed Systems} \\
   Introduce the concept of Failure Detector (FD)
   Shows how Consensus can be solved in asynchronous distributed systems
@@ -231,7 +231,7 @@ not solvable.
 
 \section*{The main theorem}
 
-\begin{theorem}
+\begin{theorem}{Impossibility}
 No Consensus protocol is totally correct if a single crash is possible.
 \end{theorem}
 
@@ -262,15 +262,15 @@ create an infinite run completely composed by bivalent configuration
 \end{proof}
 
 
-\begin{lemma}[Schedule Commutativity]
+\begin{lemma}{Schedule Commutativity}	
 Assume that from configuration $C$ the schedules
 $s_1$ and $s_2$ bring to configurations $C_1$ and $C_2$,
-respectively. If the set of process that executes actions in
+respectively. If the sets of processes that execute actions in
 $s_1$ and $s_2$ are disjoint, then $s_1$ can be applied to $C_2$
-and $s_2$ can be applied to $C_1$ and both lead to configuration
-$C_3$.
+and $s_2$ can be applied to $C_1$ and both lead to the same configuration
+$D$.
 \[
-  \{ p_i ~|~ (p_i, m) \in s_1 \} \cap \{ p_i ~|~ (p_i, m) \in s_2 \} = \emptyset \Rightarrow s_2(C_1) = C_3 = s_1(C_2)
+  \{ p_i ~|~ (p_i, m) \in s_1 \} \cap \{ p_i ~|~ (p_i, m) \in s_2 \} = \emptyset \Rightarrow s_2(C_1) = D = s_1(C_2)
 \]
 \end{lemma}
 
@@ -288,14 +288,15 @@ interact.
 
 
 \newpage
-\begin{lemma}[Bivalent Initial Configuration]
+\begin{lemma}{Bivalent Initial Configuration}
 $P$ has a bivalent initial configuration. 
-\end{lemma}
-
-Stated in a more descriptive way, it means that for some initial
+%
+Informally, it means that for some initial
 states, the final decision is not deterministically decided by 
 the value of the proposed values, but it depends on the order
 in which messages are received.
+\end{lemma}
+
 
 \begin{proof}
 By contradiction, let us assume that $P$ does not have initial
@@ -318,16 +319,16 @@ A pair of initial configurations are said {\bf adjacent} if their strings differ
 by a single bit. Example: $1000$ and $1100$.
 
 \item
-Each pair of initial configuration is linked by a chain of initial configuration, each adjacent
+Each pair of initial configuration is linked by a chain of initial configurations, each adjacent
 to the following. Example $1000$ -- $1100$ -- $1110$ -- $1111$.
 
 \item Let us consider a chain of initial configuration, where the first is 
   0-valent and the last is 1-valent. In this chain, there should be
-  two initial configuration adjacent to each other, one 0-valent ($C_0$) and 
+  two initial configurations adjacent to each other, one 0-valent ($C_0$) and 
   the other 1-valent ($C_1$).
 
 \item Let $p_i$ be the process whose proposed value differs in the
-  two configuration.
+  two configurations.
 
 \item Let $R$ be an admissible, deciding run from $C_0$ in which
   $p_i$ never executes steps (it is faulty), and let $s$ the associated
@@ -344,7 +345,7 @@ to the following. Example $1000$ -- $1100$ -- $1110$ -- $1111$.
 
 \newpage
 
-\begin{lemma}[Bivalent-to-bivalent]~
+\begin{lemma}{Bivalent-to-Bivalent}~
 \BI
 \item Let $C$ be a bivalent configuration
 \item Let $e=(p_i,m)$ be an event applicable to $C$
@@ -425,10 +426,10 @@ In other words, we have found $C_0$ and $C_1$ of the claim.
 
 Let $C_0, C_1=e'(C_0)$ where $e'=(p_j,m')$; we know that
 $C_0, C_1 \in \hat{C}$; $D_i = e(C_i)$ is $i$-valent.
-
+%
 There are two possibilities:
 \BI
-\item $p_i \neq p_j$; it is possible to apply lemma 1, and we obtain
+\item $p_i \neq p_j$; it is possible to apply Lemma 1, and we obtain
   the diamond of Figure. This is a contradiction, because
   any successor of a 0-valent configuration is 0-valent.
 \begin{figure}
@@ -462,7 +463,7 @@ There are two possibilities:
 \begin{figure}
 \end{figure}
 
-What does it mean? That given a bivalent, any decision based on the
+What does it mean? That given a bivalent configuration, any decision based on the
 observation that a given process $p_i$ is crashed, can be contradicted
 by a later action of process $p_i$.
 
@@ -484,7 +485,7 @@ The building is based on stages; ad each stage, we make one of the process
 execute an action (none of them crash).
 
 \BI
-\item {\bf Stage 0}: We select an initial bivalent configuration $C_0$ (lemma 2)
+\item {\bf Stage 0}: We select an initial bivalent configuration $C_0$ (Lemma 2)
 \item {\bf Stage i}: We select an event $e_i = (p, m)$ where 
   \BI
   \item $p_i$ is the first process in the queue

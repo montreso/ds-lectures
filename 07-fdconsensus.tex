@@ -5,6 +5,8 @@
 \begin{document}
 
 
+
+
 \newcommand{\Crashed}{\mathit{crashed}}
 \newcommand{\Correct}{\mathit{correct}}
 \newcommand{\Suspected}{\mathit{suspected}}
@@ -23,28 +25,16 @@
 
 \newcommand{\Random}{\fontproc{random}}
 
-\begin{frame}
-\titlepage
-
-Ackwnoledgement for some of the slides: Sam Toeug
-
-
-\invisible{
-\nobibliography*{references}
-}
-
-\end{frame}
-
-\begin{frame}[shrink]{Contents}
-\tableofcontents
-\end{frame}
+\FrameTitle
+\FrameContent
 
 
 
 \section{Introduction}
 
 \begin{frame}{The usual system model}
-	
+
+
 	
 \BIL
 
@@ -69,6 +59,24 @@ Ackwnoledgement for some of the slides: Sam Toeug
 
 \EIL
 
+\invisible{
+\bibliographystyle{abbrv}
+\bibliography{references}
+\nobibliography*{references}
+}
+
+\end{frame}
+
+\begin{frame}{(Uniform) Consensus}
+
+\begin{block}{Termination} Every correct process eventually decide on some value
+\end{block}
+\begin{block}{Uniform Integrity} Each process decides at most once
+\end{block}
+\begin{block}{Uniform Validity} If a process decides $v$, then $v$ was proposed by some process
+\end{block}
+\begin{block}{(Uniform) Agreement} No two correct (any) processes decide differently.
+\end{block}
 \end{frame}
 
 
@@ -270,7 +278,7 @@ where $F(t)$ denotes the set of processes that have crashed through time $t$
 
 
 \begin{definition}[Failure detector history]
-A \alert{failure detector history} is a function $H: \Pi \cdot {\cal T} \rightarrow 2^\Pi$,
+A \alert{failure detector history} is a function $H: \Pi \times {\cal T} \rightarrow 2^\Pi$,
 where $H(p,t)$ is the output of the failure detector of process $p$ at time $t$
 \BI
 \item If $q \in H(p, t)$, we say that $p$ \alert{suspects} $q$ at time $t$ in $H$
@@ -283,16 +291,16 @@ where $H(p,t)$ is the output of the failure detector of process $p$ at time $t$
 \begin{frame}{Completeness}
 	
 \begin{definition}[Strong Completeness]
-Eventually every faulty process is permanently suspected by \alert{every} correct process.	
+Eventually, every faulty process is permanently suspected by \alert{every} correct process.	
 \[
-\forall F, \forall H, \exists t \in {\cal T}, \forall p \in \Crashed(F), \alert{\forall q \in \Correct(F)}, \forall t' \geq t : p \in H(q,t')
+\forall F, \forall H, \exists t \in {\cal T}, \forall p \in \Crashed(F), \alert{\forall q} \in \Correct(F), \forall t' \geq t : p \in H(q,t')
 \]
 \end{definition}
 	
 \begin{definition}[Weak Completeness]
-Eventually every faulty process permanently suspected by \alert{some} correct process.	
+Eventually, every faulty process permanently suspected by \alert{some} correct process.	
 \[
-\forall F, \forall H, \exists t \in {\cal T}, \forall p \in \Crashed(F), \alert{\exists q \in \Correct(F)}, \forall t' \geq t : p \in H(q,t')
+\forall F, \forall H, \exists t \in {\cal T}, \forall p \in \Crashed(F), \alert{\exists q} \in \Correct(F), \forall t' \geq t : p \in H(q,t')
 \]
 \end{definition}
 	
@@ -308,14 +316,14 @@ We do not want every process “to ping” all other processes continuously
 \begin{definition}[Strong Accuracy]
 \alert{Every} correct process is never suspected.
 \[
-\forall F, \forall H, \forall t \in {\cal T}, \alert{\forall p \in \Correct(F)}, \forall q : p \notin H(q, t)
+\forall F, \forall H, \forall t \in {\cal T}, \alert{\forall p} \in \Correct(F), \forall q : p \notin H(q, t)
 \]
 \end{definition}
 
 \begin{definition}[Weak Accuracy]
 \alert{Some} correct process is never suspected.
 \[
-\forall F, \forall H, \forall t \in {\cal T},\alert{ \exists p \in \Correct(F)}, \forall q : p \notin H(q, t)
+\forall F, \forall H, \forall t \in {\cal T},\alert{ \exists p} \in \Correct(F), \forall q : p \notin H(q, t)
 \]
 \end{definition}
 	
@@ -327,14 +335,14 @@ We do not want every process “to ping” all other processes continuously
 \begin{definition}[Eventual Strong Accuracy]
 There is a time after which \alert{every} correct process is not suspected by any correct process.
 \[
-\forall F, \forall H, \exists t \in {\cal T}, \forall t \geq t', \alert{\forall p \in \Correct(F)}, \forall q \in \Correct(F): p \notin  H(q,t')
+\forall F, \forall H, \exists t \in {\cal T}, \forall t \geq t', \alert{\forall p} \in \Correct(F), \forall q \in \Correct(F): p \notin  H(q,t')
 \]
 \end{definition}
 
 \begin{definition}[Eventual Weak Accuracy]
 There is a time after which \alert{some} correct process is never suspected by any correct process.
 \[
-\forall F, \forall H, \exists t \in {\cal T}, \forall t \geq t', \alert{\exists p \in \Correct(F)}, \forall q \in \Correct(F): p \notin  H(q,t')
+\forall F, \forall H, \exists t \in {\cal T}, \forall t \geq t', \alert{\exists p} \in \Correct(F), \forall q \in \Correct(F): p \notin  H(q,t')
 \]
 \end{definition}
 	
@@ -436,15 +444,14 @@ a failure detector of class $D$ into a failure detector of class $E$, and we wri
 
 \end{frame}
 
-\begin{frame}[shrink]{Reliable Broadcast with $\diamond P$}
+\begin{frame}[shrink=10]{}
 
 
 \begin{Procedure}
-\caption{Reliable broadcast protocol executed by $p$}
+\caption{Reliable broadcast protocol based on $\diamond P$ executed by $p$}
 \UPON{initialization}{
-  $\Set\langle\Message\rangle\ \Delivered \gets \emptyset$\Comment*[f]{Messages already delivered}\;
-  ~\Comment*[f]{Messages sent from each process}\;
-  $\Map\langle \Process, \Set\rangle\ \From \gets \NEW\ \Map\langle \Process, \Set\rangle()$\;
+  $\Set\ \Delivered \gets \Set\langle \Message \rangle$~~~~~~~~~\Comment*[f]{Msgs already delivered}\;
+  $\Map\ \From \gets \NEW\ \Map\langle \Process, \Set\rangle()$\Comment*[f]{Msgs sent from processes}\;
 
 }
 \BlankLine
@@ -454,7 +461,7 @@ a failure detector of class $D$ into a failure detector of class $E$, and we wri
 \BlankLine
 \UPON{$q \in {\diamond}P.\Suspect()$}{
   \ForEach{$m \in \From[q]$}{
-    \SEND $m$ to $\Pi$\;
+    \SEND $\langle m, q \rangle$ to $\Pi$\;
   }
 }
 \UPON{$\RECEIVE(\langle m, s \rangle)$}{
@@ -646,18 +653,6 @@ Let $\Sender(m) = s$. There are two cases
 
 \subsection{Introduction}
 
-\begin{frame}{(Uniform) Consensus}
-
-\begin{block}{Termination} Every correct process eventually decide on some value
-\end{block}
-\begin{block}{Uniform Integrity} Each process decides at most once
-\end{block}
-\begin{block}{Uniform Validity} If a process decides $v$, then $v$ was proposed by some process
-\end{block}
-\begin{block}{(Uniform) Agreement} No two correct (any) processes decide differently.
-\end{block}
-\end{frame}
-
 \begin{frame}{Consensus and Failure Detectors}
 	
 \begin{block}{Problem}
@@ -705,7 +700,7 @@ Is perfect failure detection necessary for Consensus?
 \item They execute asynchronous rounds
 \item In round $r$, the coordinator
   \BI
-  \item is process $r \bmod n$
+  \item corresponds to process $(r \bmod n)$
   \item tries to impose its estimate as the consensus value
   \item succeeds if does not crash and it is not suspected by $\diamond S$
   \EI
@@ -729,11 +724,11 @@ Is perfect failure detection necessary for Consensus?
 
 \subsection{Algorithms}
 
-\begin{frame}[shrink]{Consensus Algorithm based on $\diamond S$ }
+\begin{frame}[shrink=15]{}
 	
 	
 \begin{Procedure}	
-\caption{Consensus Algorithm executed by process $p_i$}
+\caption{Consensus Algorithm based on $\diamond S$ executed by process $p_i$}
 \UPON{$\Propose(v_i)$}{
   \INTEGER $r \gets 0$\Comment*[f]{Round}\;
   \INTEGER $\Est \gets v_i$\Comment*[f]{Estimate}\;
@@ -757,31 +752,30 @@ Is perfect failure detection necessary for Consensus?
     $\Aux \gets v$\;
   }
 }
-\vspace{-12pt}
 \end{Procedure}	
 
 \end{frame}
 
-\begin{frame}[shrink]{Consensus Algorithm based on $\diamond S$ }
+\begin{frame}[shrink=15]{}
 	
 	
 \begin{Procedure}	
-\caption{Consensus Algorithm executed by process $p_i$}
+\caption{Consensus Algorithm based on $\diamond S$ executed by process $p_i$}
 \vspace{-12pt}
 \UNVISIBLE{}{
   \alert{\{ Phase 2 of round $r$; from all to all \}}\;
   \BlankLine
   $\bbroadcast(\langle \PHASEB, r, \Aux, p_i \rangle)$\;
   $\Set\ \Rec \gets \emptyset$\Comment*[f]{Received values}\;
-  $\Set\ \Proc \gets \emptyset$\Comment*[f]{Replying processes}\;
+  $\Set\ \Proc \gets \emptyset$~~~\Comment*[f]{Replying processes}\;
   \While{$|\Proc| \leq \lfloor n/2 \rfloor$}{
     \lnlset{InResR}{2}\WAIT $\bdeliver(\langle \PHASEB, r, v , p_j \rangle)$\;
     $\Rec \gets \Rec \cup \{ v \}$\;
     $\Proc \gets \Proc \cup \{ p_j \}$\;
   }
-  \lIf{$\Rec = \makebox[0.9cm]{$\{ v \}$}$}{$\Est \gets v$; $\bbroadcast(\langle \DECIDE, v \rangle)$; $\Stop \gets \TRUE$\;}
-  \lIf{$\Rec = \makebox[0.9cm]{$\{ v, ? \}$}$}{$\Est \gets v$\;}
-  \lIf{$\Rec = \makebox[0.9cm]{$\{ ? \}$}$}{do nothing\;}
+  \lIf{$\Rec = \makebox[0.9cm]{$\{ v \}$}$}{$\Est \gets v$; $\bbroadcast(\langle \DECIDE, v \rangle)$; $\Stop \gets \TRUE$}
+  \lIf{$\Rec = \makebox[0.9cm]{$\{ v, ? \}$}$}{$\Est \gets v$}
+  \lIf{$\Rec = \makebox[0.9cm]{$\{ ? \}$}$}{do nothing}
 }
 \BlankLine
 \UPON{$\bdeliver(\langle \DECIDE, v \rangle)$}{
@@ -830,11 +824,11 @@ containing $v$
 
 \end{frame}
 
-\begin{frame}[shrink]{Consensus Algorithm based on $S$ }
+\begin{frame}[shrink=15]{}
 	
 	
 \begin{Procedure}	
-\caption{Consensus Algorithm executed by process $p_i$}
+\caption{Consensus Algorithm based on $S$  executed by process $p_i$}
 \UPON{$\Propose(v_i)$}{
   \INTEGER $r \gets 0$\Comment*[f]{Round}\;
   \INTEGER $\Est \gets v_i$\Comment*[f]{Estimate}\;
@@ -858,31 +852,30 @@ containing $v$
     $\Aux \gets v$\;
   }
 }
-\vspace{-12pt}
 \end{Procedure}	
 
 \end{frame}
 
-\begin{frame}[shrink]{Consensus Algorithm based on $S$ }
+\begin{frame}[shrink=15]{}
 	
 	
 \begin{Procedure}	
-\caption{Consensus Algorithm executed by process $p_i$}
+\caption{Consensus Algorithm based on $S$  executed by process $p_i$}
 \vspace{-12pt}
 \UNVISIBLE{}{
   \alert{\{ Phase 2 of round $r$; from all to all \}}\;
   \BlankLine
   $\bbroadcast(\langle \PHASEB, r, \Aux, p_i \rangle)$\;
   $\Set\ \Rec \gets \emptyset$\Comment*[f]{Received values}\;
-  $\Set\ \Proc \gets \emptyset$\Comment*[f]{Replying processes}\;
+  $\Set\ \Proc \gets \emptyset$~~~\Comment*[f]{Replying processes}\;
   \While(\Comment*[f]{Was: \color{blue}{$|\Proc| < n/2$}}){\color{blue}{$\Proc \cup \Suspected_i^S \neq \Pi$}}{
     \lnlset{InResR}{2}\WAIT $\bdeliver(\langle \PHASEB, r, v , p_j \rangle)$\;
     $\Rec \gets \Rec \cup \{ v \}$\;
     $\Proc \gets \Proc \cup \{ p_j \}$\;
   }
-  \lIf{$\Rec = \makebox[0.9cm]{$\{ v \}$}$}{$\Est \gets v$; $\bbroadcast(\langle \DECIDE, v \rangle)$; $\Stop \gets \TRUE$\;}
-  \lIf{$\Rec = \makebox[0.9cm]{$\{ v, ? \}$}$}{$\Est \gets v$\;}
-  \lIf{$\Rec = \makebox[0.9cm]{$\{ ? \}$}$}{do nothing\;}
+  \lIf{$\Rec = \makebox[0.9cm]{$\{ v \}$}$}{$\Est \gets v$; $\bbroadcast(\langle \DECIDE, v \rangle)$; $\Stop \gets \TRUE$}
+  \lIf{$\Rec = \makebox[0.9cm]{$\{ v, ? \}$}$}{$\Est \gets v$}
+  \lIf{$\Rec = \makebox[0.9cm]{$\{ ? \}$}$}{do nothing}
 }
 \BlankLine
 \UPON{$\bdeliver(\langle \DECIDE, v \rangle)$}{
@@ -972,12 +965,12 @@ TODO: Scrivere due parole sulla dimostrazione.
 \item Atomic Commitment
 \item Group Membership
 \item Leader Election
-\item \alert{Reliable Broadcast}
+\item Reliable Broadcast \qquad $\checkmark$
 \EI
 
 \end{frame}
 
-\begin{frame}[shrink]{From theory to practice}
+\begin{frame}[shrink=3]{From theory to practice}
 	
 \BIL
 \item \alert{FD implementation needs to be message-efficient}:
@@ -1048,7 +1041,7 @@ discussion about implementing Reliable Broadcast with or without a FD}
 \end{frame}
 
 
-\begin{frame}[shrink]{The algorithm}
+\begin{frame}[shrink=20]{}
 
 \begin{Procedure}	
 \caption{Ben-Or's Algorithm executed by process $p_i$}
@@ -1178,9 +1171,9 @@ the one in which the decision has been taken
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Bibliography}
+%\section{Bibliography}
 
-\begin{frame}{Reading material}
+\begin{PlainFrame}{Reading material}
 
 \begin{Bib}
 \BI
@@ -1188,20 +1181,7 @@ the one in which the decision has been taken
 \item \bibentry{MR99}
 \EI
 \end{Bib}
-
-\invisible{
-
-{\tiny
-\bibliographystyle{abbrv}
-\bibliography{references} 
-}
-
-
-}
-
-\end{frame}
-
-
+\end{PlainFrame}
 
 
 \end{document}
