@@ -1,0 +1,949 @@
+\input templates/header
+
+\usepackage{comment}
+\usepackage{listings}
+
+
+\newcommand{\Mapper}{\textsf{Mapper}\xspace}
+\newcommand{\Reducer}{\textsf{Reducer}\xspace}
+\newcommand{\Key}{\textit{key}\xspace}
+\newcommand{\Values}{\textit{values}\xspace}
+\SetKwData{EmitIntermediate}{EmitIntermediate}
+\SetKwData{Emit}{Emit}
+\SetKw{New}{new}
+\SetKwFor{PROCEDURE}{}{}{}
+
+\institute[UniTN]{University of Trento, Italy}
+\author{Alessio Guerrieri}
+\date[23.03.2016]{March 23, 2016}
+\title[DS - Graphs]{\textbf{Distributed Graph Algorithms}}
+
+\graphicspath{figs/12/}
+
+
+\AtBeginSection[]{
+}
+
+\newcommand\Slide[2]{\begin{frame} \frametitle{#1} #2 \end{frame}}
+\newcommand\SlideF[2]{\begin{frame} \frametitle{#1} #2 \end{frame}}
+\newcommand\Block[2]{\begin{block}{#1} #2 \end{block}}
+\newcommand\DueColonne[4]{\begin{columns}\column{#1\textwidth} #3 \column{#2\textwidth} #4 \end{columns}}
+\newcommand\TreColonne[6]{\begin{columns}\column{#1\textwidth} #4 \column{#2\textwidth} #5  \column{#3\textwidth} #6 \end{columns}}
+\newcommand\Image[1]{\includegraphics[width=\textwidth]{figs/12/#1}}
+\newcommand\ImageI[2]{\begin{center}\includegraphics[width=#2\textwidth]{figs/12/#1}\end{center}}
+\newcommand\Lista[1]{\begin{itemize} #1 \end{itemize}}
+\newcommand\BlockLista[2]{\Block{#1}{\Lista{#2}}}
+
+
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+\Slide{Who am I?}
+{
+    \Lista{
+        \item My name is Alessio Guerrieri
+        \item Postdoctoral researcher with prof. Montresor
+        \item Specialization on \textbf{distributed large-scale graph processing}
+    }
+    \DueColonne{.6}{.4}
+    {
+        \BlockLista{Graph $G=(V,E)$}
+        {
+            \item $V$ set of nodes
+            \item $E$ set of edges (links, connections) between pair of nodes
+        }    
+    }{
+        \Image{graph}
+    }
+    
+}
+
+\Slide{Today's topic}
+{
+	\Lista{
+	\item Vertex-centric model for graph computation
+	\vfill
+	\item Possible applications of vertex-centric model
+	\vfill
+	\item Vertex-centric graph algorithms 
+	\vfill
+	
+	}
+}
+
+\subsection{P2P}
+
+\Slide{Peer-to-Peer network}
+{
+    \DueColonne{.4}{.6}
+    {
+        \Lista{
+            \item Collection of \alert{peer} (nodes)
+            \item Have physical connections
+            \item Compute an overlay graph
+            \item Nodes know existence of neighbors
+            \item Can discover other nodes via peer-sampling techniques
+        }
+    }
+    {
+        \Image{../10/overlay}
+    }
+}
+
+\Slide{Computing in Peer-to-Peer systems}
+{
+    \vfill
+    \BlockLista{Peers might want to run protocols on the network:}{
+        \item Finding centrality of peer
+        \item Test properties of network
+        \item Compute distances
+        \item ...
+    }
+    \vfill
+    
+    Can we simply reuse distributed algorithms for Computer Networks?
+    \vfill
+}
+
+
+
+\subsection{Distance computation}
+
+\Slide{Example: decentralized distance computation}
+{
+    \Block{Problem}{
+        For each peer $x$ in overlay $G$, compute its distance from target peer $Target$.
+    }
+    
+    \BlockLista{Vertex-centric model}{
+        \item Initially each peer only knows its direct neighbors in the overlay
+        \item Each peer can send messages to each peer of which it knows the existence
+        \item Amount of memory used by each peer should be sub-linear
+        \item No control on rate of activity of peers and speed of messages (asynchronous execution)
+    }
+}
+
+\SlideF{Distributed Breadth-First-Search}
+{
+        \DueColonne{.5}{.5}{
+            \begin{Procedure}
+            \caption{D-BFS protocol executed by $p$:}
+            \UPON{initialization}{
+                \eIf{$p = Target$}{
+                    $D_p \gets 0$\;
+                    \SEND $\langle D_p + 1 \rangle$ \TO neighbors\;
+                }{
+                    $D_p \gets \infty$
+                }
+            }
+            \UPON{\RECEIVE $\langle d \rangle$}{
+                \If{$d < D_p$}{
+                    $D_p \gets d$\;
+                    \SEND $\langle D_p+1 \rangle$ \TO neighbors\;                
+                }
+            }
+            \end{Procedure}
+        }{
+            \only<1|handout:1>{
+                \Image{distance/start}
+            }\only<2|handout:2>{
+                \Image{distance/step1}
+            }\only<3|handout:3>{
+                \Image{distance/step2}
+            }\only<4|handout:4>{
+                \Image{distance/step3}
+            }\only<5|handout:5>{
+                \Image{distance/step4}
+            }\only<6|handout:6>{
+                \Image{distance/step5}
+            }\only<7|handout:7>{
+                \Image{distance/step6}
+            }
+        }
+}
+
+\SlideF{Distributed Breadth-First-Search}
+{
+        \DueColonne{.5}{.5}{
+            \begin{Procedure}
+            \caption{D-BFS protocol executed by $p$:}
+            \UPON{initialization}{
+                \eIf{$p = Target$}{
+                    $D_p \gets 0$\;
+                    \SEND $\langle D_p + 1 \rangle$ \TO neighbors\;
+                }{
+                    $D_p \gets \infty$
+                }
+            }
+            \UPON{\RECEIVE $\langle d \rangle$}{
+                \If{$d < D_p$}{
+                    $D_p \gets d$\;
+                    \SEND $\langle D_p+1 \rangle$ \TO neighbors\;                
+                }
+            }
+            \REPEAT{every $\Delta$ time units}{
+                \SEND $\langle D_p+1 \rangle$ \TO neighbors\;                
+            }
+            \end{Procedure}
+        }{
+
+            \Image{distance/step6}
+        }
+}
+
+
+\Slide{Notes}{
+    \BlockLista{Works if:}{
+        \item Nodes execute in any order
+        \item Messages arrive in any order
+        \item Nodes or edges are added
+        \item Messages are lost
+    }    
+    \BlockLista{Fails if:}{
+        \item Nodes fail
+        \item Edges are removed
+    }
+}
+
+\section{Thinking distributively}
+\subsection{Big Data}
+\Slide{New Graph Applications} {
+    Many settings in which there is need to analyze graph:
+    \Lista{
+        \item Web data
+        \item Computer networks
+        \item Biological networks
+        \item Social networks
+        \item ...
+    }
+
+    Size can be extremely large
+}
+
+\Slide{Approaches}
+{
+    \TreColonne{.48}{.04}{.48}{
+        \BlockLista{Centralized/Sequential}{
+            \item Collect data in one place
+            \item Load it in memory
+            \item Analyze it with traditional techniques
+        }
+    }{}{
+        \BlockLista{Decentralized}{
+            \item One machine for each node
+            \item Construct overlay network
+            \item Run vertex-centric protocol
+        }
+    }
+    \vfill
+    \begin{center}
+    Both unfeasible! These are better:
+    \end{center}
+    \vfill
+
+    \TreColonne{.48}{.04}{.48}{
+        \Block{Centralized/Parallel}{
+            Parallel processes and threads in shared memory
+        }
+    }{}{
+        \Block{Distributed system}{
+            Multiple (not N) machines, each hosting part of the graph
+        }
+    }
+
+}
+
+\Slide{Why distributed?}
+{
+
+    \DueColonne{.4}{.6}{
+        \BlockLista{Disadvantages}
+        {
+            \item Slower than parallel systems
+            \item Younger field of research
+            \item Needs distribution of data
+        }
+        
+        \BlockLista{Advantages}
+        {
+            \item Fault tolerant
+            \item Cheaper
+            \item Extendible
+        }
+    }{
+        \Image{datacenter}
+    }
+
+}
+
+\Slide{What do we want?}
+{
+    Nice interface for distributed graph algorithms and fast framework
+    to run those algorithms
+	\vfill
+    \underline{Graph analyst are not distributed systems experts!}
+	\vfill
+    
+    Issues with:
+    \Lista{
+        \item Data replication
+        \item Fault tolerance
+        \item Message deliverance
+        \item ...
+    }
+    should be dealt by the system!
+}
+
+\Slide{Vertex centric}
+{
+    Why not reuse vertex-centric interface?
+
+    \TreColonne{.48}{.04}{.48}{    
+        \BlockLista{User}
+        {
+            \item Defines data associated to vertex
+            \item Defines type of messages
+            \item Defines code executed by single vertex when it receives messages
+        }
+    }{}{
+        \BlockLista{System}
+        {
+            \item Divides input graph between the available machines 
+            \item Each machine \emph{simulates} each vertex independently
+            \item Takes care of fault tolerance
+        }
+    }
+}
+
+\Slide{Vertex centric distributed system}
+{
+	\ImageI{pregel.pdf}{.6}
+}
+
+\subsection{Pregel and Vertex-Centric frameworks}
+
+
+\Slide{Pregel}
+{
+    \DueColonne{.5}{.5}{
+        \Lista{    
+            \item    Developed by Google
+
+            \item     First large-scale graph processing system with vertex-centric interface
+            
+            \item   Created for PageRank
+            
+            \item    Code automatically deployed on thousands of machines
+        }
+    }{
+        \Image{pregel}
+        
+        { \footnotesize Programming API}
+    }
+    
+}
+
+
+\Slide{Pregel-like frameworks}
+{
+    Many:
+    
+    \Lista{
+        \item Giraph: on top of Hadoop
+        \item GraphX: on top of Spark
+        \item Gelly: on top of Flink
+        \item Graphlab: standalone
+    }
+    
+    All frameworks allow user to run vertex-centric programs on distributed systems
+
+}
+
+
+\begin{frame}[fragile]
+\frametitle{Example (Giraph)}
+
+\lstset{language=java,keepspaces=true}
+\footnotesize
+\begin{lstlisting}
+public void compute(Iterable<IntWritable> messages) {
+    int minDist = Integer.MAX_VALUE; 
+    for (IntWritable message : messages) {
+        minDist = Math.min(minDist, message.get());
+    }
+    if (minDist < getValue().get()) {
+        setValue(new IntWritable(minDist));
+        IntWritable distance = new IntWritable(minDist + 1)
+        for (Edge<...> edge : getEdges()) {
+            sendMessage(edge.getTargetVertexId(),distance);
+        }
+    }
+    voteToHalt();
+}
+\end{lstlisting}
+
+\end{frame}
+
+\Slide{Common characteristics of Vertex-centric models}
+{
+	\TreColonne{.48}{.04}{.48}{
+
+		\Block{Independence from problem size}
+		{
+			Code stays the same regardless of
+			\Lista{
+				\item size of graph
+				\item number of machines used
+			}
+		}
+	
+	
+		\BlockLista{Embedded fault-tolerance}{
+			\item Periodic benchmarking
+			\item Machines can "steal nodes" from slower machines
+		}
+	}{}{
+		\BlockLista{Distributed File System}
+		{
+			\item Usually HDFS
+			\item Allow all machines to read and write in common space
+		}
+		
+	}
+}
+
+
+\Slide{Synchronicity of Vertex-centric models}
+{
+	\TreColonne{.48}{.04}{.48}
+	{
+		\BlockLista{Synchronous}
+		{
+			\item Execution in rounds
+			\item Each vertex receives in round $i$ all messages sent to it in round $i-1$
+			\item Better guarantees $\rightarrow$ easiest model
+		}
+	}{}{
+		\BlockLista{Asynchronous}
+		{
+			\item No rounds
+			\item Messages processed without guarantees
+			\item More difficult, more efficient			
+		}
+	
+	}
+	\ImageI{giraph}{.6}
+}
+
+\subsection{Graph partitioning}
+
+
+\Slide{Graph partitioning}
+{
+	First step of analysis
+	
+	Which machine hosts which subset of nodes/edges?
+	\TreColonne{.48}{.04}{.48}
+	{
+		\Block{Balance}{
+			Size of partitions should be balanced
+		}
+	
+	}{}{
+		\BlockLista{Quality}{
+			\item Messages between nodes hosted in same machine are cheap
+			\item Messages between machines are costly
+		}
+	}
+	
+	\ImageI{part}{.5}
+}
+
+\Slide{Heuristic solutions}
+{
+	Graph partitioning is NP-Hard
+	\vfill
+	\TreColonne{.48}{.04}{.48}{
+		\Block{Hash-based heuristics}
+		{
+			Node $n$ ends in machine $H(n) \% K$
+		}
+	}{}{
+		\Block{Iterative algorithms}
+		{
+			Start from random and incrementally improve
+		}
+	}
+	\vfill
+	Heuristics can be devised for specific data-sets	
+
+}
+
+\section{Graph algorithms}
+
+\Slide{}{
+	\centering \Huge
+	Graph Algorithms
+
+}
+
+\Slide{What algorithms are available}
+{
+	This area is not completely new: there are distributed algorithms for computer networks
+	
+	But:
+	\Lista{
+		\item Computer networks are small
+		\item Many interesting graph problems are not interesting on computer networks
+	}
+	
+	Some ideas can be taken from research in PRAM (		Parallel Random Access Machine)
+}
+
+\Slide{Problems}
+{
+	\BlockLista{We'll look at:}{
+		\item Triangle counting
+		\item Connected components
+		\item Strongly connected components
+		\item Clustering
+	}
+
+	\BlockLista{We won't look at:}{
+		\item Pagerank
+		\item Single-Value decomposition
+	}
+	
+}
+
+\subsection{Triangle counting}
+\Slide{Triangle Counting}
+{
+	\Block{Definition}{
+		In an undirected graph Compute, for each node $n$, how many pairs of nodes $(v,w)$ exists such that $(n,v),(v,w),(w,n)$ are edges.
+	}
+	\DueColonne{.6}{.4}
+	{	
+		Application on social networks		
+
+		\vspace{5mm}
+
+		Seems easier than it is...
+	}{
+		\Image{triangles/ex}
+	}
+
+}
+
+\Slide{Triangle counting protocol}
+{
+		Send neighbor-list to neighbors and see which neighbors we have in common
+            \begin{Procedure}
+            \caption{Executed by node $p$}
+            \UPON{initialization}{
+				$T_p \gets 0$\;
+                \SEND neighbor-list \TO neighbors\;
+            }
+            \UPON{\RECEIVE $\langle M \rangle$}{ 
+				$Common \gets $ neighbor-list $ \bigcap M$\;
+				$T_p \gets T_p + |Common|$\;
+            }
+            \end{Procedure}	
+
+}
+
+\Slide{Issues}
+{
+	\BlockLista{Multi-counting}{
+		\item Each triangle is counted 6 times!
+		\item Should make sure that every triangle is counted only once!
+	}
+	
+	\BlockLista{Hubs}
+	{
+		\item Hubs are nodes with disproportionally large degree
+		\item Exists in almost all real graphs
+		\item Will send large neighbor-lists to large number of neighbors
+		\item Will receive large quantity of messages
+	}
+
+}
+
+\Slide{Triangle counting protocol (2)}
+{
+		Send list of neighbors with smaller id
+            \begin{Procedure}
+            \caption{Executed by node $p$}
+            \UPON{initialization}{
+				$T_p \gets 0$\;
+            	$M \gets \{ n: n \in $ neighbor-list$, id_n < id_p \}$\;
+                \SEND $M$ \TO neighbors\;
+            }
+            \UPON{\RECEIVE $\langle M \rangle$}{ 
+				$Common \gets $ neighbor-list $ \bigcap M$\;
+				$T_p \gets T_p + |Common|$ 
+            }
+            \end{Procedure}	
+	Cut messages by half
+}
+
+
+\Slide{Triangle counting protocol (3)}
+{
+        \begin{Procedure}
+            \caption{Executed by node $p$}
+            \UPON{initialization}{
+				$T_p \gets 0$\;
+            	\ForEach{$n \in$ neighbor-list}
+            	{
+            	\If{$id_n < id_p$}
+            	{
+	            	$M \gets \{ q: q \in $ neighbor-list$, id_q < id_n \}$\;
+    	            \SEND $LIST(M)$ \TO $n$\;
+                }
+                }
+            }
+            \UPON{\RECEIVE $\langle LIST(M) \rangle$ from $n$}{ 
+				$Common \gets $ neighbor-list $ \bigcap M$\;
+				$T_p \gets T_p + |Common|$ 
+				\SEND $TR(|Common|)$ \TO $n$\;
+				\SEND $TR(1)$ \TO $v \in Common$\;
+            }
+			\UPON{\RECEIVE $\langle TR(t) \rangle$}
+			{
+				$T_p \gets T_p + t$\;
+			}
+        \end{Procedure}	
+}
+
+
+
+
+\subsection{Connectedness}
+
+
+\Slide{Connected components (problem)}
+{
+	\Block{Problem definition}
+	{
+		Two nodes $v,w$ of an undirected graph are in the same weakly connected component (WCC) if exists a path from $v$ to $w$. 
+		
+		For each node $n$ compute value $C_n$ such that:
+		
+		\[ \forall v,w \in V, C_v=C_w \iff WCC_v = WCC_w \]
+	}
+	
+}
+
+\Slide{Connected components (solution)}
+{
+	\DueColonne{.5}{.5}{
+            \begin{Procedure}
+            \caption{Executed by node $p$:}
+            \UPON{initialization}{
+				$C_p \gets p.id$\;
+                \SEND $\langle C_p \rangle$ \TO neighbors\;
+            }
+            \UPON{\RECEIVE $\langle c \rangle$}{
+                \If{$c < C_p$}{
+                    $C_p \gets c$\;
+                    \SEND $\langle c \rangle$ \TO neighbors\;                
+                }
+            }
+            \end{Procedure}
+    }{
+			\only<1|handout:1>{
+                \Image{wcc/start}
+            }\only<2|handout:2>{
+                \Image{wcc/step1}
+            }\only<3|handout:3>{
+                \Image{wcc/step2}
+            }
+    }
+	
+}
+
+\subsection{Strongly Connected Components}
+
+\Slide{Strongly connected components}
+{
+	\Block{Problem definition}
+	{
+		Two nodes $v,w$ of an \emph{directed graph} are in the same strongly connected component (SCC) if exist paths from $v$ to $w$ and from $w$ to $v$ (both directions). 
+		
+	}
+	\BlockLista{Centralized solution}
+	{
+		\item Single depth-first search visit using Tarjan's algorithm
+		\item Two depth-first search visits using Kosaraju's algorithm
+		\item Distributed solution much more difficult!
+	}
+	
+}
+
+\Slide{Strongly Connected components (solution)}
+{
+            \begin{Procedure}
+            \caption{SCC: Executed by node $p$:}
+            \UPON{initialization}{
+				$F_p \gets p.id$ \tcp*{Lowest id of nodes that reaches $p$}
+				$B_p \gets p.id$ \tcp*{Lowest id of nodes reachable from $p$}
+                \SEND $\langle FOR(F_p) \rangle$ \TO out-neighbors\;
+                \SEND $\langle BACK(B_p) \rangle$ \TO in-neighbors\;
+            }
+            \UPON{\RECEIVE $\langle FOR(c) \rangle$}{ 
+                \If{$c < F_p$}{
+                    $F_p \gets c$
+                    \SEND $\langle FOR(c) \rangle$ \TO out-neighbors\;                
+                }
+            }
+            \UPON{\RECEIVE $\langle BACK(c) \rangle$}{
+                \If{$c < B_p$}{
+                    $B_p \gets c$ 
+                    \SEND $\langle BACK(c) \rangle$ \TO in-neighbors\;                
+                }
+            }
+            \end{Procedure}	
+}
+\Slide{Properties}
+{
+	\DueColonne{.5}{.5}{
+		$B_p$ = minimum id of nodes reachable from $p$
+
+		$F_p$ = minimum id of nodes that can reach $p$		
+		\ImageI{scc/start}{.8}
+	}{
+	
+			\only<2|handout:1>{
+                \Image{scc/step1}
+            }\only<3|handout:2>{
+                \Image{scc/step2}
+            }
+	}
+}
+
+\Slide{Properties}
+{
+	\Block{Lemma1}
+	{
+		$(F_p = B_p = i) \rightarrow $ p and i are in the same SCC 
+	}
+	\vfill
+	\Block{Lemma2}
+	{
+		$(F_p = F_q$ and $B_P = B_1 \rightarrow $ p and q are in the same SCC
+	}	
+
+	\vfill
+	Are the two lemmas correct?
+}
+
+
+
+\Slide{Properties}
+{
+	\DueColonne{.5}{.5}{
+		$B_p$ = minimum id of nodes reachable from $p$
+
+		$F_p$ = minimum id of nodes that can reach $p$		
+		\ImageI{scc/Bstart}{.8}
+	}{
+	
+                \Image{scc/Bstep2}
+	}
+}
+
+
+\Slide{Complete algorithm}
+{
+
+	\Block{Complete algorithm}
+	{
+		While graph not empty:
+		\begin{itemize}
+			\item Run SCC algorithm
+			\item remove each node $p$ such that $F_p = B_p$
+		\end{itemize}
+	}
+	\vfill
+	Can improve number of SCC found through heuristics
+	\vfill
+	Quicker convergence for largest SCC
+}
+
+
+
+\subsection{Graph clustering}
+
+\Slide{Graph clustering}
+{
+	\DueColonne{.6}{.4}
+	{
+		Given a graph, divide its vertices in \emph{clusters} such that:
+		
+		\begin{itemize}
+			\item Most edges connect nodes in same cluster
+			\item Few edges go across cluster
+			\item Clusters are significant
+		\end{itemize}
+		Precise definition depends from application scenario
+		
+		All versions are NP-Complete
+	}{
+		\Image{cluster/clusters}
+	}
+}
+
+\Slide{Label-propagation algorithm}
+{
+            \begin{Procedure}
+            \caption{Executed by node $p$:}
+            \UPON{initialization}{
+				$C_p \gets p.id$ \tcp*{starting label equal to id}
+				$N_p \gets \{\}$ \tcp*{dictionary containing labels of neighbors}
+				\SEND $C_p$ \TO neighbors\;
+            }
+            \UPON{\RECEIVE c \FROM q}{
+            	$N_p[q] = c$ \tcp*{update dictionary with new label of neighbor}
+            }
+			\REPEAT{every $\Delta$ time units}{
+				$c' \gets$ most common label in neighbors\;
+				\If{$C_p \neq c'$}{
+					\SEND $c'$ \TO neighbors\;
+					$C_p \gets c'$\; 
+				}
+			}
+            \end{Procedure}	
+			Note:ties resolved randomly
+}
+
+\Slide{Sample run}
+{
+
+	\only<1|handout:1>{
+		Initialization:
+		
+		\Image{cluster/start}
+	}
+	\only<2|handout:2>{
+		Active node chooses label 1 (randomly)
+		
+		\Image{cluster/step1}
+	}
+	\only<3|handout:3>{
+		Active node chooses label 3(randomly)
+		
+		\Image{cluster/step2}
+	}
+
+	\only<4|handout:4>{
+		Active node chooses label 6(randomly)
+		
+		\Image{cluster/step3}
+	}
+
+	\only<5|handout:5>{
+		Active node chooses label 6
+		
+		\Image{cluster/step4}
+	}
+
+
+	\only<6|handout:6>{
+		Active node chooses label 1
+		
+		\Image{cluster/step5}
+	}
+
+
+	\only<7|handout:7>{
+		Active node chooses label 1
+		
+		\Image{cluster/step6}
+	}
+
+
+	\only<8|handout:8>{
+		Active node chooses label 6
+		
+		\Image{cluster/step7}
+	}
+
+
+	\only<9|handout:9>{
+		Converged state: no node change its mind		
+		\Image{cluster/step8}
+	}
+
+
+
+}
+
+
+
+\Slide{Disadvantages}
+{
+	\Block{Non-deterministic}
+	{
+		Non-null probability of collapsing to single cluster
+	}
+	\Block{Low quality}
+	{
+		In practice, it's not that good
+	}
+	\BlockLista{Better options}
+	{
+		\item Slow, iterative algorithms
+		\item Fast, heuristics
+		\item My algorithm!
+	}
+}
+
+
+\Slide{Conclusions}
+{
+	\Lista{
+		\item Vertex-centric algorithms can be used in:
+		\Lista{
+			\item P2P systems
+			\item Computer networks
+			\item Large-scale graph analysis
+		}
+		\vfill
+		\item Field still in flux
+		\Lista{
+			\item New frameworks
+			\item New programming models
+			\item New algorithms
+		}
+		\vfill
+		\item Many applications
+		\Lista{
+			\item Everything is a graph
+			\item Could be interesting for a project
+		}
+	}
+}
+
+\Slide{References}
+{
+    \emph{Pregel: A System for Large-Scale Graph Processing} by Malewicz et al.
+
+    \vfill
+
+    \emph{Pregel Algorithms for Graph Connectivity Problems with
+Performance Guarantees} by Yan et al.
+	\vfill
+	
+	\emph{Giraph} \url{http://giraph.apache.org/}
+	
+	\vfill
+	
+	\emph{Graphx} \url{http://spark.apache.org/graphx/}
+}
+
+\end{document}

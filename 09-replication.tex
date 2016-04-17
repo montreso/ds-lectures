@@ -18,9 +18,46 @@
 \newcommand{\Operation}{\mathsf{operation}}
 \newcommand{\isPrimary}{\mathit{primary}}
 
+\AtBeginSection[]{
+	{
+	\setbeamertemplate{headline}
+	{
+	  \leavevmode%
+	  \hbox{%
+	  \begin{beamercolorbox}[wd=1.0\paperwidth,ht=2.25ex,dp=2.25ex,center]{author in head/foot}%
+	    \usebeamerfont{author in head/foot}~
+	  \end{beamercolorbox}}%
+	  \vskip0pt%
+	}
+	\setbeamertemplate{footline}
+	{
+	  \leavevmode%
+	  \hbox{%
+	  \begin{beamercolorbox}[wd=1.0\paperwidth,ht=2.25ex,dp=2.25ex,center]{author in head/foot}%
+	    \usebeamerfont{author in head/foot}~
+	  \end{beamercolorbox}}%
+	  \vskip0pt%
+	}
+	\begin{frame}[noframenumbering]{Contents}
+    \begin{columns}[t]
+        \begin{column}{.45\textwidth}
+			\smallskip
+            \tableofcontents[currentsection,sections={1-2},subsubsectionstyle= show/show/show/shaded]
+        \end{column}
+        \begin{column}{.45\textwidth}
+            \tableofcontents[currentsection,sections={3-5},subsubsectionstyle= show/show/show/shaded]
+        \end{column}
+    \end{columns}
+	\end{frame}
+	}
+}
+
 
 %-------------------------------------------------------------------------
-\begin{frame}
+{
+\setbeamertemplate{footline}{} 
+\setbeamertemplate{headline}{} 
+\begin{frame}[noframenumbering]
 \titlepage
 
 \begin{flushright}
@@ -37,13 +74,41 @@ Robert Silverberg, ``Shadrach in the furnace''
 \bibliography{references} 
 }}
 
-
 \end{frame}
+}
 
 %-------------------------------------------------------------------------
-\begin{frame}[shrink]{Contents}
-\tableofcontents
-\end{frame}
+	{
+	\setbeamertemplate{headline}
+	{
+	  \leavevmode%
+	  \hbox{%
+	  \begin{beamercolorbox}[wd=1.0\paperwidth,ht=2.25ex,dp=2.25ex,center]{author in head/foot}%
+	    \usebeamerfont{author in head/foot}~
+	  \end{beamercolorbox}}%
+	  \vskip0pt%
+	}
+	\setbeamertemplate{footline}
+	{
+	  \leavevmode%
+	  \hbox{%
+	  \begin{beamercolorbox}[wd=1.0\paperwidth,ht=2.25ex,dp=2.25ex,center]{author in head/foot}%
+	    \usebeamerfont{author in head/foot}~
+	  \end{beamercolorbox}}%
+	  \vskip0pt%
+	}
+	\begin{frame}[noframenumbering]{Contents}
+    \begin{columns}[t]
+        \begin{column}{.45\textwidth}
+			\smallskip
+            \tableofcontents[sections={1-2}]
+        \end{column}
+        \begin{column}{.45\textwidth}
+            \tableofcontents[sections={3-5}]
+        \end{column}
+    \end{columns}
+	\end{frame}
+	}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction to replicated systems}
@@ -1297,7 +1362,7 @@ S3 is designed to provide   99.99\% availability and 99.999999999\% durability o
 \end{block}
 
 \smallskip
-\begin{block}{From Amazon S3's FAQ}
+\begin{block}{From Amazon S3's FAQ (2014)}
 \begin{quote}
 \textbf{Q}: \underline{What data consistency model does Amazon S3 employ}?
 Amazon S3 buckets in the US West (Northern California), EU (Ireland), Asia
@@ -1310,6 +1375,27 @@ consistency}.
 \end{block}
 
 \end{frame}
+
+%-------------------------------------------------------------------------
+\begin{frame}{Reality Check}
+
+\begin{block}{Amazon S3}
+Amazon S3 (Simple Storage Service) is an online storage web service offered by Amazon Web Services.
+S3 is designed to provide   99.99\% availability and 99.999999999\% durability of objects over a given year.
+\end{block}
+
+\smallskip
+\begin{block}{From Amazon S3's FAQ (2016)}
+\begin{quote}
+\textbf{Q}: \underline{What data consistency model does Amazon S3 employ}?
+Amazon S3 buckets in all Regions provide \alert{read-after-write consistency} for PUTS of new objects and \alert{eventual consistency} for overwrite PUTS and DELETES.
+\end{quote}
+\end{block}
+
+\end{frame}
+
+
+
 
 %-------------------------------------------------------------------------
 \begin{frame}{Reality Check}
@@ -1756,7 +1842,7 @@ before the backup actually declare itself as new primary.
 \end{frame}
 
 %-------------------------------------------------------------------------
-\begin{frame}[shrink]{Primary-backup -- Multiple backups}
+\begin{frame}[shrink=15]{Primary-backup -- Multiple backups}
 
 \begin{Procedure}
 \caption{Protocol executed by process $p_i$}
@@ -1786,7 +1872,7 @@ before the backup actually declare itself as new primary.
 \end{frame}
 
 %-------------------------------------------------------------------------
-\begin{frame}[shrink]{Primary-Backup -- Client code}
+\begin{frame}[shrink=10]{Primary-Backup -- Client code}
 
 \begin{Procedure}
 \caption{Protocol executed by client $c$}
@@ -2232,7 +2318,7 @@ consistency
 \section{Bibliography}
 
 %-------------------------------------------------------------------------
-\begin{frame}{Reading material}
+\begin{PlainFrame}{Reading material}
 
 {\footnotesize
 \BIL
@@ -2242,6 +2328,6 @@ consistency
 }
 
 
-\end{frame}
+\end{PlainFrame}
 
 \end{document}

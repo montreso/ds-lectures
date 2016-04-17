@@ -65,24 +65,31 @@
 
 
 %-------------------------------------------------------------------------
-\begin{frame}
-\titlepage
+{
+\setbeamertemplate{footline}{} 
+\setbeamertemplate{headline}{} 
+\begin{frame}[noframenumbering]
+	\titlepage
+	\begin{center}
+		\href{http://creativecommons.org/licenses/by-sa/4.0/}{This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.}
+		
+		\smallskip
+		\includegraphics[width=1cm]{figs/cc.png}
 
-{\tiny
-Acknowledgments: S. Voulgaris
-}
+	\bigskip
+		{\tiny
+			Acknowledgments: S. Voulgaris
+		}
+	\end{center}
 
-\invisible{
-\nobibliography*{references}
-}
-
-\note{
-\BIL
-\item Migliorare la definizione dell'algoritmo Cyclon
-\EIL
-}
+	\invisible{
+		\nobibliography*{references}
+	}
 
 \end{frame}
+}
+
+
 
 
 
@@ -198,7 +205,7 @@ result of an independent uniform random sampling among the collection
 \end{frame}
 
 %-------------------------------------------------------------------------
-\begin{frame}[shrink]{A generic algorithm}
+\begin{frame}[shrink=5]{A generic algorithm}
 	
 \begin{Procedure}
 \caption{Generic protocol executed by $p$:}
@@ -628,7 +635,7 @@ Informal definition: \textit{building an overlay topology from the ground up as 
 \end{frame}
 
 %-------------------------------------------------------------------------
-\begin{frame}[shrink]{The T-Man algorithm}
+\begin{frame}[shrink=5]{The T-Man algorithm}
 	
 \begin{Procedure}
 \caption{Protocol executed by $p$:}
@@ -787,9 +794,14 @@ local view as ranked by $q$
 
 \end{frame}
 
-\begin{frame}{T-Man: The movie}
+\begin{frame}{T-Man: The movie!}
 	
-\url{http://www.disi.unitn.it/~montreso/ds/handouts/ring-fingers-20.gif}
+%\url{http://www.disi.unitn.it/~montreso/ds/handouts/ring-fingers-20.gif}
+
+\begin{figure}
+\multiinclude[graphics={width=0.60\textwidth},start=0,format=png]{figs/11/ring-fingers}
+\end{figure}
+
 
 \end{frame}
 
@@ -997,7 +1009,7 @@ The collective name of a set of functions that provide statistical information a
 \end{frame}
 
 %-------------------------------------------------------------------------
-\begin{frame}[shrink]{A generic aggregation algorithm}
+\begin{frame}[shrink=5]{A generic aggregation algorithm}
 	
 \begin{Procedure}
 \caption{Protocol executed by $p$:}
@@ -1640,7 +1652,7 @@ global absolute frequency is larger than the absolute threshold $f$:
 
 \medskip
 \begin{block}{Relatively frequent items}
-to identify \alert{relatively frequent} items ($\RF$) whose
+To identify \alert{relatively frequent} items ($\RF$) whose
 global relative frequency is larger than the relative threshold $\phi$:
 \[
   \RF = \{ i : \FR(i) \geq \phi \}
@@ -1655,7 +1667,7 @@ global relative frequency is larger than the relative threshold $\phi$:
 \BI
 \item Compute the \alert{average global frequency} $\F(i)/N$ of all items
 \item Sort items by decreasing frequency
-\item Identify the item $j$ ranke $\K$-th in such ordered sequence
+\item Identify the item $j$ ranked $\K$-th in such ordered sequence
 \item Return the items whose average frequency is larger or equal
 than $\F(j)/N$
 \EI
@@ -1723,7 +1735,7 @@ than $\F(j)/N$
 \begin{frame}{\FreqMF evaluation}
 
 \begin{figure}
-\includegraphics[width=0.9\textwidth]{figs/12/msgsize.pdf}
+\includegraphics[width=0.9\textwidth]{figs/11/msgsize.pdf}
 \end{figure}
 
 \end{frame}
@@ -1731,7 +1743,7 @@ than $\F(j)/N$
 \begin{frame}{\FreqMF evaluation}
 
 \begin{figure}
-\includegraphics[width=0.9\textwidth]{figs/12/msgoverhead.pdf}
+\includegraphics[width=0.9\textwidth]{figs/11/msgoverhead.pdf}
 \end{figure}
 
 \end{frame}
@@ -1739,7 +1751,7 @@ than $\F(j)/N$
 \begin{frame}{\FreqMF evaluation}
 
 \begin{figure}
-\includegraphics[width=0.9\textwidth]{figs/12/msgstorage.pdf}
+\includegraphics[width=0.9\textwidth]{figs/11/msgstorage.pdf}
 \end{figure}
 
 \end{frame}
@@ -1747,7 +1759,7 @@ than $\F(j)/N$
 \begin{frame}{\FreqMF evaluation}
 
 \begin{figure}
-\includegraphics[width=0.9\textwidth]{figs/12/msgratio.pdf}
+\includegraphics[width=0.9\textwidth]{figs/11/msgratio.pdf}
 \end{figure}
 
 \end{frame}
@@ -1762,6 +1774,7 @@ than $\F(j)/N$
 {\footnotesize
 \BIL
 \item \bibentry{peersampling}
+\item \bibentry{JMB05}
 \EIL
 }
 
