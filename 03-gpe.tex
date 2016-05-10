@@ -1,6 +1,9 @@
 \input templates/header
 \title[DS - Time,clocks,events]{\textbf{Distributed Algorithms}\\Time, clocks and the ordering of events}
 
+\graphicspath{{figs/03/}}
+
+
 \AtBeginSection[]{
 	{
 	\setbeamertemplate{headline}
@@ -162,7 +165,7 @@ We say that an event $e$ \alert{happens-before} an event $e'$, and write \alert{
 \begin{frame}{Space-Time Diagram of a Distributed Computation}
 
 \begin{figure} 
-\includegraphics[width=11cm]{figs/03/diagram1}
+\includegraphics[width=11cm]{diagram1}
 \end{figure}	
 
 \end{frame}
@@ -258,7 +261,7 @@ $(\sigma_1^{c_1}, \sigma_2^{c_2}, \ldots, \sigma_n^{c_n})$.
 \begin{frame}{Cuts}
 
 \begin{figure} 
-\includegraphics[width=11cm]{figs/03/diagram2}
+\includegraphics[width=11cm]{diagram2}
 \end{figure}
 \end{frame}
 
@@ -348,7 +351,7 @@ some predicate $\Phi$.
 \begin{frame}{Examples}
 
 \begin{figure} 
-\includegraphics[width=11cm]{figs/03/gpe}
+\includegraphics[width=11cm]{gpe}
 \end{figure}
 
 \end{frame}
@@ -373,7 +376,7 @@ A global state obtained through remote observations could be
 \begin{frame}{Space-Time Diagram of a Distributed Computation}
 
 \begin{figure} 
-\includegraphics[width=11cm]{figs/03/diagram3}
+\includegraphics[width=11cm]{diagram3}
 \end{figure}
 
 \end{frame}
@@ -427,7 +430,7 @@ $e \rightarrow e'$ implies that $e$ appears before $e'$ in $R$.
 \EI
 
 \begin{figure}
-\includegraphics[width=10cm]{figs/03/diagram3}
+\includegraphics[width=10cm]{diagram3}
 \end{figure}
 
 \end{frame}
@@ -589,7 +592,7 @@ as follows:
 \begin{frame}{Scalar logical clocks}
 
 \begin{figure} 
-\includegraphics[width=11cm]{figs/03/diagram4}
+\includegraphics[width=11cm]{diagram4}
 \end{figure}
 
 \end{frame}
@@ -631,7 +634,7 @@ Scalar logical clocks \emph{do not satisfy} Strong clock consistency, i.e.
 \end{theorem}
 
 \begin{figure} 
-\includegraphics[width=9cm]{figs/03/diagram4}
+\includegraphics[width=9cm]{diagram4}
 \end{figure}
 
 \note{
@@ -721,7 +724,7 @@ Causal histories \emph{satisfy} Strong clock consistency
 Causal histories tend to grow too much; they cannot be used as ``timestamps'' for messages.
 
 \begin{figure} 
-\includegraphics[width=10cm]{figs/03/diagram6}
+\includegraphics[width=10cm]{diagram6}
 \end{figure}
 \end{frame}
 
@@ -771,7 +774,7 @@ When event $e_i$ is executed by process $p_i$, $\VC_i$ is updated as follows:
 
 \begin{frame}{Example}
 \begin{figure} 
-\includegraphics[width=11cm]{figs/03/diagram5}
+\includegraphics[width=11cm]{diagram5}
 \end{figure}
 \end{frame}
 
@@ -823,7 +826,7 @@ $e_i$.\\
 \]
 
 \begin{figure} 
-\includegraphics[width=10cm]{figs/03/diagram5}
+\includegraphics[width=10cm]{diagram5}
 \end{figure}
 
 \note{
@@ -861,7 +864,7 @@ a $\receive$ event without including a $\send$ event.\\
 \]
 
 \begin{figure} 
-\includegraphics[width=10cm]{figs/03/diagram5}
+\includegraphics[width=10cm]{diagram5}
 \end{figure}
 
 \note{
@@ -1055,7 +1058,7 @@ the happen-before relation:
 
 
 \begin{figure} 
-\includegraphics[width=11cm]{figs/03/diagram7}
+\includegraphics[width=11cm]{diagram7}
 \end{figure}
 
 \note{
@@ -1250,7 +1253,7 @@ greater or equal than $\TS(m)$
 \EI
 
 \begin{figure}
-	\includegraphics[width=12cm]{figs/03/figura.pdf}
+	\includegraphics[width=12cm]{figura.pdf}
 \end{figure}
 
 \end{frame}
@@ -1322,7 +1325,7 @@ If $\TS(m')[k] < \TS(m)[k]$ for some $k \neq j$, then there exists event $\send_
 %    \VC(e_i)[k] < \VC(e_j)[k] \wedge k \neq j \Rightarrow e_k \not\rightarrow e_i \wedge e_k \rightarrow e_j
 % \]
 % \begin{figure} 
-% \includegraphics[width=9cm]{figs/03/figure-7}
+% \includegraphics[width=9cm]{figure-7}
 % \end{figure}
 % \end{frame}
 
@@ -1365,7 +1368,7 @@ $\Big( D[j] == \TS(m)[j] -1 \Big) \wedge \Big( \forall k \neq j: D[k] \geq \TS(m
 \end{center}
 
 \begin{figure} 
-\includegraphics[width=10cm]{figs/03/diagram8}
+\includegraphics[width=10cm]{diagram8}
 \end{figure}
 \end{frame}
 
@@ -1608,7 +1611,7 @@ timestamped any more
 
 \begin{frame}{Example}
 \begin{figure} 
-\includegraphics[width=9cm]{figs/03/diagram9}
+\includegraphics[width=9cm]{diagram9}
 \end{figure}
 \end{frame}
 
@@ -1697,7 +1700,7 @@ defines a \alert{lattice};
 
 \begin{frame}
 \begin{figure} 
-\includegraphics[width=9.5cm]{figs/03/figure-3}
+\includegraphics[width=9.5cm]{figure-3}
 \end{figure}
 \end{frame}
 
@@ -2017,7 +2020,7 @@ computation, than there is a bug, even if it is not observed during an actual ru
 
 \structure{Example}: {\bf Possibly}($(y-x)=2$), {\bf Definitely}($x=y$)
 \begin{figure} 
-\includegraphics[width=11cm]{figs/03/figure-16}
+\includegraphics[width=11cm]{figure-16}
 \end{figure}
 \end{frame}
 
@@ -2075,10 +2078,13 @@ computation, than there is a bug, even if it is not observed during an actual ru
 
 \end{frame}
 
-\nocite{ozalp93consistent}
+\begin{RMFrame}
 
+\BI
+\item \bibentry{ozalp93consistent}
+\EI
 
-\ReadingMaterial
+\end{RMFrame}
 
 \begin{PlainFrame}{Reality Check: Interesting links}
 \BI

@@ -1,37 +1,25 @@
 \input templates/header
 \title[DS - P2P]{\textbf{Distributed Algorithms}\\Peer-to-Peer Systems}
 
+\graphicspath{{figs/10/}}
+
 \begin{document}
 
 \newcommand{\ID}{\mathit{ID}}
 
 %-------------------------------------------------------------------------
-{
-\setbeamertemplate{footline}{} 
-\setbeamertemplate{headline}{} 
-\begin{frame}[noframenumbering]
-	\titlepage
-	\begin{center}
-		\href{http://creativecommons.org/licenses/by-sa/4.0/}{This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.}
-		
-		\smallskip
-		\includegraphics[width=1cm]{figs/cc.png}
+\FrameTitle{
+{\footnotesize
 
-	\bigskip
-		{\tiny
-			Acknowledgments: J. Chase, K. Ross, D. Rubenstein, P. Maymounkov, D. Mazieres, D. Carra,  B. Cohen \\
-			\hspace{1.6cm} A. Legout, V. Samprati, K. Tamilmani, N. Liogkas, I. Mohomed, D. Epema
-		}
-	\end{center}
-
-	\invisible{
-		\nobibliography*{references}
-	}
-
-\end{frame}
+\begin{tabular}{P{2.8cm} P{8cm}}
+Acknowledgments: & 
+J. Chase, K. Ross, D. Rubenstein, P. Maymounkov, D. Mazieres, D. Carra, B. Cohen, A. Legout, V. Samprati, K. Tamilmani, N. Liogkas, I. Mohomed, D. Epema\\
+\end{tabular}
+}
 }
 
-
+%-------------------------------------------------------------------------
+\FrameContent
 
 
 
@@ -116,11 +104,12 @@ both as servers and as clients
 
 \end{frame}
 
+%-------------------------------------------------------------------------
 
 
 \begin{frame}{Overlay networks}
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/overlay}
+	\includegraphics[width=\textwidth]{overlay}
 \end{figure}
 \end{frame}
 
@@ -144,6 +133,8 @@ establish new edge
 
 \end{frame}
 
+%-------------------------------------------------------------------------
+
 \begin{frame}{Overlay networks}
 
 \begin{columns}
@@ -164,12 +155,14 @@ establish new edge
 \end{column}
 \begin{column}{0.5\textwidth}
 	\begin{figure}
-		\includegraphics[width=1.0\textwidth]{figs/10/overlay2.pdf}
+		\includegraphics[width=1.0\textwidth]{overlay2.pdf}
 	\end{figure}
 \end{column}
 \end{columns}
 
 \end{frame}
+
+%-------------------------------------------------------------------------
 
 \begin{frame}{Overlay Topology}
 
@@ -191,11 +184,13 @@ establish new edge
 \EI
 \end{column}
 \begin{column}{0.6\textwidth}
-	\includegraphics[width=0.9\textwidth]{figs/10/p2ptypes}
+	\includegraphics[width=0.9\textwidth]{p2ptypes}
 \end{column}
 \end{columns}
 
 \end{frame}
+
+%-------------------------------------------------------------------------
 
 \begin{frame}{Criteria for topology selection}
 	
@@ -254,7 +249,7 @@ establish new edge
 \begin{frame}{Routing in DHTs}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/dht-routing}
+	\includegraphics[width=\textwidth]{dht-routing}
 \end{figure}
 
 \end{frame}
@@ -332,7 +327,7 @@ establish new edge
 \EIL
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/dht-partition}
+	\includegraphics[width=\textwidth]{dht-partition}
 \end{figure}
 
 \end{frame}
@@ -355,7 +350,7 @@ Each node has two sets of neighbors:
 \EIL
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/dht-overlay}
+	\includegraphics[width=\textwidth]{dht-overlay}
 \end{figure}
 
 \end{frame}
@@ -371,7 +366,7 @@ Each node has two sets of neighbors:
 \EI
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/dht-route}
+	\includegraphics[width=\textwidth]{dht-route}
 \end{figure}
 
 \end{frame}
@@ -385,7 +380,7 @@ Each node has two sets of neighbors:
 \EI
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/dht-route-failure}
+	\includegraphics[width=\textwidth]{dht-route-failure}
 \end{figure}
 
 \end{frame}
@@ -398,7 +393,7 @@ Each node has two sets of neighbors:
 \EI
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/dht-route-failure2}
+	\includegraphics[width=\textwidth]{dht-route-failure2}
 \end{figure}
 
 \end{frame}
@@ -416,7 +411,7 @@ Each node has two sets of neighbors:
 \EIL
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/dht-route-failure3}
+	\includegraphics[width=\textwidth]{dht-route-failure3}
 \end{figure}
 
 \end{frame}
@@ -457,7 +452,7 @@ Each node has two sets of neighbors:
 \EIL
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/dht-recovery}
+	\includegraphics[width=\textwidth]{dht-recovery}
 \end{figure}
 
 \end{frame}
@@ -476,7 +471,7 @@ Each node has two sets of neighbors:
 \EIL
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/dht-repair}
+	\includegraphics[width=\textwidth]{dht-repair}
 \end{figure}
 
 \end{frame}
@@ -496,7 +491,7 @@ Each node has two sets of neighbors:
 \end{column}
 \begin{column}{0.28\textwidth}
 \begin{figure}
-\includegraphics[width=1.0\textwidth]{figs/10/chord-example1}
+\includegraphics[width=1.0\textwidth]{chord-example1}
 \end{figure}
 \end{column}
 \end{columns}
@@ -530,7 +525,7 @@ Each node has two sets of neighbors:
 \end{column}
 \begin{column}{0.6\textwidth}
 \begin{figure}
-\includegraphics[width=1.0\textwidth]{figs/10/chord-example2}
+\includegraphics[width=1.0\textwidth]{chord-example2}
 \end{figure}
 \end{column}
 \end{columns}
@@ -552,7 +547,7 @@ Each node has two sets of neighbors:
 \end{column}
 \begin{column}{0.6\textwidth}
 \begin{figure}
-\includegraphics[width=1.0\textwidth]{figs/10/chord-example3}
+\includegraphics[width=1.0\textwidth]{chord-example3}
 \end{figure}
 \end{column}
 \end{columns}
@@ -575,7 +570,7 @@ Each node has two sets of neighbors:
 \end{column}
 \begin{column}{0.6\textwidth}
 \begin{figure}
-\includegraphics[width=1.0\textwidth]{figs/10/chord-example4}
+\includegraphics[width=1.0\textwidth]{chord-example4}
 \end{figure}
 \end{column}
 \end{columns}
@@ -618,7 +613,7 @@ Each node has two sets of neighbors:
 \end{column}
 \begin{column}{0.6\textwidth}
 \begin{figure}
-\includegraphics[width=1.0\textwidth]{figs/10/chord-example5}
+\includegraphics[width=1.0\textwidth]{chord-example5}
 \end{figure}
 \end{column}
 \end{columns}
@@ -640,7 +635,7 @@ Each node has two sets of neighbors:
 \end{column}
 \begin{column}{0.6\textwidth}
 \begin{figure}
-\includegraphics[width=1.0\textwidth]{figs/10/chord-example6}
+\includegraphics[width=1.0\textwidth]{chord-example6}
 \end{figure}
 \end{column}
 \end{columns}
@@ -663,7 +658,7 @@ This completes the joining operation!
 \end{column}
 \begin{column}{0.6\textwidth}
 \begin{figure}
-\includegraphics[width=1.0\textwidth]{figs/10/chord-example7}
+\includegraphics[width=1.0\textwidth]{chord-example7}
 \end{figure}
 \end{column}
 \end{columns}
@@ -686,7 +681,7 @@ address of the successor of $(n + 2^{i}) \bmod 2^m$
 \begin{frame}{Achieving efficiency}
 	
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/fingers}
+	\includegraphics[width=\textwidth]{fingers}
 \end{figure}	
 	
 \end{frame}
@@ -736,7 +731,7 @@ by concatenating the successor list received from $A$ with $A$ itself
 \end{column}
 \begin{column}{0.5\textwidth}
 \begin{figure}
-	\includegraphics[width=0.8\textwidth]{figs/10/can-torus}
+	\includegraphics[width=0.8\textwidth]{can-torus}
 	\caption{A $2$-torus}
 \end{figure}
 \end{column}
@@ -769,7 +764,7 @@ by concatenating the successor list received from $A$ with $A$ itself
 \end{column}
 \begin{column}{0.5\textwidth}
 \begin{figure}
-	\includegraphics[width=1.0\textwidth]{figs/10/can1}
+	\includegraphics[width=1.0\textwidth]{can1}
 \end{figure}
 \end{column}
 \end{columns}
@@ -789,7 +784,7 @@ by concatenating the successor list received from $A$ with $A$ itself
 \end{column}
 \begin{column}{0.5\textwidth}
 \begin{figure}
-	\includegraphics[width=1.0\textwidth]{figs/10/can2}
+	\includegraphics[width=1.0\textwidth]{can2}
 \end{figure}
 \end{column}
 \end{columns}
@@ -808,7 +803,7 @@ by concatenating the successor list received from $A$ with $A$ itself
 \end{column}
 \begin{column}{0.5\textwidth}
 \begin{figure}
-	\includegraphics[width=1.0\textwidth]{figs/10/can3}
+	\includegraphics[width=1.0\textwidth]{can3}
 \end{figure}
 \end{column}
 \end{columns}
@@ -827,7 +822,7 @@ by concatenating the successor list received from $A$ with $A$ itself
 \end{column}
 \begin{column}{0.5\textwidth}
 \begin{figure}
-	\includegraphics[width=1.0\textwidth]{figs/10/can4}
+	\includegraphics[width=1.0\textwidth]{can4}
 \end{figure}
 \end{column}
 \end{columns}
@@ -849,7 +844,7 @@ by concatenating the successor list received from $A$ with $A$ itself
 \end{column}
 \begin{column}{0.5\textwidth}
 \begin{figure}
-	\includegraphics[width=1.0\textwidth]{figs/10/can5}
+	\includegraphics[width=1.0\textwidth]{can5}
 \end{figure}
 \end{column}
 \end{columns}
@@ -871,7 +866,7 @@ by concatenating the successor list received from $A$ with $A$ itself
 \end{column}
 \begin{column}{0.5\textwidth}
 \begin{figure}
-	\includegraphics[width=1.0\textwidth]{figs/10/can6}
+	\includegraphics[width=1.0\textwidth]{can6}
 \end{figure}
 \end{column}
 \end{columns}
@@ -892,7 +887,7 @@ by concatenating the successor list received from $A$ with $A$ itself
 \end{column}
 \begin{column}{0.5\textwidth}
 \begin{figure}
-	\includegraphics[width=1.0\textwidth]{figs/10/can-join1}
+	\includegraphics[width=1.0\textwidth]{can-join1}
 \end{figure}
 \end{column}
 \end{columns}
@@ -912,7 +907,7 @@ by concatenating the successor list received from $A$ with $A$ itself
 \end{column}
 \begin{column}{0.5\textwidth}
 \begin{figure}
-	\includegraphics[width=1.0\textwidth]{figs/10/can-join2}
+	\includegraphics[width=1.0\textwidth]{can-join2}
 \end{figure}
 \end{column}
 \end{columns}
@@ -979,7 +974,7 @@ by concatenating the successor list received from $A$ with $A$ itself
 \begin{frame}[t]{Kademlia Tree}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/kad1}
+	\includegraphics[width=\textwidth]{kad1}
 \end{figure}
 
 \BI
@@ -994,7 +989,7 @@ by concatenating the successor list received from $A$ with $A$ itself
 \begin{frame}[t]{Kademlia Tree}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/kad2}
+	\includegraphics[width=\textwidth]{kad2}
 \end{figure}
 
 \BI
@@ -1009,7 +1004,7 @@ by concatenating the successor list received from $A$ with $A$ itself
 \begin{frame}[t]{Routing table}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/kad4}
+	\includegraphics[width=\textwidth]{kad4}
 \end{figure}
 
 \BI
@@ -1024,7 +1019,7 @@ by concatenating the successor list received from $A$ with $A$ itself
 \begin{frame}[t]{Kademlia Tree}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/kad3}
+	\includegraphics[width=\textwidth]{kad3}
 \end{figure}
 
 \BI
@@ -1084,7 +1079,7 @@ Kademlia protocol consists of 4 RPCs:
 \EI
 \end{column}
 \begin{column}{0.35\textwidth}
-\includegraphics[width=\textwidth]{figs/10/kad-routing}
+\includegraphics[width=\textwidth]{kad-routing}
 \end{column}
 \end{columns}
 
@@ -1173,7 +1168,7 @@ every node knows every other node
 \begin{frame}{Example of attacks}
 	
 \begin{figure}
-	\includegraphics[width=0.7\textwidth]{figs/10/dht-security}
+	\includegraphics[width=0.7\textwidth]{dht-security}
 \end{figure}
 
 \end{frame}
@@ -1346,26 +1341,6 @@ P2P networks
 
 \end{frame}
 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Bibliography}
-% 
-% %-------------------------------------------------------------------------
-% \begin{frame}{Reading material}
-% 
-% {\footnotesize
-% \BIL
-% \item \bibentry{p2psurvey}
-% \EIL
-% }
-% 
-% \invisible{{\tiny
-% \bibliographystyle{abbrv}
-% \bibliography{references} 
-% }}
-% 
-% \end{frame}
-% 
-% \end{document}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1412,32 +1387,32 @@ Gnutella is a protocol for peer-to-peer \alert{search}, consisting of:\\
 %-------------------------------------------------------------------------
 \begin{frame}{Gnutella topology: unstructured}
 	
-\includegraphics[width=0.9\textwidth]{figs/10/gnutella1}
+\includegraphics[width=0.9\textwidth]{gnutella1}
 
 \end{frame}
 
 
 \begin{frame}{Gnutella routing}
 	
-\includegraphics[width=0.9\textwidth]{figs/10/gnutella2}
+\includegraphics[width=0.9\textwidth]{gnutella2}
 
 \end{frame}
 
 \begin{frame}{Gnutella routing}
 	
-\includegraphics[width=0.9\textwidth]{figs/10/gnutella3}
+\includegraphics[width=0.9\textwidth]{gnutella3}
 
 \end{frame}
 
 \begin{frame}{Gnutella routing}
 	
-\includegraphics[width=0.9\textwidth]{figs/10/gnutella4}
+\includegraphics[width=0.9\textwidth]{gnutella4}
 
 \end{frame}
 
 \begin{frame}{Gnutella routing}
 	
-\includegraphics[width=0.9\textwidth]{figs/10/gnutella5}
+\includegraphics[width=0.9\textwidth]{gnutella5}
 
 \end{frame}
 
@@ -1534,19 +1509,19 @@ Each message is composed of:
 
 \begin{frame}{Gnutella overlay vs underlying topology}
 	
-\includegraphics[width=\textwidth]{figs/10/mapping3}	
+\includegraphics[width=\textwidth]{mapping3}	
 
 \end{frame}
 
 \begin{frame}{Traffic}
 	
-\includegraphics[width=0.8\textwidth]{figs/10/mapping2}	
+\includegraphics[width=0.8\textwidth]{mapping2}	
 
 \end{frame}
 
 \begin{frame}{Connectivity (and robustness)}
 	
-\includegraphics[width=0.8\textwidth]{figs/10/mapping1}
+\includegraphics[width=0.8\textwidth]{mapping1}
 
 \end{frame}
 
@@ -1624,8 +1599,8 @@ But\ldots what happens when you find the content?
 \end{column}
 \hfill
 \begin{column}{0.3\textwidth}
-	\includegraphics[width=0.5\textwidth]{figs/10/p2p-stats1.jpg}
-	\includegraphics[width=0.5\textwidth]{figs/10/p2p-stats2.jpg}\\
+	\includegraphics[width=0.5\textwidth]{p2p-stats1.jpg}
+	\includegraphics[width=0.5\textwidth]{p2p-stats2.jpg}\\
 \end{column}
 \end{columns}
 \begin{flushright}
@@ -1657,7 +1632,7 @@ But\ldots what happens when you find the content?
 
 \begin{frame}{BitTorrent architecture}
 	
-\includegraphics[width=\textwidth]{figs/10/bt-arch}	
+\includegraphics[width=\textwidth]{bt-arch}	
 	
 \end{frame}
 
@@ -1711,7 +1686,7 @@ A torrent file is a \textit{bencoded} dictionary with the following keys:
 \EIL
 \end{column}	
 \begin{column}{0.38\textwidth}
-\includegraphics[width=\textwidth]{figs/10/bt-arch2}	
+\includegraphics[width=\textwidth]{bt-arch2}	
 \end{column}
 \end{columns}
 \end{frame}
@@ -1958,7 +1933,7 @@ How to translate this in BitTorrent?
 \begin{frame}{Network: Number of active peers over time}
 	
 \begin{figure}	
-	\includegraphics[width=0.85\textwidth]{figs/10/bt-fig1}
+	\includegraphics[width=0.85\textwidth]{bt-fig1}
 	\caption{Complete trace}
 \end{figure}	
 	
@@ -1968,7 +1943,7 @@ How to translate this in BitTorrent?
 \begin{frame}{Network: Number of active peers over time}
 	
 \begin{figure}	
-	\includegraphics[width=0.79\textwidth]{figs/10/bt-fig2}
+	\includegraphics[width=0.79\textwidth]{bt-fig2}
 	\caption{First five days}
 \end{figure}	
 	
@@ -1978,7 +1953,7 @@ How to translate this in BitTorrent?
 \begin{frame}{Network: Proportion of seeders and leechers}
 	
 \begin{figure}	
-	\includegraphics[width=0.79\textwidth]{figs/10/bt-fig6}
+	\includegraphics[width=0.79\textwidth]{bt-fig6}
 	\caption{Complete trace}
 \end{figure}	
 	
@@ -1989,7 +1964,7 @@ How to translate this in BitTorrent?
 \begin{frame}{Client: Cumulative download and upload evolution}
 	
 \begin{figure}	
-	\includegraphics[width=0.79\textwidth]{figs/10/bt-fig3}
+	\includegraphics[width=0.79\textwidth]{bt-fig3}
 	\caption{Complete torrent}
 \end{figure}	
 	
@@ -1999,7 +1974,7 @@ How to translate this in BitTorrent?
 \begin{frame}{Client: Cumulative download and upload evolution}
 	
 \begin{figure}	
-	\includegraphics[width=0.79\textwidth]{figs/10/bt-fig4}
+	\includegraphics[width=0.79\textwidth]{bt-fig4}
 	\caption{First ten minutes}
 \end{figure}	
 	
@@ -2009,7 +1984,7 @@ How to translate this in BitTorrent?
 \begin{frame}{Client: Number of connected peers}
 
 \begin{figure}	
-	\includegraphics[width=0.79\textwidth]{figs/10/bt-fig5}
+	\includegraphics[width=0.79\textwidth]{bt-fig5}
 	\caption{Around 14 hours}
 \end{figure}	
 	
@@ -2072,7 +2047,7 @@ $k$ such that the upload capacity is reached:
 %-------------------------------------------------------------------------
 \begin{frame}{BitTyrant}
 
-\includegraphics[width=\textwidth]{figs/10/bittyrant1}
+\includegraphics[width=\textwidth]{bittyrant1}
 
 \end{frame}
 
@@ -2090,7 +2065,7 @@ $k$ such that the upload capacity is reached:
 
 \bigskip
 \begin{figure}
-\includegraphics[width=0.8\textwidth]{figs/10/bitthief1}
+\includegraphics[width=0.8\textwidth]{bitthief1}
 \end{figure}
 \end{column}
 \begin{column}{0.56\textwidth}
@@ -2134,20 +2109,20 @@ $k$ such that the upload capacity is reached:
 \begin{columns}
 \begin{column}{0.40\textwidth}
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/bitthief2}
+	\includegraphics[width=\textwidth]{bitthief2}
 	\caption{With seeders}
 \end{figure}
 \end{column}
 \begin{column}{0.40\textwidth}
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/bitthief3}
+	\includegraphics[width=\textwidth]{bitthief3}
 	\caption{Without seeders}
 \end{figure}
 \end{column}
 \end{columns}
 
 \begin{figure}
-	\includegraphics[width=0.4\textwidth]{figs/10/bitthief4}
+	\includegraphics[width=0.4\textwidth]{bitthief4}
 \end{figure}
 
 \end{frame}
@@ -2168,7 +2143,7 @@ $k$ such that the upload capacity is reached:
 \end{column}
 \begin{column}{0.55\textwidth}
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/10/tribler2}
+	\includegraphics[width=\textwidth]{tribler2}
 \end{figure}
 \end{column}
 \end{columns}
@@ -2188,30 +2163,23 @@ $k$ such that the upload capacity is reached:
 \begin{frame}{Tribler}
 
 \begin{figure}
-	\includegraphics[width=1.0\textwidth]{figs/10/tribler1}
+	\includegraphics[width=1.0\textwidth]{tribler1}
 \end{figure}
-
-\invisible{
-\bibliographystyle{abbrv}
-\bibliography{references}
-}
-
 
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Bibliography}
 
 %-------------------------------------------------------------------------
 
 
-\begin{PlainFrame}{Reading material}
+\begin{RMFrame}
 
 \BI
 \item \bibentry{p2psurvey}
 \EI
-\end{PlainFrame}
+
+\end{RMFrame}
 
 
 

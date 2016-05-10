@@ -1,9 +1,12 @@
 \input templates/header
 \title[DS - Introduction]{\textbf{Distributed Algorithms}\\Introduction}
 
+\graphicspath{{figs/01/}}
+
 \begin{document}
 
-\FrameTitle
+\FrameTitle{}
+
 \FrameContent
 
 \section{Getting Started}
@@ -11,10 +14,10 @@
 \subsection{Two generals}
 
 \begin{frame}{Two generals}
-A thought experiment~\cite{two-generals}:	
+A thought experiment:	
 \begin{center}
 \begin{figure} 
-\includegraphics[width=0.8\textwidth]{figs/01/two-generals.png}
+\includegraphics[width=0.8\textwidth]{two-generals.png}
 \end{figure}
 \end{center}
 
@@ -239,7 +242,7 @@ But:
 \subsection{Byzantine generals}
 
 \begin{frame}{Byzantine generals}
-\begin{block}{Scenario~\cite{pearls-of-theory}}
+\begin{block}{Scenario}
 \BI
 \item $n$ Byzantine generals encircling a city
 \item They must decide whether to attack or retreat!
@@ -358,7 +361,7 @@ In practice, they are not.
 \pause
 \begin{block}{Yogi Berra}
 \begin{minipage}{0.20\textwidth}
-\includegraphics[width=\textwidth]{figs/01/yogi.jpg}
+\includegraphics[width=\textwidth]{yogi.jpg}
 \end{minipage}
 \begin{minipage}{0.75\textwidth}
 \BI
@@ -531,7 +534,7 @@ A parallel system where there are no:
 
 \begin{block}{Definition (optimistic)}
 \begin{minipage}{0.15\textwidth}
-\includegraphics[width=\textwidth]{figs/01/tanenbaum.jpg}
+\includegraphics[width=\textwidth]{tanenbaum.jpg}
 \end{minipage}
 \hfill
 \begin{minipage}{0.80\textwidth}
@@ -543,7 +546,7 @@ A collection of independent computers that appears to its users as a single cohe
 \smallskip
 \begin{block}{Definition (pessimistic)}
 \begin{minipage}{0.15\textwidth}
-\includegraphics[width=\textwidth]{figs/01/leslie.jpg}
+\includegraphics[width=\textwidth]{leslie.jpg}
 \end{minipage}
 \hfill
 \begin{minipage}{0.80\textwidth}
@@ -672,7 +675,7 @@ a uniform computational model
 \end{minipage}
 \hfill
 \begin{minipage}{0.45\textwidth}
-\includegraphics[width=\textwidth]{figs/01/middleware.png}
+\includegraphics[width=\textwidth]{middleware.png}
 \end{minipage}
 
 \end{block}
@@ -769,10 +772,15 @@ Distributed systems use a mix of these techniques
 \end{frame}
 
 
-\section{Bibliography}
 
-\ReadingMaterial
+\begin{RMFrame}
 
+\BI
+\item \bibentry{two-generals}
+\item \bibentry{pearls-of-theory}
+\EI
+
+\end{RMFrame}
 
 \begin{PlainFrame}{Reality Check: Interesting links}
 

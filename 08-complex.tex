@@ -1,27 +1,21 @@
 \input templates/header
 \title[DS - Complex Network]{\textbf{Distributed Algorithms}\\Complex Networks}
 
+\graphicspath{{figs/08/}}
+
 \begin{document}
 
 \newcommand{\Path}{\ell}
 \newcommand{\Diam}{\mathit{diam}}
 
-\begin{frame}
-\titlepage
-
-{\footnotesize
-Acknowledgment for some slides: Mark Jelasity, Sebastian Ahnert, Lada Adamic, Albert Diaz Guilera
+\FrameTitle{
+	\begin{tabular}{P{2.8cm} P{8cm}}
+		Acknowledgments: & 
+		Mark Jelasity, Sebastian Ahnert, Lada Adamic, Albert Diaz Guilera\\
+	\end{tabular}
 }
 
-\invisible{
-\nobibliography*{references}
-}
-
-\end{frame}
-
-\begin{frame}[shrink]{Contents}
-\tableofcontents
-\end{frame}
+\FrameContent
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -105,7 +99,7 @@ Acknowledgment for some slides: Mark Jelasity, Sebastian Ahnert, Lada Adamic, Al
 
 \begin{columns}
 \begin{column}{0.4\textwidth}
-\includegraphics[width=\textwidth]{figs/08/experimental}
+\includegraphics[width=\textwidth]{experimental}
 \end{column}
 \begin{column}{0.6\textwidth}
 \BIL
@@ -140,7 +134,7 @@ Acknowledgment for some slides: Mark Jelasity, Sebastian Ahnert, Lada Adamic, Al
 \end{definition}	
 
 \begin{figure}
-	\includegraphics[width=0.75\textwidth]{figs/08/degree}
+	\includegraphics[width=0.75\textwidth]{degree}
 \end{figure}
 
 
@@ -157,7 +151,7 @@ Acknowledgment for some slides: Mark Jelasity, Sebastian Ahnert, Lada Adamic, Al
 \end{definition}
 
 \begin{figure}
-	\includegraphics[width=0.8\textwidth]{figs/08/degreedist}
+	\includegraphics[width=0.8\textwidth]{degreedist}
 \end{figure}
 	
 \note{
@@ -177,7 +171,7 @@ of the shortest path connecting them.
 \end{definition}
 
 \begin{figure}
-\includegraphics[width=0.6\textwidth]{figs/08/distance}
+\includegraphics[width=0.6\textwidth]{distance}
 \end{figure}
 
 \end{frame}
@@ -192,7 +186,7 @@ The \alert{average path length} of a connected graph $G=(V,E)$ is defined as:
 \end{definition}
 
 \begin{figure}
-\includegraphics[width=0.6\textwidth]{figs/08/diameter}
+\includegraphics[width=0.6\textwidth]{diameter}
 \caption{(a) $\Path(G) = (4 \cdot ((2+2+2+1)/8) + 1)/5=1.6$. (b) $\Path(G) = 1$}
 \end{figure}
 
@@ -209,7 +203,7 @@ The \alert{diameter} is the maximal shortest path between any two vertices:
 \end{definition}
 
 \begin{figure}
-\includegraphics[width=0.6\textwidth]{figs/08/diameter}
+\includegraphics[width=0.6\textwidth]{diameter}
 \caption{(a) $\Diam(G) = 2$. (b) $\Diam(G) = 1$}
 \end{figure}
 
@@ -232,11 +226,11 @@ The subgraph $G_i=(V_i, E_i)$ \alert{induced} by node $i$ over a graph $G=(V,E)$
 \begin{overprint}
 \onslide<1|handout:0>
 \begin{figure}
-\includegraphics[width=0.7\textwidth]{figs/08/induced1}
+\includegraphics[width=0.7\textwidth]{induced1}
 \end{figure}
 \onslide<2|handout:1>
 \begin{figure}
-\includegraphics[width=0.7\textwidth]{figs/08/induced2}
+\includegraphics[width=0.7\textwidth]{induced2}
 \end{figure}
 \end{overprint}
 \end{frame}
@@ -253,7 +247,7 @@ The \alert{local clustering coefficient} of node $i$ in graph $G$ is the
 \end{definition}
 
 \begin{figure}
-\includegraphics[width=0.7\textwidth]{figs/08/induced3}
+\includegraphics[width=0.7\textwidth]{induced3}
 \end{figure}
 
 \end{frame}
@@ -271,7 +265,7 @@ The \alert{clustering coefficient} of graph $G$ is the average over the local
 
 \begin{columns}
 	\begin{column}{0.35\textwidth}
-		\includegraphics[width=\textwidth]{figs/08/facebook}
+		\includegraphics[width=\textwidth]{facebook}
 	\end{column}
 	\begin{column}{0.65\textwidth}
 		\BI
@@ -291,7 +285,7 @@ Given a target individual and a particular property, pass the message to a
 person you correspond with who is “closest” to the target.
 
 \begin{figure}
-\includegraphics[width=0.8\textwidth]{figs/08/milgram}
+\includegraphics[width=0.8\textwidth]{milgram}
 \end{figure}
 	
 \end{frame}
@@ -336,7 +330,7 @@ the network of personal acquaintances.}
 \end{block}
 \end{column}
 \begin{column}{0.35\textwidth}
-	\includegraphics[width=\textwidth]{figs/08/sixdegrees}
+	\includegraphics[width=\textwidth]{sixdegrees}
 \end{column}
 \end{columns}
 
@@ -356,7 +350,7 @@ the network of personal acquaintances.}
 
 \begin{frame}[label=statistics]{Statistics over real networks}
 	
-\includegraphics[width=\textwidth]{figs/08/statistics}
+\includegraphics[width=\textwidth]{statistics}
 \end{frame}
 
 
@@ -375,7 +369,7 @@ with probability $p$
 Two different realizations for $N = 5$ and $p = 0.5$
 
 \begin{figure}
-\includegraphics[width=0.5\textwidth]{figs/08/random}
+\includegraphics[width=0.5\textwidth]{random}
 \end{figure}
 
 \end{frame}
@@ -450,7 +444,7 @@ between two nodes falls drastically
 \end{block}
 
 \begin{figure}
-	\includegraphics[width=0.7\textwidth]{figs/08/watts}
+	\includegraphics[width=0.7\textwidth]{watts}
 \end{figure}
 
 \end{frame}
@@ -477,7 +471,7 @@ between two nodes falls drastically
 \begin{frame}{The small-world region}
 
 \begin{figure}
-	\includegraphics[width=0.8\textwidth]{figs/08/watts-sim}
+	\includegraphics[width=0.8\textwidth]{watts-sim}
 \end{figure}
 	
 \end{frame}
@@ -492,7 +486,7 @@ Are Watts-Strogatz networks a good model for real networks?
 \onslide<1|handout:1>
 
 \begin{figure}
-	\includegraphics[width=0.6\textwidth]{figs/08/binomial}
+	\includegraphics[width=0.6\textwidth]{binomial}
 	\caption{Binomial distribution for $n = 20$
 $p = 0.1$ (blue), $p = 0.5$ (green) and $p = 0.8$ (red).
 {\scriptsize \url{http://en.wikipedia.org/wiki/File:Binomial_Distribution.PNG}}
@@ -502,7 +496,7 @@ $p = 0.1$ (blue), $p = 0.5$ (green) and $p = 0.8$ (red).
 \onslide<2|handout:2>
 
 \begin{figure}
-	\includegraphics[width=0.9\textwidth]{figs/08/threeex}
+	\includegraphics[width=0.9\textwidth]{threeex}
 	\caption{Real network degree distributions: from left to right, Actors, WWW, Power grid}
 \end{figure}
 	
@@ -533,7 +527,7 @@ Formally this translates into a power-law degree distribution:
 \begin{columns}
 \begin{column}{0.5\textwidth}
 \begin{figure}
-\includegraphics[width=\textwidth]{figs/08/scalefree}
+\includegraphics[width=\textwidth]{scalefree}
 \end{figure}
 \end{column}
 \begin{column}{0.5\textwidth}
@@ -550,7 +544,7 @@ Formally this translates into a power-law degree distribution:
 
 \begin{frame}{Statistics over real networks}
 	
-\includegraphics[width=\textwidth]{figs/08/statistics2}
+\includegraphics[width=\textwidth]{statistics2}
 
 \end{frame}
 
@@ -618,7 +612,7 @@ number of links that $i$ already has. Formally,
 \begin{column}{0.5\textwidth}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/08/robustness1.pdf}
+	\includegraphics[width=\textwidth]{robustness1.pdf}
 \end{figure}
 \end{column}
 \end{columns}
@@ -630,7 +624,7 @@ number of links that $i$ already has. Formally,
 \begin{columns}
 \begin{column}{0.65\textwidth}
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/08/robustness2.pdf}
+	\includegraphics[width=\textwidth]{robustness2.pdf}
 \end{figure}
 \end{column}
 \begin{column}{0.32\textwidth}
@@ -719,21 +713,12 @@ controlled experiments.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Bibliography}
+\begin{RMFrame}
 
-\begin{frame}{Reading material}
-
-\begin{Bib}
 \BI
 \item \bibentry{complex-networks}
 \EI
-\end{Bib}
 
-\invisible{{\tiny
-\bibliographystyle{abbrv}
-\bibliography{references} 
-}}
-
-\end{frame}
+\end{RMFrame}
 
 \end{document}

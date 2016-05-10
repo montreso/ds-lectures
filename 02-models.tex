@@ -1,10 +1,12 @@
 \input templates/header
 \title[DS - Models]{\textbf{Distributed Algorithms}\\Models}
 
+\graphicspath{{figs/02/}}
+
 \begin{document}
 
 
-\FrameTitle
+\FrameTitle{}
 \FrameContent
 
 \section{Taxonomy}
@@ -37,7 +39,7 @@ Architectures:
 \EI
 \end{column}
 \begin{column}[c]{0.35\textwidth}
-\includegraphics[width=\textwidth]{figs/02/client-server.png}
+\includegraphics[width=\textwidth]{client-server.png}
 \end{column}
 \end{columns}
 
@@ -70,7 +72,7 @@ Allow invocation of procedures/methods/functions on remote objects
 \subsection{Multi-tier}
 
 \begin{frame}{Multi-tier}
-\includegraphics[width=0.8\textwidth]{figs/02/multi-tier.png}	
+\includegraphics[width=0.8\textwidth]{multi-tier.png}	
 \end{frame}
 
 \begin{frame}{Multi-tier: problem examples}
@@ -102,7 +104,7 @@ Example
 \EI
 
 \begin{figure}
-\includegraphics[width=\textwidth]{figs/02/cluster.png}	
+\includegraphics[width=\textwidth]{cluster.png}	
 \end{figure}
 
 \end{frame}
@@ -161,7 +163,7 @@ providing graphical interfaces or API
 \EI
 
 \begin{figure}
-\includegraphics[width=0.5\textwidth]{figs/02/cloud_computing_layers.png}	
+\includegraphics[width=0.5\textwidth]{cloud_computing_layers.png}	
 \caption{Source: Wikipedia}
 \end{figure}
 
@@ -398,7 +400,7 @@ $p_1, p_2, \ldots, p_n$.
 
 In a distributed systems, both processes and communication channels may fail, i.e. depart from
 what is considered its correct behavior.\\
-Hadzilacos and Toueg~\cite{hadzilacos94modular} provide a taxonomy. 
+Hadzilacos and Toueg provide a taxonomy. 
 
 \begin{block}{Benign process failures}
 \BI
@@ -796,11 +798,14 @@ How to express partial synchrony? A possibility is the following:
 \EI
 \end{frame}
 
-\section{Bibliography}
+\begin{RMFrame}
 
-%\nocite{ozalp93consistent}
+\BI
+\item \bibentry{hadzilacos94modular}
+\EI
 
-\ReadingMaterial
+\end{RMFrame}
+
 
 
 \end{document} 

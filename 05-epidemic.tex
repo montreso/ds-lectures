@@ -1,6 +1,8 @@
 \input templates/header
 \title[DS - Epidemic Dissemination]{\textbf{Distributed Algorithms}\\Epidemic Dissemination}
 
+\graphicspath{{figs/05/}}
+
 \begin{document}
 
 \newcommand{\Value}{\mathit{value}}
@@ -15,7 +17,7 @@
 \newcommand{\ReplyPushPull}{\textsc{reply}\xspace}
 
 
-\FrameTitle
+\FrameTitle{}
 \FrameContent
 
 \section{Introduction}
@@ -72,7 +74,7 @@ messages; even sending millions of messages from a single node is difficult.
 \begin{frame}{Trade-offs}
 	
 \begin{figure}
-	\includegraphics[width=10cm]{figs/05/tradeoffs}
+	\includegraphics[width=10cm]{tradeoffs}
 	\caption{Courtesy: Robbert van Renesse}
 \end{figure}
 \end{frame}
@@ -109,9 +111,9 @@ But:
 \EIL	
 	
 \begin{figure}
-\includegraphics[width=0.20\textwidth]{figs/05/demers}	
+\includegraphics[width=0.20\textwidth]{demers}	
 \qquad
-\includegraphics[width=0.20\textwidth]{figs/05/poster}	
+\includegraphics[width=0.20\textwidth]{poster}	
 \end{figure}
 	
 \end{frame}
@@ -174,7 +176,7 @@ But:
 \item The copy of the database at node $p_i$ can be represented by a
 time-varying partial function:
 \[
-  \Value_i: K \rightarrow V \cdot T
+  \Value: K \rightarrow V \cdot T
 \]
 where:
 \BI
@@ -182,7 +184,7 @@ where:
 \item $V$ is the set of \alert{values}
 \item $T$ is the set of \alert{timestamps}
 \EI
-\item The update operation is formalized as: $\Value_i(k) \gets (v, \Now())$
+\item The update operation is formalized as: $\Value(k) \gets (v, \Now())$
 where \Now() returns a globally unique timestamp 
 \EIL
 
@@ -200,7 +202,9 @@ obtain the same copy of the database:
 \[
  \forall p_i, p_j \in \Pi, \forall k \in K : \Value_i(k) = \Value_j(k)
 \]
+where $\Value_i$ is the copy of the database at node $p_i$.
 \end{definition}
+
 
 \end{frame}
 
@@ -246,7 +250,7 @@ Every message is PB-delivered by a node at most once, and only if it was previou
 \item Communication costs between nodes are homogeneous
 \item We assume there is a single entry in the database
  \BI
-  \item We simplify notation ($\Value_i(k) \rightarrow \Value_i$)
+  \item We simplify notation ($\Value(k) \rightarrow \Value$)
   \item Managing multiple keys is more complex than adding \\
    $\textbf{foreach}\ k \in K$
  \EI
@@ -292,7 +296,7 @@ An individual $p$ can be:
 \end{definition}
 
 \begin{figure}
-	\includegraphics[width=0.8\textwidth]{figs/05/model-sir}
+	\includegraphics[width=0.8\textwidth]{model-sir}
 \end{figure}
 
 \end{frame}
@@ -308,7 +312,7 @@ An individual $p$ can be:
 \EI
 
 \begin{figure}
-	\includegraphics[width=0.5\textwidth]{figs/05/model-sir-data}\\
+	\includegraphics[width=0.5\textwidth]{model-sir-data}\\
 	\vspace{-0.5cm}
 	\texttt{\tiny http://en.wikipedia.org/wiki/File:Sirsys-p9.png}
 \end{figure}
@@ -324,7 +328,7 @@ An individual $p$ can be:
 			become susceptible again.	
 		\end{definition}
 		\begin{figure}
-			\includegraphics[width=0.6\textwidth]{figs/05/model-sirs}
+			\includegraphics[width=0.6\textwidth]{model-sirs}
 		\end{figure}
 	% \end{column}
 	% \begin{column}{0.45\textwidth}
@@ -333,7 +337,7 @@ An individual $p$ can be:
 			latent period of the disease
 		\end{definition}
 		\begin{figure}
-			\includegraphics[width=0.6\textwidth]{figs/05/model-seirs}
+			\includegraphics[width=0.6\textwidth]{model-seirs}
 		\end{figure}
 % 	\end{column}
 % \end{columns}	
@@ -404,15 +408,15 @@ occurs.
 
 \begin{Procedure}
 \caption{Direct mail protocol executed by process $p_i$:}
-\UPON{$\Value_i \gets (v, \Now())$}{
+\UPON{$\Value \gets (v, \Now())$}{
  \ForEach{$p_j \in \Pi$}{
-  \SEND $\langle \Update, \Value_i \rangle$ \TO $p_j$\;
+  \SEND $\langle \Update, \Value \rangle$ \TO $p_j$\;
  }
 }
 \BlankLine
 \UPON{\RECEIVE $\langle \Update, (v,t) \rangle$}{
- \If{$\Value_i.\Time < t$}{
-  $\Value_i \gets (v,t)$\;
+ \If{$\Value.\Time < t$}{
+  $\Value \gets (v,t)$\;
  }
 }
 \end{Procedure}
@@ -456,7 +460,7 @@ During a \alert{round} of length $\Delta$
 \end{block}
 
 \begin{figure}
-\includegraphics[width=0.8\textwidth]{figs/05/rounds}
+\includegraphics[width=0.8\textwidth]{rounds}
 \end{figure}
 
 \end{frame}
@@ -464,7 +468,7 @@ During a \alert{round} of length $\Delta$
 \begin{frame}{Resolving differences -- Summary}
 	
 \begin{figure}
-	\includegraphics[width=0.4\textwidth]{figs/05/push-pull}
+	\includegraphics[width=0.4\textwidth]{push-pull}
 \end{figure}
 	
 \end{frame}
@@ -475,12 +479,12 @@ During a \alert{round} of length $\Delta$
 \caption{Anti-entropy, Push protocol executed by process $p_i$:}
 \REPEAT{every $\Delta$ time units}{
  $\Process\ p_j \gets \Random(\Pi)$\Comment*[f]{Select a random neighbor}\;
- \SEND $\langle \Push, \Value_i \rangle$ \TO $p_j$\;
+ \SEND $\langle \Push, \Value \rangle$ \TO $p_j$\;
 }
 \BlankLine
 \UPON{\RECEIVE $\langle \Push, (v, t) \rangle$}{
- \If{$\Value_i.\Time < t$}{
-  $\Value_i \gets (v,t)$\;
+ \If{$\Value.\Time < t$}{
+  $\Value \gets (v,t)$\;
  }
 }
 
@@ -495,17 +499,17 @@ During a \alert{round} of length $\Delta$
 \caption{Anti-entropy, Pull protocol executed by process $p_i$:}
 \REPEAT{every $\Delta$ time units}{
  $\Process\ p_j \gets \Random(\Pi)$\Comment*[f]{Select a random neighbor}\;
- \SEND $\langle \Pull, p_i, \Value_i.\Time \rangle$ \TO $p_j$\;
+ \SEND $\langle \Pull, p_i, \Value.\Time \rangle$ \TO $p_j$\;
 }
 \UPON{\RECEIVE $\langle \Pull, p_j, t \rangle$}{
- \If{$\Value_i.\Time > t$}{
- 	\SEND $\langle \ReplyPull, \Value_i \rangle$ \TO $p_j$\;
+ \If{$\Value.\Time > t$}{
+ 	\SEND $\langle \ReplyPull, \Value \rangle$ \TO $p_j$\;
   }
 }
 \BlankLine
 \UPON{\RECEIVE $\langle \ReplyPull, (v, t) \rangle$}{
- \If{$\Value_i.\Time < t$}{
-  $\Value_i \gets (v,t)$\;
+ \If{$\Value.\Time < t$}{
+  $\Value \gets (v,t)$\;
  }
 }
 \end{Procedure}
@@ -519,21 +523,21 @@ During a \alert{round} of length $\Delta$
 \caption{Anti-entropy, Push-Pull protocol executed by process $p_i$:}
 \REPEAT{every $\Delta$ time units}{
  $\Process\ p_j \gets \Random(\Pi)$\Comment*[f]{Select a random neighbor}\;
- \SEND $\langle \PushPull, p_i, \Value_i \rangle$ \TO $p_j$\;
+ \SEND $\langle \PushPull, p_i, \Value \rangle$ \TO $p_j$\;
 }
 \BlankLine
 \UPON{\RECEIVE $\langle \PushPull, p_j, (v, t) \rangle$}{
- \uIf{$\Value_i.\Time < t$}{
-  $\Value_i \gets (v,t)$\;
+ \uIf{$\Value.\Time < t$}{
+  $\Value \gets (v,t)$\;
  }
- \ElseIf{$\Value_i.\Time > t$}{
- 	\SEND $\langle \ReplyPushPull, \Value_i \rangle$ \TO $p_j$\;
+ \ElseIf{$\Value.\Time > t$}{
+ 	\SEND $\langle \ReplyPushPull, \Value \rangle$ \TO $p_j$\;
  }
 }
 \BlankLine
 \UPON{\RECEIVE $\langle \ReplyPushPull, (v,t) \rangle$}{
- \If{$\Value_i.\Time < t$}{
-  $\Value_i \gets (v,t)$\;
+ \If{$\Value.\Time < t$}{
+  $\Value \gets (v,t)$\;
  }
 }
 \end{Procedure}
@@ -623,7 +627,7 @@ double in each cycle to a good approximation.
 All methods converge to $0$, but pull and push-pull are much more rapid
 
 \begin{figure}
-\includegraphics[width=0.6\textwidth]{figs/05/gnuplot}
+\includegraphics[width=0.6\textwidth]{gnuplot}
 \caption{$n=10\,000$}
 \end{figure}
 
@@ -767,7 +771,7 @@ node ($i$) will become removed if it contacts a non-susceptible node $(1-s)$.
 \begin{frame}{Simulation results}
 	
 \begin{figure}
-	\includegraphics[width=0.8\textwidth]{figs/05/simulation}	
+	\includegraphics[width=0.8\textwidth]{simulation}	
 \end{figure}
 
 \end{frame}
@@ -904,8 +908,13 @@ We will provide a brief overview of them.
 
 \end{frame}
 
-\nocite{demers87}
-\nocite{gossip11}
-\ReadingMaterial
+\begin{RMFrame}
+
+\BI
+\item \bibentry{demers87}
+\item \bibentry{gossip11}
+\EI
+
+\end{RMFrame}
 
 \end{document}

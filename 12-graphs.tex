@@ -15,22 +15,17 @@
 
 \institute[UniTN]{University of Trento, Italy}
 \author{Alessio Guerrieri}
-\date[23.03.2016]{March 23, 2016}
 \title[DS - Graphs]{\textbf{Distributed Graph Algorithms}}
 
-\graphicspath{figs/12/}
-
-
-\AtBeginSection[]{
-}
+\graphicspath{{figs/12/}}
 
 \newcommand\Slide[2]{\begin{frame} \frametitle{#1} #2 \end{frame}}
 \newcommand\SlideF[2]{\begin{frame} \frametitle{#1} #2 \end{frame}}
 \newcommand\Block[2]{\begin{block}{#1} #2 \end{block}}
 \newcommand\DueColonne[4]{\begin{columns}\column{#1\textwidth} #3 \column{#2\textwidth} #4 \end{columns}}
 \newcommand\TreColonne[6]{\begin{columns}\column{#1\textwidth} #4 \column{#2\textwidth} #5  \column{#3\textwidth} #6 \end{columns}}
-\newcommand\Image[1]{\includegraphics[width=\textwidth]{figs/12/#1}}
-\newcommand\ImageI[2]{\begin{center}\includegraphics[width=#2\textwidth]{figs/12/#1}\end{center}}
+\newcommand\Image[1]{\includegraphics[width=\textwidth]{#1}}
+\newcommand\ImageI[2]{\begin{center}\includegraphics[width=#2\textwidth]{#1}\end{center}}
 \newcommand\Lista[1]{\begin{itemize} #1 \end{itemize}}
 \newcommand\BlockLista[2]{\Block{#1}{\Lista{#2}}}
 
@@ -39,7 +34,9 @@
 
 \begin{document}
 
-\maketitle
+\FrameTitle{}
+
+\FrameContent
 
 \section{Introduction}
 \Slide{Who am I?}
@@ -929,21 +926,19 @@ public void compute(Iterable<IntWritable> messages) {
 	}
 }
 
-\Slide{References}
-{
-    \emph{Pregel: A System for Large-Scale Graph Processing} by Malewicz et al.
+\begin{RMFrame}
 
-    \vfill
+\BI
+\item \emph{Pregel: A System for Large-Scale Graph Processing} by Malewicz et al.
 
-    \emph{Pregel Algorithms for Graph Connectivity Problems with
+\item \emph{Pregel Algorithms for Graph Connectivity Problems with
 Performance Guarantees} by Yan et al.
-	\vfill
 	
-	\emph{Giraph} \url{http://giraph.apache.org/}
+\item \emph{Giraph} \url{http://giraph.apache.org/}
 	
-	\vfill
-	
-	\emph{Graphx} \url{http://spark.apache.org/graphx/}
-}
+\item \emph{Graphx} \url{http://spark.apache.org/graphx/}
+
+\EI
+\end{RMFrame}
 
 \end{document}

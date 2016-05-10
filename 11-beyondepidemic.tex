@@ -2,6 +2,8 @@
 \title[DS - Epidemics 2]{\textbf{Distributed Algorithms}\\Epidemic Protocols: Beyond dissemination}
 \usepackage{xmpmulti}
 
+\graphicspath{{figs/11/}}
+
 \begin{document}
 
 \SetKwFor{METHOD}{function}{}{}
@@ -65,34 +67,15 @@
 
 
 %-------------------------------------------------------------------------
-{
-\setbeamertemplate{footline}{} 
-\setbeamertemplate{headline}{} 
-\begin{frame}[noframenumbering]
-	\titlepage
-	\begin{center}
-		\href{http://creativecommons.org/licenses/by-sa/4.0/}{This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.}
-		
-		\smallskip
-		\includegraphics[width=1cm]{figs/cc.png}
-
-	\bigskip
-		{\tiny
-			Acknowledgments: S. Voulgaris
-		}
-	\end{center}
-
-	\invisible{
-		\nobibliography*{references}
+\FrameTitle{
+	{\footnotesize
+		Acknowledgments: S. Voulgaris
 	}
-
-\end{frame}
 }
 
+%-------------------------------------------------------------------------
 
-
-
-
+\FrameContent
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Peer Sampling}
@@ -215,7 +198,7 @@ result of an independent uniform random sampling among the collection
 }
 \BlankLine
 \REPEAT{every $\Delta$ time units}{
- $\Process\ q \gets \SelectNeighbor(\View)$\Comment*[f]{Select a random neighbor}\;
+ $\ss\ q \gets \SelectNeighbor(\View)$\Comment*[f]{Select a random neighbor}\;
  $m \gets \ExtractRequest(\View, q)$\;
  \SEND $\langle \Request, m, p \rangle$ \TO $q$\;
 }
@@ -271,25 +254,25 @@ result of an independent uniform random sampling among the collection
 	
 \begin{overprint}
 \onslide<1|handout:1>
-\includegraphics[width=0.9\textwidth]{figs/11/1_newscast}
+\includegraphics[width=0.9\textwidth]{1_newscast}
 \onslide<2|handout:2>	
-\includegraphics[width=0.9\textwidth]{figs/11/2_newscast}
+\includegraphics[width=0.9\textwidth]{2_newscast}
 \onslide<3|handout:3>	
-\includegraphics[width=0.9\textwidth]{figs/11/3_newscast}
+\includegraphics[width=0.9\textwidth]{3_newscast}
 \onslide<4|handout:4>	
-\includegraphics[width=0.9\textwidth]{figs/11/4_newscast}
+\includegraphics[width=0.9\textwidth]{4_newscast}
 \onslide<5|handout:5>	
-\includegraphics[width=0.9\textwidth]{figs/11/5_newscast}
+\includegraphics[width=0.9\textwidth]{5_newscast}
 \onslide<6|handout:6>	
-\includegraphics[width=0.9\textwidth]{figs/11/6_newscast}
+\includegraphics[width=0.9\textwidth]{6_newscast}
 \onslide<7|handout:7>	
-\includegraphics[width=0.9\textwidth]{figs/11/7_newscast}
+\includegraphics[width=0.9\textwidth]{7_newscast}
 \onslide<8|handout:8>	
-\includegraphics[width=0.9\textwidth]{figs/11/8_newscast}
+\includegraphics[width=0.9\textwidth]{8_newscast}
 \onslide<9|handout:9>	
-\includegraphics[width=0.9\textwidth]{figs/11/9_newscast}
+\includegraphics[width=0.9\textwidth]{9_newscast}
 \onslide<10|handout:10>	
-\includegraphics[width=0.9\textwidth]{figs/11/10_newscast}
+\includegraphics[width=0.9\textwidth]{10_newscast}
 \end{overprint}
 \end{frame}
 
@@ -331,23 +314,23 @@ result of an independent uniform random sampling among the collection
 	
 \begin{overprint}
 \onslide<1|handout:1>
-\includegraphics[width=0.9\textwidth]{figs/11/1_cyclon}
+\includegraphics[width=0.9\textwidth]{1_cyclon}
 \onslide<2|handout:2>	
-\includegraphics[width=0.9\textwidth]{figs/11/2_cyclon}
+\includegraphics[width=0.9\textwidth]{2_cyclon}
 \onslide<3|handout:3>	
-\includegraphics[width=0.9\textwidth]{figs/11/3_cyclon}
+\includegraphics[width=0.9\textwidth]{3_cyclon}
 \onslide<4|handout:4>	
-\includegraphics[width=0.9\textwidth]{figs/11/4_cyclon}
+\includegraphics[width=0.9\textwidth]{4_cyclon}
 \onslide<5|handout:5>	
-\includegraphics[width=0.9\textwidth]{figs/11/5_cyclon}
+\includegraphics[width=0.9\textwidth]{5_cyclon}
 \onslide<6|handout:6>	
-\includegraphics[width=0.9\textwidth]{figs/11/6_cyclon}
+\includegraphics[width=0.9\textwidth]{6_cyclon}
 \onslide<7|handout:7>	
-\includegraphics[width=0.9\textwidth]{figs/11/7_cyclon}
+\includegraphics[width=0.9\textwidth]{7_cyclon}
 \onslide<8|handout:8>	
-\includegraphics[width=0.9\textwidth]{figs/11/8_cyclon}
+\includegraphics[width=0.9\textwidth]{8_cyclon}
 \onslide<9|handout:9>	
-\includegraphics[width=0.9\textwidth]{figs/11/9_cyclon}
+\includegraphics[width=0.9\textwidth]{9_cyclon}
 \end{overprint}
 \end{frame}
 
@@ -396,7 +379,7 @@ For epidemic diffusion:
 \begin{frame}{Clustering coefficient}
 	
 \begin{center}
-\includegraphics[width=0.8\textwidth]{figs/11/clustering}	
+\includegraphics[width=0.8\textwidth]{clustering}	
 \end{center}
 	
 \note{
@@ -434,7 +417,7 @@ For epidemic diffusion:
 \begin{frame}{Average path length}
 	
 \begin{center}
-\includegraphics[width=0.8\textwidth]{figs/11/path}	
+\includegraphics[width=0.8\textwidth]{path}	
 \end{center}
 
 \note{
@@ -448,7 +431,7 @@ Indication of the time and cost to flood the network
 \begin{frame}{Degree distribution}
 	
 \begin{center}
-\includegraphics[width=0.8\textwidth]{figs/11/degree}	
+\includegraphics[width=0.8\textwidth]{degree}	
 \end{center}
 
 \note{
@@ -470,7 +453,7 @@ Affects:
 \begin{frame}{Robustness}
 	
 \begin{center}
-\includegraphics[width=0.8\textwidth]{figs/11/robustness}	
+\includegraphics[width=0.8\textwidth]{robustness}	
 \end{center}
 
 \end{frame}
@@ -479,7 +462,7 @@ Affects:
 \begin{frame}{Self-cleaning behavior}
 	
 \begin{center}
-\includegraphics[width=0.8\textwidth]{figs/11/clean}	
+\includegraphics[width=0.8\textwidth]{clean}	
 \end{center}
 	
 \end{frame}
@@ -505,8 +488,8 @@ Affects:
 \end{column}
 \begin{column}{0.45\textwidth}
 \begin{figure}
-\includegraphics[width=0.7\textwidth]{figs/11/hub1}\\
-\includegraphics[width=0.7\textwidth]{figs/11/hub2}	
+\includegraphics[width=0.7\textwidth]{hub1}\\
+\includegraphics[width=0.7\textwidth]{hub2}	
 \end{figure}
 \end{column}
 \end{columns}
@@ -536,12 +519,12 @@ Affects:
 \begin{columns}
 \begin{column}{0.55\textwidth}
 \begin{figure}
-\includegraphics[width=\textwidth]{figs/11/sps-architecture}
+\includegraphics[width=\textwidth]{sps-architecture}
 \end{figure}
 \end{column}
 \begin{column}{0.45\textwidth}
 \begin{figure}
-\includegraphics[width=\textwidth]{figs/11/sps-results}
+\includegraphics[width=\textwidth]{sps-results}
 \end{figure}
 
 \BI
@@ -628,7 +611,7 @@ Informal definition: \textit{building an overlay topology from the ground up as 
 \end{column}	
 \begin{column}{0.5\textwidth}
 	\begin{figure}
-	\includegraphics[width=0.6\textwidth]{figs/11/torus}
+	\includegraphics[width=0.6\textwidth]{torus}
 	\end{figure}
 \end{column}	
 \end{columns}	
@@ -738,7 +721,7 @@ $U$ that are the most preferred by $p$.
 }
 \EI
 \begin{figure}
-	\includegraphics[width=0.75\textwidth]{figs/11/unsorted-line}
+	\includegraphics[width=0.75\textwidth]{unsorted-line}
 \end{figure}
 \end{column}
 \begin{column}{0.50\textwidth}
@@ -749,7 +732,7 @@ $U$ that are the most preferred by $p$.
 \EI
 
 \begin{figure}
-	\includegraphics[width=0.75\textwidth]{figs/11/sorted-line}
+	\includegraphics[width=0.75\textwidth]{sorted-line}
 \end{figure}
 
 \end{column}
@@ -784,11 +767,11 @@ local view as ranked by $q$
 \begin{overprint}
 \onslide<1|handout:1>
 \begin{figure}	
-	\includegraphics[width=\textwidth]{figs/11/tman-1}
+	\includegraphics[width=\textwidth]{tman-1}
 \end{figure}
 \onslide<2|handout:2>
 \begin{figure}	
-	\includegraphics[width=\textwidth]{figs/11/tman-2}
+	\includegraphics[width=\textwidth]{tman-2}
 \end{figure}
 \end{overprint}
 
@@ -796,10 +779,10 @@ local view as ranked by $q$
 
 \begin{frame}{T-Man: The movie!}
 	
-%\url{http://www.disi.unitn.it/~montreso/ds/handouts/ring-fingers-20.gif}
+\url{http://www.disi.unitn.it/~montreso/ds/handouts/ring-fingers-20.gif}
 
 \begin{figure}
-\multiinclude[graphics={width=0.60\textwidth},start=0,format=png]{figs/11/ring-fingers}
+\multiinclude[graphics={width=0.60\textwidth},start=0,format=png]{ring-fingers}
 \end{figure}
 
 
@@ -837,7 +820,7 @@ local view as ranked by $q$
 \begin{frame}{Scalability, with different starting protocols}
 	
 \begin{figure}
-	\includegraphics[width=0.80\textwidth]{figs/11/sort-size-ctime}
+	\includegraphics[width=0.80\textwidth]{sort-size-ctime}
 \end{figure}	
 	
 \end{frame}
@@ -846,7 +829,7 @@ local view as ranked by $q$
 \begin{frame}{Bootstrap protocol: Starting and stopping}
 	
 \begin{figure}
-	\includegraphics[width=0.80\textwidth]{figs/11/sort-active}
+	\includegraphics[width=0.80\textwidth]{sort-active}
 \end{figure}	
 	
 \end{frame}
@@ -855,7 +838,7 @@ local view as ranked by $q$
 \begin{frame}{Stopping condition: different values for idle}
 	
 \begin{figure}
-	\includegraphics[width=0.80\textwidth]{figs/11/sort-inactive-time}
+	\includegraphics[width=0.80\textwidth]{sort-inactive-time}
 \end{figure}	
 	
 \end{frame}
@@ -864,7 +847,7 @@ local view as ranked by $q$
 \begin{frame}{Communication costs}
 	
 \begin{figure}
-	\includegraphics[width=0.80\textwidth]{figs/11/sort-inactive-msg}
+	\includegraphics[width=0.80\textwidth]{sort-inactive-msg}
 \end{figure}	
 	
 \end{frame}
@@ -873,7 +856,7 @@ local view as ranked by $q$
 \begin{frame}{Parameter tuning: message size}
 	
 \begin{figure}
-	\includegraphics[width=0.80\textwidth]{figs/11/sort-msgsize-time}
+	\includegraphics[width=0.80\textwidth]{sort-msgsize-time}
 \end{figure}	
 	
 \end{frame}
@@ -882,7 +865,7 @@ local view as ranked by $q$
 \begin{frame}{Robustness to failures}
 	
 \begin{figure}
-	\includegraphics[width=0.80\textwidth]{figs/11/sort-crash}
+	\includegraphics[width=0.80\textwidth]{sort-crash}
 \end{figure}	
 	
 \end{frame}
@@ -891,7 +874,7 @@ local view as ranked by $q$
 \begin{frame}{Robustness to message losses}
 	
 \begin{figure}
-	\includegraphics[width=0.80\textwidth]{figs/11/sort-loss-qual}
+	\includegraphics[width=0.80\textwidth]{sort-loss-qual}
 \end{figure}	
 	
 \end{frame}
@@ -918,7 +901,7 @@ local view as ranked by $q$
 \EIL
 
 \begin{figure}	
-\multiinclude[graphics={width=0.80\textwidth},start=0,format=png]{figs/11/tchord}	
+\multiinclude[graphics={width=0.80\textwidth},start=0,format=png]{tchord}	
 \end{figure}
 	
 \end{frame}
@@ -966,7 +949,7 @@ local view as ranked by $q$
 \begin{frame}{Routing through T-Chord}
 
 \begin{figure}
-	\includegraphics[width=0.80\textwidth]{figs/11/chord-routing}
+	\includegraphics[width=0.80\textwidth]{chord-routing}
 \end{figure}	
 
 
@@ -976,7 +959,7 @@ local view as ranked by $q$
 \begin{frame}{Robustness}
 
 \begin{figure}
-	\includegraphics[width=0.80\textwidth]{figs/11/chord-crash-fail}
+	\includegraphics[width=0.80\textwidth]{chord-crash-fail}
 \end{figure}	
 
 
@@ -986,7 +969,7 @@ local view as ranked by $q$
 \section{Aggregation}
 
 %-------------------------------------------------------------------------
-\begin{frame}{Aggregation}
+\begin{frame}[shrink=5]{Aggregation}
 
 \begin{definition}[Aggregation]
 The collective name of a set of functions that provide statistical information about a system
@@ -1002,7 +985,9 @@ The collective name of a set of functions that provide statistical information a
 \item Wanted: a decentralized, robust, proactive solution
 \EIL
 
+\smallskip
 \begin{Bib}
+	\vspace{-6pt}
 	\bibentry{JMB05}
 \end{Bib}
 
@@ -1068,12 +1053,12 @@ The collective name of a set of functions that provide statistical information a
 	
 \begin{figure}
 \begin{overprint}
-\includegraphics<1|handout:1>[width=0.7\textwidth]{figs/11/aggregation1}
-\includegraphics<2|handout:2>[width=0.7\textwidth]{figs/11/aggregation2}
-\includegraphics<3|handout:3>[width=0.7\textwidth]{figs/11/aggregation3}
-\includegraphics<4|handout:4>[width=0.7\textwidth]{figs/11/aggregation4}
-\includegraphics<5|handout:5>[width=0.7\textwidth]{figs/11/aggregation5}
-\includegraphics<6|handout:6>[width=0.7\textwidth]{figs/11/aggregation6}
+\includegraphics<1|handout:1>[width=0.7\textwidth]{aggregation1}
+\includegraphics<2|handout:2>[width=0.7\textwidth]{aggregation2}
+\includegraphics<3|handout:3>[width=0.7\textwidth]{aggregation3}
+\includegraphics<4|handout:4>[width=0.7\textwidth]{aggregation4}
+\includegraphics<5|handout:5>[width=0.7\textwidth]{aggregation5}
+\includegraphics<6|handout:6>[width=0.7\textwidth]{aggregation6}
 \end{overprint}
 \end{figure}
 
@@ -1125,7 +1110,7 @@ better described in this way:
 \begin{frame}{Convergence}
 	
 \begin{figure}
-	\includegraphics[width=0.80\textwidth]{figs/11/average}
+	\includegraphics[width=0.80\textwidth]{average}
 \end{figure}	
 	
 \end{frame}
@@ -1290,7 +1275,7 @@ then:
 \begin{frame}{Convergence factor}
 
 \begin{figure}
-	\includegraphics[width=0.80\textwidth]{figs/11/rate-100000}
+	\includegraphics[width=0.80\textwidth]{rate-100000}
 \end{figure}
 
 \end{frame}
@@ -1299,7 +1284,7 @@ then:
 \begin{frame}{Convergence factor}
 
 \begin{figure}
-	\includegraphics[width=0.80\textwidth]{figs/11/rate-av}
+	\includegraphics[width=0.80\textwidth]{rate-av}
 \end{figure}
 
 \end{frame}
@@ -1324,7 +1309,7 @@ then:
 \begin{frame}{Different topologies}
 
 \begin{figure}
-	\includegraphics[width=0.80\textwidth]{figs/11/rate}
+	\includegraphics[width=0.80\textwidth]{rate}
 \end{figure}
 
 \end{frame}
@@ -1333,7 +1318,7 @@ then:
 
 %-------------------------------------------------------------------------
 \begin{figure}
-	\includegraphics[width=0.80\textwidth]{figs/11/reduction}
+	\includegraphics[width=0.80\textwidth]{reduction}
 \end{figure}
 
 \end{frame}
@@ -1444,7 +1429,6 @@ then:
 \item The count protocol is used
 	\BI
 	\item More sensitive to failures
-	\item Some parameters:
 	\EI	
 \item Some parameters:
 	\BI
@@ -1460,7 +1444,7 @@ then:
 \begin{frame}{Sudden death}
 	
 \begin{figure}
-\includegraphics[width=0.80\textwidth]{figs/11/newscast-sudden-epoch}
+\includegraphics[width=0.80\textwidth]{newscast-sudden-epoch}
 \end{figure}
 
 \note{Network size estimation where $50\%$ of the nodes crash suddenly.
@@ -1474,7 +1458,7 @@ The x-axis represents the cycle of an epoch at which the
 \begin{frame}{Churn}
 
 \begin{figure}
-\includegraphics[width=0.80\textwidth]{figs/11/newscast-dynamic}
+\includegraphics[width=0.80\textwidth]{newscast-dynamic}
 \end{figure}
 
 \note{Network size estimation in a network of constant size subject to churn.
@@ -1487,7 +1471,7 @@ crash at each cycle and are substituted by the same number of new nodes.}
 \begin{frame}{Gnutella trace}
 
 \begin{figure}
-\includegraphics[width=0.80\textwidth]{figs/11/subtrace}
+\includegraphics[width=0.80\textwidth]{subtrace}
 \end{figure}
 
 \end{frame}
@@ -1499,7 +1483,7 @@ churn according to a Gnutella trace.}
 \begin{frame}{Link failure probability}
 	
 \begin{figure}
-\includegraphics[width=0.80\textwidth]{figs/11/newscast-fail-sym}
+\includegraphics[width=0.80\textwidth]{newscast-fail-sym}
 \end{figure}
 
 \note{Convergence factor as a function of link failure probability.}
@@ -1510,7 +1494,7 @@ churn according to a Gnutella trace.}
 \begin{frame}{Message losses}
 
 \begin{figure}
-\includegraphics[width=0.80\textwidth]{figs/11/newscast-fail-asym}
+\includegraphics[width=0.80\textwidth]{newscast-fail-asym}
 \end{figure}
 
 \note{Network size estimation as a function of lost messages.
@@ -1544,10 +1528,11 @@ maximal estimated size over the set of nodes within a single experiment.}
 \begin{frame}{Multiple executions - churn}
 
 \begin{figure}
-\includegraphics[width=0.80\textwidth]{figs/11/multiple-crash-original}
+\includegraphics[width=0.80\textwidth]{multiple-crash-original}
 \end{figure}
 
-\note{Network size estimation with multiple instance. $1000$ nodes crash at the beginning of each cycle.
+\note{Network size estimation with multiple instance. Network size is $100\,000$, $1000$ nodes 
+crash at the beginning of each cycle.
 The length of the bars correspond to the distance between the minimal and
 maximal estimates over the set of all nodes within a single experiment.}
 
@@ -1556,7 +1541,7 @@ maximal estimates over the set of all nodes within a single experiment.}
 %-------------------------------------------------------------------------
 \begin{frame}{Multiple executions - churn}
 \begin{figure}
-\includegraphics[width=0.80\textwidth]{figs/11/multiple-omission-original}
+\includegraphics[width=0.80\textwidth]{multiple-omission-original}
 \end{figure}
 
 \note{Network size estimation as a function of
@@ -1571,11 +1556,11 @@ maximal estimates over the set of all nodes within a single experiment.}
 
 \BI
 \item PlanetLab is a global research network that supports the development of new network services
-\item PlanetLab currently consists of 1075 nodes at 525 sites
+\item PlanetLab consists of 1353 nodes at 717 sites (April 2016)
 \EI
 
 \begin{figure}
-\includegraphics[width=0.80\textwidth]{figs/11/planetlab}
+\includegraphics[width=0.80\textwidth]{planetlab}
 \end{figure}
 
 \end{frame}
@@ -1584,7 +1569,7 @@ maximal estimates over the set of all nodes within a single experiment.}
 %-------------------------------------------------------------------------
 \begin{frame}{Planet-lab}
 \begin{figure}
-\includegraphics[width=0.80\textwidth]{figs/11/planet}
+\includegraphics[width=0.80\textwidth]{planet}
 \end{figure}
 
 \note{The estimated size and the actual size
@@ -1600,8 +1585,8 @@ deviation of estimated size is displayed using vertical bars.}
 \begin{block}{System model}
 
 \BI
-\item A collection $\Process$ of nodes of size $N=|\Process|$
-\item Each node $p \in \Process$ stores a local multiset $I_p$ of items taken
+\item A collection $P$ of nodes of size $N=|P|$
+\item Each node $p \in P$ stores a local multiset $I_p$ of items taken
 from a universe $\cal I$ of size $m=|\cal I|$
 \EI
 \end{block}
@@ -1609,7 +1594,7 @@ from a universe $\cal I$ of size $m=|\cal I|$
 \begin{block}{Problem statement}
 Identify the $\K$ \alert{most frequent items}, i.e. the $\K$ distinct items
 that appear more frequently in the distributed multiset given by 
-$I = \bigcup_{p \in \Process} I_p$
+$I = \bigcup_{p \in P} I_p$
 \end{block}
 
 \begin{Bib}
@@ -1623,7 +1608,7 @@ $I = \bigcup_{p \in \Process} I_p$
 
 \begin{block}{Global frequency}
 \begin{align*}
-\textrm{\alert{Global absolute frequency}}: \qquad& \F(i) = \sum_{p \in \Process} \F_p(i) \\
+\textrm{\alert{Global absolute frequency}}: \qquad& \F(i) = \sum_{p \in P} \F_p(i) \\
 \textrm{\alert{Global relative frequency}}: \qquad& \FR(i) = \F(i)/\M
 \end{align*}
 Note: $M = |I|$
@@ -1692,7 +1677,7 @@ than $\F(j)/N$
 }
 \BlankLine
 \REPEAT{every $\Delta$ time units}{
-  $\Node\ q \gets \Random(\Process)$\;
+  $\Node\ q \gets \Random(P)$\;
   \SEND $\langle \Request, \Extract(\Est_p, \S) \rangle$ \TO $q$\;
 }
 \end{Procedure}
@@ -1735,7 +1720,7 @@ than $\F(j)/N$
 \begin{frame}{\FreqMF evaluation}
 
 \begin{figure}
-\includegraphics[width=0.9\textwidth]{figs/11/msgsize.pdf}
+\includegraphics[width=0.9\textwidth]{msgsize.pdf}
 \end{figure}
 
 \end{frame}
@@ -1743,7 +1728,7 @@ than $\F(j)/N$
 \begin{frame}{\FreqMF evaluation}
 
 \begin{figure}
-\includegraphics[width=0.9\textwidth]{figs/11/msgoverhead.pdf}
+\includegraphics[width=0.9\textwidth]{msgoverhead.pdf}
 \end{figure}
 
 \end{frame}
@@ -1751,7 +1736,7 @@ than $\F(j)/N$
 \begin{frame}{\FreqMF evaluation}
 
 \begin{figure}
-\includegraphics[width=0.9\textwidth]{figs/11/msgstorage.pdf}
+\includegraphics[width=0.9\textwidth]{msgstorage.pdf}
 \end{figure}
 
 \end{frame}
@@ -1759,30 +1744,22 @@ than $\F(j)/N$
 \begin{frame}{\FreqMF evaluation}
 
 \begin{figure}
-\includegraphics[width=0.9\textwidth]{figs/11/msgratio.pdf}
+\includegraphics[width=0.9\textwidth]{msgratio.pdf}
 \end{figure}
 
 \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Bibliography}
 
 %-------------------------------------------------------------------------
-\begin{frame}{Reading material}
+\begin{RMFrame}
 
-{\footnotesize
-\BIL
+\BI
 \item \bibentry{peersampling}
 \item \bibentry{JMB05}
-\EIL
-}
+\EI
 
-\invisible{{\tiny
-\bibliographystyle{abbrv}
-\bibliography{references} 
-}}
-
-\end{frame}
+\end{RMFrame}
 
 \end{document}

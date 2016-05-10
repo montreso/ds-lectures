@@ -1,8 +1,12 @@
 \input templates/header
 \title[DS - BFT]{\textbf{Distributed Algorithms}\\Practical Byzantine Fault Tolerance}
 
+\graphicspath{{figs/16/}}
 
 \newcommand{\Retreat}{\textsc{retreat}}
+
+\newcommand{\OM}{\textit{OM}}
+
 
 \newcommand{\Request}{\textsc{request}}
 \newcommand{\Preprepare}{\textsc{pre-prepare}}
@@ -22,28 +26,8 @@
 \begin{document}
 
 
-
-%-------------------------------------------------------------------------
-\begin{frame}
-\titlepage
-
-\invisible{
-\nobibliography*{references}
-}
-
-\note{
-\BIL
-\item Lecture on view synchrony/group communication and lectures on
-checkpointing should have been done before this.
-\EIL
-
-}
-
-
-
-\end{frame}
-
-
+\FrameTitle{}
+\FrameContent
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -53,7 +37,7 @@ checkpointing should have been done before this.
 %-------------------------------------------------------------------------
 \begin{frame}{Motivation}
 
-\BIL
+\BI
 \item Processes may exhibit arbitrary (Byzantine) behavior
 	\BI
 	\item Malicious attacks
@@ -66,11 +50,16 @@ checkpointing should have been done before this.
 		\item Arbitrary states, messages
 		\EI
 	\EI
-\item Example: Amazon outage (2008)
-	\BI
-	\item “Root cause was a single bit flip in internal state messages”
-	\EI
-\EIL
+\EI
+	
+\begin{block}{Examples}
+\BI
+\item Amazon outage (2008), “Root cause was a single bit flip in internal state messages”\footnotemark
+\item Shuttle Mission STS-124 (2008), 3-1 disagreement on sensors during fuel loading (on Earth!)\footnotemark
+\EI
+\end{block}
+\footnotetext{\url{http://status.aws.amazon.com/s3-20080720.html}}
+\footnotetext{\url{https://c3.nasa.gov/dashlink/resources/624/}}
 
 \end{frame}
 
@@ -83,7 +72,7 @@ checkpointing should have been done before this.
 \BI
 \item Theoretically feasible algorithms to tolerate Byzantine failures, but inefficient in practice
 \item Assume synchrony – known bounds for message delays and processing speed
-\item The most important: synchrony assumption needed for correctness – what about DoS?
+\item Most importantly: synchrony assumption needed for correctness – what about DoS?
 \EI
 \EIL
 
@@ -100,7 +89,7 @@ checkpointing should have been done before this.
 \begin{frame}{Byzantine generals}
 	
 \begin{figure}
-	\includegraphics[width=0.9\textwidth]{figs/14/generals}
+	\includegraphics[width=0.9\textwidth]{generals}
 \end{figure}
 
 \end{frame}
@@ -114,7 +103,7 @@ checkpointing should have been done before this.
 \item \textbf{IC1}: All loyal lieutenants obey the same order
 \item \textbf{IC2}: If the commanding general is loyal, then every loyal lieutenant obeys the order he sends
 \EI
-\item Assumptions:
+\item Assumptions (“Oral” messages):
 \BI
 \item Every message that is sent is received correctly
 \item The receiver of a message knows who sent it
@@ -128,45 +117,45 @@ checkpointing should have been done before this.
 
 \begin{frame}{Impossibility results}
 	
-\BI
-\item “Oral” messages
-\item No solution with three generals can handle a single traitor
-\EI
+Under the “Oral” messages assumption, no solution with three generals can handle even 
+a single traitor
 	
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/14/impossibility}
+	\includegraphics[width=\textwidth]{impossibility}
 \end{figure}
 
 \end{frame}
 
 
 %-------------------------------------------------------------------------
-\begin{frame}{“Oral Message” algorithm $OM(m)$}
+\begin{frame}{“Oral Message” algorithm $\OM(m)$}
 
 \BIL
-\item Algorithm $OM(0)$
+\item Algorithm $\OM(0)$
 	\BE
 	\item The commander sends its value to every lieutenant
-	\item Each lieutenant returns the value he received from commander, or returns $\Retreat$ if he received no value
+	\item Each lieutenant uses the value he received from commander, or uses $\Retreat$ if he received no value
 	\EE
-\item Algorithm $OM(m)$
+\item Algorithm $\OM(m)$
 	\BE
 	\item The commander send its value to every lieutenant
 	\item $\forall i$, let $v_i$ be the value lieutenant $i$ receives from the
 	commander, or $\Retreat$ if it has received no value. Lieutenant $i$ acts as the
-	commander of algorithm $OM(m-1)$ to send the value $v_i$ to each of the other $n-2$
+	commander of algorithm $\OM(m-1)$ to send the value $v_i$ to each of the other $n-2$
 	other lieutenants
-	\item $\forall i,j, i \neq j$, let $v_j^{(i)}$ be the value received by $i$ from $j$
-	in step 2 of algorithm $OM(m-1)$ or $\Retreat$ if no value. Lieutenant $i$ uses
-	the value $\mathsf{majority}(v_1^{(i)}, ..., v_n^{(i)})$ (deterministic function)
+	\item $\forall j \neq i$, let $v_j$ be the value received by $i$ from $j$
+	in Step 2 of algorithm $\OM(m-1)$ or $\Retreat$ if no value. Lieutenant $i$ uses
+	the value $\mathsf{majority}(v_1, ..., v_n)$ (deterministic function)
 	\EE
 \EIL
+
+The recursive
 \end{frame}
 
-\begin{frame}{“Oral Message” Algorithm Example -- $OM(1)$}
+\begin{frame}{“Oral Message” Algorithm Example -- $\OM(1)$}
 	
 \begin{figure}	
-	\includegraphics[width=\textwidth]{figs/14/oral}
+	\includegraphics[width=\textwidth]{oral}
 \end{figure}
 	
 \end{frame}
@@ -177,7 +166,7 @@ checkpointing should have been done before this.
 \begin{frame}{Oral messages}
 	
 \begin{theorem}
-For any $m$, Algorithm $OM(m)$ satisfies conditions \textbf{IC1} and \textbf{IC2} if there are more than $3m$ generals and at most $m$ traitors
+For any $m$, Algorithm $\OM(m)$ satisfies conditions \textbf{IC1} and \textbf{IC2} if there are more than $3m$ generals and at most $m$ traitors
 \end{theorem}
 
 \bigskip
@@ -201,7 +190,7 @@ easier than gaining control over a non-faulty node.
 \end{frame}
 
 %-------------------------------------------------------------------------
-\section{Practical Byzantine fault tolerance}
+\section{Practical Byzantine Fault Tolerance}
 
 \begin{frame}{A Byzantine “renaissance”}
 		
@@ -364,7 +353,7 @@ the faulty replicas, so
 \EI
 \end{column}
 \begin{column}{0.4\textwidth}
-	\includegraphics[width=\textwidth]{figs/14/primary-backup}
+	\includegraphics[width=\textwidth]{primary-backup}
 \end{column}
 
 \end{columns}	
@@ -413,11 +402,11 @@ the faulty replicas, so
 \begin{overprint}
 \onslide<1|handout:1>
 \begin{figure}
-\includegraphics[width=0.7\textwidth]{figs/14/quorum1}
+\includegraphics[width=0.7\textwidth]{quorum1}
 \end{figure}
 \onslide<2|handout:2>
 \begin{figure}
-\includegraphics[width=0.7\textwidth]{figs/14/quorum2}
+\includegraphics[width=0.7\textwidth]{quorum2}
 \end{figure}
 \end{overprint}
 \end{frame}
@@ -464,7 +453,7 @@ the faulty replicas, so
 \begin{frame}{Client request}
 
 \begin{figure}
-\includegraphics[width=0.9\textwidth, trim=0 20 0 60]{figs/14/messages0}
+\includegraphics[width=0.9\textwidth, trim=0 20 0 60]{messages0}
 \end{figure}
 \structure{$\langle \Request, o, t, c \rangle_{\sigma(c)}$}
 \BI
@@ -480,7 +469,7 @@ the faulty replicas, so
 \begin{frame}{Pre-prepare phase}
 
 \begin{figure}
-\includegraphics[width=0.9\textwidth, trim=0 20 0 60]{figs/14/messages1}
+\includegraphics[width=0.9\textwidth, trim=0 20 0 60]{messages1}
 \end{figure}
 \structure{$\langle \langle \Preprepare, v, n, d(m) \rangle_{\sigma(p)}, m \rangle$}
 \begin{columns}
@@ -516,7 +505,7 @@ was assigned sequence number in view in view changes.
 \BIL
 \item  Correct replica $i$ accepts $\Preprepare$ if:
 \BI
-	\item the $\Preprepare$ message is well formed
+	\item the $\Preprepare$ message is well-formed
 	\item the current view of $i$ is $v$
 	\item $i$ has not accepted another $\Preprepare$ for $v, n$ with a different digest
 	\item $n$ is between two water-marks $L$ and $H$\\
@@ -533,7 +522,7 @@ accepting replica's message log (including the primary's)
 \begin{frame}{Prepare phase}
 
 \begin{figure}
-\includegraphics[width=0.9\textwidth, trim=0 20 0 60]{figs/14/messages2}
+\includegraphics[width=0.9\textwidth, trim=0 20 0 60]{messages2}
 \end{figure}
 \structure{$\langle \Prepare, v, n, d(m) \rangle_{\sigma(i)}$}
 \begin{overprint}
@@ -541,7 +530,7 @@ accepting replica's message log (including the primary's)
 \BI
 \item Accepted by correct replica $j$ if:
 \BI
-\item the $\Prepare$ message is well formed
+\item the $\Prepare$ message is well-formed
 \item current view of $j$ is $v$
 \item $n$ is between two water-marks $L$ and $H$
 \EI
@@ -584,7 +573,7 @@ Proof?
 \begin{frame}{Commit phase}
 	
 \begin{figure}
-\includegraphics[width=0.9\textwidth, trim=0 20 0 60]{figs/14/messages3}
+\includegraphics[width=0.9\textwidth, trim=0 20 0 60]{messages3}
 \end{figure}
 \structure{$\langle \Commit, v, n, d(m), i \rangle_{\sigma(i)}$}
 \BIL
@@ -620,7 +609,7 @@ Proof?
 \begin{frame}{Reply phase}
 	
 \begin{figure}
-\includegraphics[width=0.9\textwidth, trim=0 20 0 60]{figs/14/messages4}
+\includegraphics[width=0.9\textwidth, trim=0 20 0 60]{messages4}
 \end{figure}
 \structure{$\langle \Reply, v, t, c, i, r \rangle_{\sigma(i)}$}
 \BIL
@@ -777,7 +766,7 @@ processes are a proof of the checkpoint's correctness (\alert{stable checkpoint 
 \begin{frame}{Application: Byzantine NFS server}
 	
 \begin{figure}
-	\includegraphics[width=0.8\textwidth]{figs/14/nfs}
+	\includegraphics[width=0.8\textwidth]{nfs}
 \end{figure}	
 	
 \end{frame}
@@ -786,30 +775,32 @@ processes are a proof of the checkpoint's correctness (\alert{stable checkpoint 
 \begin{frame}{Application: Byzantine NFS server}
 	
 \begin{figure}
-	\includegraphics[width=0.8\textwidth]{figs/14/andrew1}
+	\includegraphics[width=0.8\textwidth]{andrew1}
 \end{figure}	
 	
 \end{frame}
 
+%-------------------------------------------------------------------------
+\begin{frame}{Reality Check}
+	
+Example of systems that have adopted Byzantine Fault Tolerance:
+\BI
+\item Boeing 777 Aircraft Information Management System 
+\item Boeing 777/787 flight control system
+\item SpaceX Dragon flight control system
+\item BitCoin
+\EI
+	
+\end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Bibliography}
 
 %-------------------------------------------------------------------------
-\begin{frame}{Reading material}
+\begin{RMFrame}
 
-{\footnotesize
-\BIL
+\BI
 \item \bibentry{pbft-osdi}
-\EIL
-}
+\EI
 
-\invisible{{\tiny
-\bibliographystyle{abbrv}
-\bibliography{references} 
-}}
-
-\end{frame}
-\note{}
+\end{RMFrame}
 
 \end{document}

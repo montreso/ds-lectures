@@ -7,12 +7,11 @@ all: slides handouts notes
 
 notes:
 	mkdir -p notes
-	echo $(notefiles)
-	latexmk -logfilewarninglist -bibtex- -pdflatex="pdflatex --shell-escape %O '\newif \ifnotes \newif \ifslides \newif \ifhandouts \slidesfalse \handoutsfalse \notestrue\input{%S}'" -outdir=./notes -pdf $(notefiles)
+	latexmk -logfilewarninglist -bibtex- -pdflatex="pdflatex --shell-escape %O '\newif \ifnotes \newif \ifslides \newif \ifhandouts \slidesfalse \handoutsfalse \notestrue\input{%S}'" -outdir=./notes -silent -pdf $(notefiles)
 	
 slides:
 	mkdir -p slides
-	latexmk -logfilewarninglist -pdflatex="pdflatex --shell-escape %O '\newif \ifnotes \newif \ifslides \newif \ifhandouts \notesfalse \handoutsfalse \slidestrue\input{%S}'" -outdir=slides -pdf
+	latexmk -logfilewarninglist -pdflatex="pdflatex --shell-escape %O '\newif \ifnotes \newif \ifslides \newif \ifhandouts \notesfalse \handoutsfalse \slidestrue\input{%S}'" -outdir=./slides -pdf
 	
 handouts:
 	mkdir -p handouts

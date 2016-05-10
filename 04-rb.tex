@@ -1,11 +1,11 @@
 \input templates/header
 \title[DS - Reliable Broadcast]{\textbf{Distributed Algorithms}\\Reliable Broadcast}
 
-
+\graphicspath{{figs/04/}}
 
 \begin{document}
 
-\FrameTitle
+\FrameTitle{}
 \FrameContent
 
 \section{Introduction}
@@ -32,7 +32,7 @@ Implement atomic behavior in transactional types of systems
 \begin{frame}{Broadcast}
 	
 \begin{figure}
-\includegraphics[width=\textwidth]{figs/04/rb-example}
+\includegraphics[width=\textwidth]{rb-example}
 \end{figure}
 
 \end{frame}
@@ -40,7 +40,7 @@ Implement atomic behavior in transactional types of systems
 \begin{frame}{Broadcast Protocol Layering}
 	
 \begin{figure}
-\includegraphics[width=\textwidth]{figs/04/layers}
+\includegraphics[width=\textwidth]{layers}
 \end{figure}
 
 \end{frame}
@@ -240,7 +240,7 @@ $m$ is delivered by a process at most once, and only if it was previously broadc
 \begin{frame}{Best-effort broadcast -- Example}
 	
 \begin{figure}
-\includegraphics[width=\textwidth]{figs/04/beb-normal}
+\includegraphics[width=\textwidth]{beb-normal}
 \end{figure}
 
 \end{frame}
@@ -248,7 +248,7 @@ $m$ is delivered by a process at most once, and only if it was previously broadc
 \begin{frame}{Best-effort broadcast -- Example}
 	
 \begin{figure}
-\includegraphics[width=\textwidth]{figs/04/beb-failure}
+\includegraphics[width=\textwidth]{beb-failure}
 \end{figure}
 
 \end{frame}
@@ -301,7 +301,7 @@ If a correct process delivers $m$, then all correct processes eventually deliver
 \structure{Does this execution satisfy the RB specification?}
 
 \begin{figure}
-\includegraphics[width=\textwidth]{figs/04/rb-scenario1}
+\includegraphics[width=\textwidth]{rb-scenario1}
 \end{figure}
 
 \note{
@@ -318,7 +318,7 @@ own messages.
 \structure{Does this execution satisfy the RB specification?}
 
 \begin{figure}
-\includegraphics[width=\textwidth]{figs/04/rb-scenario2}
+\includegraphics[width=\textwidth]{rb-scenario2}
 \end{figure}
 
 \note{Obviously yes -- the fact that no process delivers $m$ is not a 
@@ -332,7 +332,7 @@ and nobody delivers $m$, so Agreement does not apply.}
 \structure{Does this execution satisfy the RB specification?}
 
 \begin{figure}
-\includegraphics[width=\textwidth]{figs/04/rb-scenario3}
+\includegraphics[width=\textwidth]{rb-scenario3}
 \end{figure}
 
 \note{Obviously no -- Agreement is not satisfied.}
@@ -372,7 +372,7 @@ and nobody delivers $m$, so Agreement does not apply.}
 \structure{Does this execution satisfy the RB specification?}
 
 \begin{figure}
-\includegraphics[width=\textwidth]{figs/04/rb-correct-scenario}
+\includegraphics[width=\textwidth]{rb-correct-scenario}
 \end{figure}
 
 \note{Yes, because before R-delivering the message, $p_2$ forwards it
@@ -403,7 +403,7 @@ By the Integrity of Perfect Channels and the use of variable $\Delivered$
 \structure{Does this execution satisfy the RB specification?}
 
 \begin{figure}
-\includegraphics[width=\textwidth]{figs/04/rb-scenario5}
+\includegraphics[width=\textwidth]{rb-scenario5}
 \end{figure}
 
 \note{Yes, because the fact that $m_1$ has been delivered by $p_1$ 
@@ -507,7 +507,7 @@ no correct process delivers $m'$ unless it has previously delivered $m$
 \structure{Is this causal?} \only<2>{No!}
 
 \begin{figure}
-\includegraphics[width=0.8\textwidth]{figs/04/rb-causal2}
+\includegraphics[width=0.8\textwidth]{rb-causal2}
 \end{figure}
 		
 \end{frame}
@@ -525,7 +525,7 @@ no correct process delivers $m'$ unless it has previously delivered $m$
 \structure{Is this causal?} \only<2>{Yes!}
 
 \begin{figure}
-\includegraphics[width=0.8\textwidth]{figs/04/rb-causal3}
+\includegraphics[width=0.8\textwidth]{rb-causal3}
 \end{figure}
 		
 \end{frame}
@@ -543,7 +543,7 @@ no correct process delivers $m'$ unless it has previously delivered $m$
 \structure{Is this causal?} \only<2>{Yes!}
 
 \begin{figure}
-\includegraphics[width=0.8\textwidth]{figs/04/rb-causal1}
+\includegraphics[width=0.8\textwidth]{rb-causal1}
 \end{figure}
 		
 \end{frame}
@@ -576,7 +576,7 @@ If correct processes $p$ and $q$ both deliver messages $m$,$m'$, then $p$ delive
 \structure{Is this totally ordered?} \only<2>{No!}
 
 \begin{figure}
-\includegraphics[width=0.8\textwidth]{figs/04/rb-causal1}
+\includegraphics[width=0.8\textwidth]{rb-causal1}
 \end{figure}
 
 \end{frame}
@@ -593,7 +593,7 @@ If correct processes $p$ and $q$ both deliver messages $m$,$m'$, then $p$ delive
 \structure{Is this totally ordered?} \only<2>{Yes!}
 
 \begin{figure}
-\includegraphics[width=0.8\textwidth]{figs/04/rb-total}
+\includegraphics[width=0.8\textwidth]{rb-total}
 \end{figure}
 
 \end{frame}
@@ -631,7 +631,7 @@ If \sout{correct} processes $p$ and $q$ both deliver messages $m$,$m'$, then $p$
 \begin{frame}{A modular approach to Broadcast}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/04/rb-modular-rb1}
+	\includegraphics[width=\textwidth]{rb-modular-rb1}
 \end{figure}
 
 \end{frame}
@@ -639,7 +639,7 @@ If \sout{correct} processes $p$ and $q$ both deliver messages $m$,$m'$, then $p$
 \begin{frame}{A modular approach to Broadcast}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/04/rb-modular-urb1}
+	\includegraphics[width=\textwidth]{rb-modular-urb1}
 \end{figure}
 
 \end{frame}
@@ -823,7 +823,7 @@ For claim 2, it will eventually F-deliver $m$. Absurd.
 \begin{frame}{Causal Order - Algorithm 1}
 	
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/04/rb-crb}
+	\includegraphics[width=\textwidth]{rb-crb}
 \end{figure}
 
 \end{frame}
@@ -868,7 +868,7 @@ For claim 2, it will eventually F-deliver $m$. Absurd.
 \begin{frame}{Causal Order - Algorithm 2}
 	
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/04/rb-causal-vc}
+	\includegraphics[width=\textwidth]{rb-causal-vc}
 \end{figure}
 
 \end{frame}
@@ -887,7 +887,7 @@ For claim 2, it will eventually F-deliver $m$. Absurd.
 \begin{frame}{A modular approach to Broadcast}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/04/rb-modular-summary}
+	\includegraphics[width=\textwidth]{rb-modular-summary}
 \end{figure}
 
 \end{frame}
@@ -956,7 +956,7 @@ where $\TS(m)$ is the timestamp obtained by the local clock of the sender
 In the \alert{(Uniform) Consensus} problem, the processes \alert{propose}
 values and need to \alert{decide} (agree) on one of these values
 \begin{figure}
-\includegraphics[width=\textwidth]{figs/04/rb-consensus}
+\includegraphics[width=\textwidth]{rb-consensus}
 \end{figure}
 
 \end{column}
@@ -1072,7 +1072,14 @@ Next step: can we solve Consensus?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\nocite{hadzilacos94modular}
-\ReadingMaterial
+\begin{RMFrame}
+
+\BI
+\item \bibentry{hadzilacos94modular}
+\EI
+
+\end{RMFrame}
+
+
 
 \end{document}

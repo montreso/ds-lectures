@@ -1,6 +1,8 @@
 \input templates/header
 \title[DS - BFT]{\textbf{Distributed Algorithms}\\Practical Byzantine Fault Tolerance}
 
+\graphicspath{{figs/17/}}
+
 
 \newcommand{\Retreat}{\textsc{retreat}}
 
@@ -24,20 +26,17 @@
 
 
 %-------------------------------------------------------------------------
-\begin{frame}
-\titlepage
+\begin{FrameTitle}{
 
-{\footnotesize
-Acknowledgment: Lorenzo Alvisi
+\begin{tabular}{P{2.8cm} P{8cm}}
+Acknowledgments: & Lorenzo Alvisi\\
+\end{tabular}
 }
 
-\invisible{
-\nobibliography*{references}
-}
-
-\end{frame}
+\end{FrameTitle}
 
 
+\FrameContent
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -79,7 +78,7 @@ for the quadratic number of messages).”
 
 \subsection{Introduction}
 
-\begin{frame}{Zyzzyva\footnote{Zyzzyva is the last word of the English dictionary}}
+\begin{frame}{Zyzzyva\footnote{Zyzzyva is the last word of the English dictionary -- Apart from Zyzzyzus}}
 	
 \begin{block}{OSDI'06}
 {\small
@@ -91,13 +90,13 @@ for the quadratic number of messages).”
 \begin{column}{0.4\textwidth}
 \BIL
 \item One protocol to rule them all!
-\item Is Zyzzyva the last word on BFT?
-\item (Or not?)
+\item Zyzzyva is the last word on BFT!
+\item (Is it?)
 \EIL
 \end{column}
 \begin{column}{0.6\textwidth}
 \begin{figure}
-	\includegraphics[width=0.6\textwidth]{figs/17/zyzzyva.png}\\
+	\includegraphics[width=0.6\textwidth]{zyzzyva.png}\\
 	{\tiny \url{http://www.flickr.com/photos/matthewfch/2478230533/}}
 \end{figure}
 \end{column}
@@ -122,7 +121,7 @@ for the quadratic number of messages).”
 \begin{frame}{How it is done now}
 	
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/17/messages4}
+	\includegraphics[width=\textwidth]{messages4}
 \end{figure}	
 	
 \end{frame}
@@ -142,7 +141,7 @@ Butler Lampson, “Hints for Computer System Design”
 \begin{frame}{How Zyzzyva does it}
 	
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/17/messages5}
+	\includegraphics[width=\textwidth]{messages5}
 \end{figure}	
 	
 \end{frame}
@@ -240,7 +239,7 @@ command history
 \begin{frame}{Case 1: Unanimity}
 	
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/17/messages6}	
+	\includegraphics[width=\textwidth]{messages6}	
 \end{figure}
 
 \BIL
@@ -278,7 +277,7 @@ Is it safe to accept the reply in this case?
 \begin{frame}{Case 2: A majority of correct replicas agree}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/17/messages7}	
+	\includegraphics[width=\textwidth]{messages7}	
 \end{figure}
 
 Is it safe to accept such a message?
@@ -288,7 +287,7 @@ Is it safe to accept such a message?
 \begin{frame}{Case 2: A majority of correct replicas agree}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/17/messages8}	
+	\includegraphics[width=\textwidth]{messages8}	
 \end{figure}
 
 Consider this case...
@@ -298,7 +297,7 @@ Consider this case...
 \begin{frame}{Case 2: A majority of correct replicas agree}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/17/messages9}	
+	\includegraphics[width=\textwidth]{messages9}	
 \end{figure}
 
 Client sends to all a \alert{commit certificate} containing $2f+1$ matching histories
@@ -308,7 +307,7 @@ Client sends to all a \alert{commit certificate} containing $2f+1$ matching hist
 \begin{frame}{Case 2: A majority of correct replicas agree}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/17/messages10}	
+	\includegraphics[width=\textwidth]{messages10}	
 \end{figure}
 
 Client processes response if it receives at least $2f +1$ acks
@@ -337,7 +336,7 @@ Stability
 \begin{frame}{Case 3: None of the above}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/17/messages11}	
+	\includegraphics[width=\textwidth]{messages11}	
 	
 \BIL
 \item Fewer than $2f+1$ replies match
@@ -355,10 +354,10 @@ Stability
 \begin{columns}
 \begin{column}{0.6\textwidth}
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/17/messages4}
+	\includegraphics[width=\textwidth]{messages4}
 \end{figure}
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/17/messages10}	
+	\includegraphics[width=\textwidth]{messages10}	
 \end{figure}
 \end{column}
 \begin{column}{0.4\textwidth}
@@ -376,9 +375,10 @@ Consider this scenario:
 \BI
 \item $f$ malicious replicas, including the primary
 \item The primary stops communicating with $f$ correct replicas
-\item They go on strike -- they stop accepting messages in this view
-\item $f+f$ replicas stops accepting messages, $f+1$ messages keep working
-\item The remaining $f+1$ messages are not enough to conclude the $\Preprepare$ and
+\item They go on strike -- they stop accepting messages in this view, ask
+a view change
+\item $f+f$ replicas stops accepting messages, $f+1$ replicas keep working
+\item The remaining $f+1$ replicas are not enough to conclude the $\Preprepare$ and
   $\Prepare$ phases
 \item The $f$ correct processes that are asking a view change are not enough
   to conclude one, so there is no opportunity to regain liveness by electing
@@ -416,7 +416,7 @@ change
 
 \begin{block}{In Zyzzyva}
 \begin{quote}	
-A correct replica does not abandon view $v$ unless it is guarantee that every
+A correct replica does not abandon view $v$ unless it is guaranteed that every
 other correct replica will do the same, forcing a new view and a new primary
 \end{quote}
 \end{block}
@@ -453,7 +453,7 @@ change (similar to the traditional one)
 \begin{frame}{Performance}
 
 \begin{figure}
-	\includegraphics[width=0.8\textwidth]{figs/17/performance}
+	\includegraphics[width=0.8\textwidth]{performance}
 \end{figure}
 
 \end{frame}
@@ -469,7 +469,7 @@ change (similar to the traditional one)
 
 \section{Aardvark}
 
-\begin{frame}{Aardvark\footnote{Aardvark is the first word of the English dictionary}}
+\begin{frame}{Aardvark\footnote{Aardvark is the first word of the English dictionary -- Oritteropo in Italian}}
 	
 \begin{block}{NSDI'09}
 {\small
@@ -487,12 +487,11 @@ change (similar to the traditional one)
 \end{column}
 \begin{column}{0.6\textwidth}
 \begin{figure}
-	\includegraphics[width=0.5\textwidth]{figs/17/aardvark.png}\\
+	\includegraphics[width=0.5\textwidth]{aardvark.png}\\
 \end{figure}
 \end{column}
 \end{columns}
 
-\note{+Oritteropo in Italian}
 
 \end{frame}
 
@@ -554,8 +553,6 @@ Byzantine faults.
 	\EI
 \EIL
 
-\note{Go back to the previous slides on performance of the 0/0 case (null operation)}
-
 \end{frame}
 
 \begin{frame}{Blueprint}
@@ -595,7 +592,7 @@ Byzantine faults.
 \begin{frame}{MAC Attack}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/17/messages12}\\
+	\includegraphics[width=\textwidth]{messages12}\\
 \end{figure}
 
 \end{frame}
@@ -603,7 +600,7 @@ Byzantine faults.
 \begin{frame}{MAC Attack}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/17/messages13}\\
+	\includegraphics[width=\textwidth]{messages13}\\
 \end{figure}
 
 \end{frame}
@@ -655,7 +652,7 @@ Aardvark & 39K & 39K & 7.8K	& 37K & 11K \\ \hline
 \begin{columns}
 \begin{column}{0.5\textwidth}
 \begin{figure}
-	\includegraphics[width=\textwidth]{figs/17/commission}
+	\includegraphics[width=\textwidth]{commission}
 \end{figure}
 \end{column}
 \begin{column}{0.5\textwidth}
@@ -684,25 +681,34 @@ Aardvark & 39K & 39K & 7.8K	& 37K & 11K \\ \hline
 \EIL
 \end{frame}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Bibliography}
+%-------------------------------------------------------------------------
+\begin{frame}{Reality Check}
+\BI
+\item UpRight\footnotemark (Java; latest update Oct. 2009)
+\item ArchiStar-BFT\footnotemark (Java; latest update May 2015)
+\item Bft-SMaRt\footnotemark (Java; latest update Apr. 2016)
+\EI
+\footnotetext{\url{https://code.google.com/archive/p/upright/}}
+\footnotetext{\url{https://github.com/archistar/archistar-bft}}
+\footnotetext{\url{http://bft-smart.github.io/library/}}
+\end{frame}
 
 %-------------------------------------------------------------------------
-\begin{frame}{Reading material}
+\begin{frame}{For (far in the) future lectures}
+\BI
+\item \bibentry{quantum-byzantine}
+\EI
+\end{frame}
 
-{\footnotesize
-\BIL
+
+%-------------------------------------------------------------------------
+\begin{RMFrame}
+
+\BI
 \item \bibentry{zyzzyva}
 \item \bibentry{aardvark}
-\EIL
-}
+\EI
 
-\invisible{{\tiny
-\bibliographystyle{abbrv}
-\bibliography{references} 
-}}
-
-\end{frame}
+\end{RMFrame}
 
 \end{document}

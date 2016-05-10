@@ -8,6 +8,7 @@
 \documentclass[handout,notes=onlyslideswithnotes]{beamer}
 \fi
 
+\usepackage{eurosym}
 \usepackage{etex}
 \usepackage{pgfpages}
 \usepackage[utf8]{inputenc}
@@ -24,27 +25,44 @@
 \usepackage{multicol}
 \usepackage{templates/spacetime}
 
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+
 \author{Alberto Montresor}
 \institute[UniTN]{University of Trento, Italy}
 \date{\filemodprintdate{\jobname.tex}}
+
+
 
 \usetheme[secheader]{Boadilla}
 \usecolortheme{beaver}
 \usefonttheme{serif}
 
-\newcommand{\FrameTitle}{
+\colorlet{custom}{beamerstructure}
+\setbeamertemplate{itemize subitem}{\tiny\raise1.5pt\hbox{\color{custom}$\blacktriangleright$}}
+\setbeamertemplate{itemize subsubitem}{\tiny\raise1.5pt\hbox{\color{custom}$\bigstar$}}
+
+
+\newcommand{\FrameTitle}[1]{
 	{
 	\setbeamertemplate{footline}{} 
 	\setbeamertemplate{headline}{} 
 	\begin{frame}[noframenumbering]
 		\titlepage
+		\medskip
+		#1
+		\begin{tabular}{@{\extracolsep{\fill}}  P{0.75\textwidth}  P{0.20\textwidth} }			
 		\bigskip
-		\begin{center}
-		\href{http://creativecommons.org/licenses/by-sa/4.0/}{This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.}
+		\href{http://creativecommons.org/licenses/by-sa/4.0/}{This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.} & 
+		\bigskip
+		\includegraphics[width=2.5cm]{figs/by-sa.pdf} 
+		\end{tabular}
 		
-		\smallskip
-		\includegraphics[width=1cm]{figs/cc.png}
-		\end{center}
+		\invisible{
+		\nobibliography*{references}
+		\bibliographystyle{abbrv}
+		\bibliography{references}  
+		}
 	\end{frame}
 	}
 }
@@ -81,11 +99,11 @@
 	\end{PlainFrame}
 }
 
-\newcommand{\ReadingMaterial}{
-	\begin{PlainFrame}[noframenumbering]{Reading material}
-		\bibliographystyle{abbrv}
-		\bibliography{references}  
-	\end{PlainFrame}
+\newenvironment{RMFrame}{
+  \begin{PlainFrame}{Reading Material}
+  \footnotesize
+}{
+  \end{PlainFrame}
 }
 
 
@@ -179,10 +197,5 @@
 
 \setbeamertemplate{note page}[infolines]
 
-\setbeamerfont{bibliography item}{size=\footnotesize}
-\setbeamerfont{bibliography entry author}{size=\footnotesize}
-\setbeamerfont{bibliography entry title}{size=\footnotesize}
-\setbeamerfont{bibliography entry location}{size=\footnotesize}
-\setbeamerfont{bibliography entry note}{size=\footnotesize}
 
 
