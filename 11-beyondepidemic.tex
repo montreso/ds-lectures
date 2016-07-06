@@ -198,7 +198,7 @@ result of an independent uniform random sampling among the collection
 }
 \BlankLine
 \REPEAT{every $\Delta$ time units}{
- $\ss\ q \gets \SelectNeighbor(\View)$\Comment*[f]{Select a random neighbor}\;
+ $\Process\ q \gets \SelectNeighbor(\View)$\Comment*[f]{Select a random neighbor}\;
  $m \gets \ExtractRequest(\View, q)$\;
  \SEND $\langle \Request, m, p \rangle$ \TO $q$\;
 }
@@ -1076,7 +1076,7 @@ better described in this way:
 \EI
 \item Function $\ExtractReply(\State, s_q, q)$:
 \BI
-\item Returns $\State-\frac{\State_q+s_q}{2}$
+\item Returns $\State-\frac{\State+s_q}{2}$
 \EI
 \item Function $\MergeRequest(\State, s_q, q)$:
 \BI

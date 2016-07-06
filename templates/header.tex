@@ -11,7 +11,7 @@
 \usepackage{eurosym}
 \usepackage{etex}
 \usepackage{pgfpages}
-\usepackage[utf8]{inputenc}
+\usepackage[utf8x]{inputenc}
 \usepackage{hyperref}
 \usepackage{alltt}
 \usepackage{color}
@@ -198,4 +198,8 @@
 \setbeamertemplate{note page}[infolines]
 
 
-
+\newcommand{\BB}[1]{
+\begin{beamerboxesrounded}{}
+#1
+\end{beamerboxesrounded}
+}
