@@ -213,7 +213,7 @@ locks.
 \url{http://download.oracle.com/javase/6/docs/api/java/util/concurrent/package-summary.html}
 \end{block}
 
-	
+
 \end{frame}
 
 
@@ -332,8 +332,8 @@ some predicate $\Phi$.
 \bigskip
 \structure{Motivation}
 \BIL
-\item Many important distributed problems require to react when the global
-  state of the system satisfies a given condition.
+\item Many problems in distributed systems require a reaction when the 
+  global state of the system satisfies some condition.
   \BI
   \item \alert{Monitoring}: Notify an administrator in
     case of failures
@@ -387,7 +387,7 @@ Processes in the previous figures use RPCs:
 \BI
 \item Client sends a \emph{request} for method execution; blocks.
 \item Server receives \emph{request}.
-\item Server executes method; may invoke other methods in other
+\item Server executes method; may invoke methods on other
 servers, acting as a client.
 \item Server sends \emph{reply} to client
 \item Clients receives \emph{reply}; unblocks.
@@ -542,13 +542,13 @@ of a distributed system execution to an element of a time domain $T$:
 \]
 \end{definition}
 
-\begin{definition}[Clock Consistency]
+\begin{definition}[Clock Condition]
 
 \[ e \rightarrow e' \Rightarrow \LC(e) < \LC(e')  \]
 
 \end{definition}
 
-\begin{definition}[Strong Clock Consistency]
+\begin{definition}[Strong Clock Condition]
 
 \[ e \rightarrow e' \Leftrightarrow \LC(e) < \LC(e')  \]
 
@@ -563,7 +563,7 @@ of a distributed system execution to an element of a time domain $T$:
 
 \begin{definition}[Scalar logical clocks]
 \BI
-\item A Lamport's \alert{scalar} logical clock is a monotonically increasing software counter
+\item Lamport's \alert{scalar} logical clock is a monotonically increasing software counter
 \item Each process $p_i$ keeps its own logical clock $\LC_i$
 \item The \alert{timestamp} of event $e$ executed by process $p_i$ is denoted $LC_i(e)$
 \item Messages carry the \alert{timestamp} of their $\send$ event
@@ -601,7 +601,7 @@ as follows:
 \begin{frame}{Properties}
 
 \begin{theorem}
-Scalar logical clocks \emph{satisfy} Clock consistency, i.e.
+Scalar logical clocks \emph{satisfy} Clock condition, i.e.
 \[
   e \rightarrow e' \Rightarrow LC(e) < LC(e')
 \]
@@ -627,7 +627,7 @@ on the process identifier for events with the same timestamp.
 \begin{frame}{Scalar logical clocks}
 
 \begin{theorem}
-Scalar logical clocks \emph{do not satisfy} Strong clock consistency, i.e.
+Scalar logical clocks \emph{do not satisfy} Strong clock condition, i.e.
 \[
   LC(e) < LC(e') \not\Rightarrow e \rightarrow e' 
 \]
@@ -678,7 +678,7 @@ $e$, plus $e$ itself.
 \end{definition}
 
 \begin{theorem}
-Causal histories \emph{satisfy} Strong clock consistency
+Causal histories \emph{satisfy} Strong clock condition
 \end{theorem}
 
 \pause
@@ -846,7 +846,7 @@ Events $e_i$ and $e_j$ with $i \neq j$ are {\em pairwise inconsistent} if and on
 \end{definition}
 
 \bigskip
-In other words,  two events are pairwise inconsistent if they cannot belong to the frontier
+In other words, two events are pairwise inconsistent if they cannot belong to the frontier
 of the same consistent cut. The formula characterize the fact that the cut include
 a $\receive$ event without including a $\send$ event.\\
 

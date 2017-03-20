@@ -13,7 +13,10 @@ figs/03/diagram9.key
 figs/03/spacetime.tex
 figura.key
 temp
-mfig.log
+*.lb
+*.aux
+*.synctex.gz
+*.log
 mfig.pdf
 old
 figs/19/src/Bitcoin MOOC Lecture 1.pptx
